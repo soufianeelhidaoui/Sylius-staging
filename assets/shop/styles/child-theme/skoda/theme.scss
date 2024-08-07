@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+@use "sass:math";
+
+@import '../../variables';
+@import '../../tools/functions';
+@import '../../tools/mixins';
+@import '../../tools/media-queries';
+
+
+:root{
+	--color-primary : #78FAAE;
+	--color-primary-over : transparent;
+	--color-secondary : #DEDAD4;
+	--color-body-text : black;
+	--color-input : #DEDAD4;
+	--color-grey-light : #A7AEB4;
+	--color-grey-dark : #0E3A2F;
+    --color-available: #78FAAE;
+	--color-border : #DFE4E8;
+	--color-counter : #7EC9F1;
+	--color-unavailable: #A7AEB4;
+	--color-button-full: dark;
+	--width-product-desc: 100%;
+	--font-heading: 'SKODANext', sans-serif;
+	--font-body: 'SKODANext', sans-serif;
+	--background-mainColor: #0E3A2F;
+	--color-text-primary: black;
+}
+
+$color-background: #F3F3F3;
+
+@import 'core';
+@import 'components';
+@import 'sections';
+@import 'snippets';
+@import 'googlemap';
+@import 'template';
+

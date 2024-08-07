@@ -1,0 +1,11 @@
+.vue-slider{
+  &-rail{ background: #DFE4E8!important }
+  &-process{
+    background: $color-primary!important;
+  }
+  &-dot-handle{
+    border-color: $color-primary!important; background: $color-primary!important;
+    &-focus{ box-shadow:  0 0 0 5px rgba(0,0,0,0.1) }
+  }
+  &-dot-tooltip-inner{ background: #fff; border-color: #fff; color: $color-primary  }
+}

@@ -1,0 +1,64 @@
+<div class="s-vehicles-list" style="padding: 104px 0px;">
+	<div class="site-wrap">
+		<h2 class="s-vehicles-list__title">{{ data.title }}</h2>
+		<h3 class="s-vehicles-list__subtitle">
+			{{ settings.theme == 'vwu'
+				? ('layout.vehicles.subtitle' | t({'brand': 'Volkswagen Véhicules Utilitaires'}))
+				: (settings.theme == 'vw' or settings.theme == 'skoda')
+					? ('layout.vehicles.subtitle' | t({'brand': settings.theme == 'skoda' ? 'Škoda' : 'Volkswagen'}))
+					: ('layout.vehicles.subtitle' | t({'brand': settings.brand | upper}))
+			}}
+		</h3>
+
+		<autocomplete inline-template>
+			<div class="s-vehicles-list__search">
+				<input type="text" placeholder="Tapez le nom du modèle de votre véhicule" :value="q" @input="e => q = e.target.value" @click="focus" maxlength="50"/>
+				<div class="s-vehicles-list__search-results" v-if="focused && q.length>=2">
+					{% for vehicle in vehicles.items %}
+						{% for version in vehicle.items %}
+							<a class="s-vehicles-list__search-result" v-if="match('{{ vehicle.title }} {{ version.title }}')" href="{{ vehicle|url }}"><b>{{ vehicle.title }}</b> {{ version.title }}</a>
+						{% endfor %}
+					{% endfor %}
+					<a class="s-vehicles-list__search-result s-vehicles-list__search-result--none">{{ 'layout.vehicles.no_vehicles' |  t }}</a>
+				</div>
+			</div>
+		</autocomplete>
+		<div class="s-vehicles-list__items">
+			<div class="swiper-global">
+				<swiper :options="{ slidesPerView: 2, watchSlidesVisibility: true, spaceBetween: 20, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, scrollbar: {el: '.swiper-scrollbar', draggable: true }, breakpoints: { 1025: { slidesPerView: 4, spaceBetween: 24 }, 1024: { slidesPerView: 4, spaceBetween: 24 }, 756: { slidesPerView: 2, spaceBetween: 24 }} }">
+					{% for vehicle in vehicles.items %}
+						<swiper-slide class="s-vehicles-list__item">
+							<div class="s-vehicles-list__item-inner">
+								<div class="s-vehicles-list__tags">
+                                    {% set tags = vehicle.tags|split(',') %}
+									{% if 'new' in tags %}
+										<a class="s-vehicles-list__tag s-vehicles-list__tag--new">{{ 'products.product.new' |  t }}</a>
+									{% endif %}
+									<div class="s-vehicles-list__engines">
+										{% for tag in tags %}
+                                            {% set tag = tag|split(':') %}
+                                            {% if tag|length == 2 and tag[0] == 'engine' %}
+                                                <a class="s-vehicles-list__tag s-vehicles-list__tag--engine s-vehicles-list__tag--{{ tag[1] | handleize }} icon_after-info">{{ tag[1] }}</a>
+                                            {% endif %}
+										{% endfor %}
+									</div>
+								</div>
+								<div class="s-vehicles-list__image">
+									<img src="{{ vehicle.image.path | img_url('276x125') }}" alt="{{ vehicle.title }}" width="276" loading="lazy"/>
+								</div>
+								<h4 class="s-vehicles-list__model">{{ vehicle.title | lower | title | custom_replace }}</h4>
+							</div>
+							<div class="s-vehicles-list__versions">
+								{% for version in vehicle.items %}
+									<a class="s-vehicles-list__version" data-title="{{ vehicle.title }} {{ version.title }}" href="{{ version|url }}"><b>{{ version.title|replace({'(': '', ')': ''}) }}</b></a>
+								{% endfor %}
+							</div>
+						</swiper-slide>
+					{% endfor %}
+					<div class="swiper-button-prev" slot="button-prev"></div>
+					<div class="swiper-button-next" slot="button-next"></div>
+				</swiper>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<div class="ui stackable two column grid">
+    {% for image in element.blocks %}
+        <div class="column">
+            {% if image.link is not empty %}
+                <a href="{{ image.link }}">
+                    <img class="ui image" src="{{ image.image| imagine_filter('thumb') }}" alt="{{ image.alt|default('') }}" title="{{ image.title|default('') }}" />
+                </a>
+            {% else %}
+                <img class="ui image" src="{{ image.image| imagine_filter('thumb') }}" alt="{{ image.alt|default('') }}" title="{{ image.title|default('') }}" />
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

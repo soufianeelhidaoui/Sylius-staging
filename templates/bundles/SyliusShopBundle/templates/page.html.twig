@@ -1,0 +1,57 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% set content = page.content|json_decode %}
+
+{% block title %}{{ page.metaTitle }}{% endblock %}
+
+{% block metatags %}
+    {{ parent() }}
+    <meta property="og:type" content="page" />
+    {% if page.metaTitle is not empty %}
+        <meta property="og:title" content="{{ page.metaTitle }}"/>
+    {% endif %}
+    {% if page.metaDescription is not empty %}
+        <meta name="description" property="og:description" content="{{ page.metaDescription }}"/>
+    {% endif %}
+    {% if page.metaKeywords is not empty %}
+        <meta name="keywords" content="{{ page.metaKeywords }}"/>
+    {% endif %}
+{% endblock %}
+
+{% block body_class %}
+ {% if content[0].code == 'sections.cover' %}template-page-parse{% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="t-page">
+
+        {% if content[0].code == 'sections.cover' %}
+            {% include '@SyliusShop/snippets/picture.html.twig' with { src: content[0].data.image, sources: 'max-width:420px=420x307, max-width:1024px=1024x500', resize: '1920x660' } %}
+        {% endif %}
+
+        <div class="t-page__top">
+            <div class="breadcrumb site-wrap">{% include '@SyliusShop/snippets/breadcrumb.html.twig' %}</div>
+            <div class="t-page__title">
+                <div class="site-wrap">
+                    <h1 class="t-page__title-content">
+                        <b>{{ page.title }}</b>
+                        {% if content[1].code == 'sections.section_wysiwyg' %}
+                            <span><span>{{ content[1].data.title }}</span></span>
+                        {% endif %}
+                    </h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-layout">
+            {% for component in content %}
+                <div class="shopify-section">
+                    {% if component.code != 'sections.cover' %}
+                        {% include '@SyliusShop/' ~ component.code|replace({'.':'/'})~'.html.twig' with { data:component.data, position: loop.index0 } %}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+service_center_api_get_orders:
+    path: /api/service_center/{service_center_id}/orders
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getOrders
+
+service_center_api_get_order:
+    path: /api/service_center/{service_center_id}/order/{order_id}
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getOrder
+
+service_center_api_update_order:
+    path: /api/service_center/{service_center_id}/order/{order_id}
+    methods: [POST]
+    controller: App\Controller\ServiceCenterApiController::updateOrder
+
+service_center_api_update_prices:
+    path: /api/service_center/{service_center_id}/prices
+    methods: [POST]
+    controller: App\Controller\ServiceCenterApiController::updatePrices
+
+service_center_api_update_terms:
+    path: /api/service_center/{service_center_id}/terms
+    methods: [POST]
+    controller: App\Controller\ServiceCenterApiController::updateTerms
+
+service_center_api_get_terms:
+    path: /api/service_center/{service_center_id}/terms
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getTerms
+
+service_center_api_get_prices:
+    path: /api/service_center/{service_center_id}/prices
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getPrices
+
+service_center_api_get_orders_stats:
+    path: /api/service_center/{service_center_id}/orders/stats
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getOrdersStats
+
+service_center_api_authentication:
+    path: /api/service_center/authentication-token
+    methods: [POST]

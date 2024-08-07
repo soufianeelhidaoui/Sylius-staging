@@ -1,0 +1,29 @@
+.gototop {
+    opacity: 0;
+    z-index: -1;
+    cursor: pointer;
+
+    position: fixed;
+    bottom: $space-m;
+    right: $space-m;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 4.7rem;
+    height: 4.7rem;
+    border-radius: 50%;
+    background-color: #A5967E;
+    transform: rotate(-90deg);
+    transition: opacity $transition-duration $transition-timing;
+
+    .sticky &{
+        opacity: .4;
+        z-index: 1;
+        &:hover {
+            opacity: 1;
+        }
+    }
+    
+}

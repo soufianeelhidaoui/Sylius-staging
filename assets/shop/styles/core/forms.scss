@@ -1,0 +1,102 @@
+form {
+  margin: 0;
+}
+
+a,
+area,
+button,
+[role='button'],
+input,
+label,
+select,
+summary,
+textarea {
+  touch-action: manipulation;
+}
+
+input,
+textarea,
+select {
+  font-size: inherit;
+  max-width: 100%;
+  border: 1px solid $color-border;
+  border-radius: 20px;
+  padding: 0.75em;
+  margin: 0;
+  vertical-align: middle;
+  background: #fff;
+  font-family: inherit;
+  color: inherit;
+  &[disabled], label &[disabled]+a {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  &::placeholder{ color: $color-input }
+}
+
+input[type='radio']{
+  padding: 0.4em; position: relative; width: 18px;
+  &:checked:after{ content: ''; background: $color-primary; position: absolute; left: 3px; right: 3px; top: 3px; bottom: 3px; border-radius: 50% }
+    label+&{ margin-top:10px }
+}
+
+input[type='checkbox']{
+  padding: 0.4em; border-radius: 0; margin-right: 0.5rem; vertical-align: middle; position: relative; width: 18px;
+    &:checked:after{ content: ''; background: $color-primary; position: absolute; left: 3px; right: 3px; top: 3px; bottom: 3px }
+    label+&{ margin-top:10px }
+}
+
+label.radio-link{
+  position: relative; cursor: pointer;
+  input{ opacity: 0; width: 0; height: 0; position: absolute; padding: 0; pointer-events: none }
+  a{ cursor: pointer }
+  input:checked+a, &:hover{ text-decoration: underline }
+  input:disabled+a{ opacity: 0.5; pointer-events: none }
+  &+&{ margin-top: 0.5rem }
+}
+
+label.checkbox-button{
+  position: relative; display: inline-flex; margin: 0.5rem;
+  input{ opacity: 0; width: 0; height: 0; position: absolute; padding: 0; pointer-events: none }
+  a{ cursor: pointer; border:1px solid; padding: 0.75rem 1rem; border-radius: 5rem; color: $color-grey-light; font-size: $font-size-xs; font-weight: bold; min-width: 31px; text-align: center; transition: allow(color) }
+  input:checked+a, &:hover a{ color: $color-primary }
+  input:disabled+a{ opacity: 0.5; pointer-events: none }
+}
+
+label.select{
+  position: relative; display: inline-block; @extend %icon, .icon-chevron-right;
+  &:before{ position: absolute; right: 2px; padding: 10px; pointer-events: none; box-sizing: initial; border-radius: 50%; top:50%; transform: translateY(-50%); background: #fff; font-size: inherit!important }
+}
+
+label.color{
+  position: relative; margin: 0 0.5rem;
+  input{ opacity: 0; width: 0; height: 0; position: absolute; padding: 0; pointer-events: none }
+  input:checked+a{ outline-color: $color-primary }
+  a{ border-radius: 50%; cursor: pointer; outline-offset: 2px; outline: 1px solid $color-secondary; width: 24px; height: 24px; display: inline-block }
+}
+
+button,
+input[type='submit'],
+label[for] {
+  cursor: pointer;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.input-error {
+  border-color: $color-error;
+  background-color: $color-error-bg;
+  color: $color-body-text;
+}
+
+.input-wrapper{
+  position: relative;
+  span{ position: absolute; top: 50%; transform: translateY(-50%); left: 10px }
+  input{ padding-left: 25px }
+}

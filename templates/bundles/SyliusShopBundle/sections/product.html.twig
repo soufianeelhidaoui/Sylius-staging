@@ -1,0 +1,220 @@
+{% set images_count = product.images | length %}
+{% set reversed_images = product.images | reverse %}
+
+<product inline-template token="{{ render(url('sylius_shop_partial_cart_add_item', {'template': '@SyliusShop/snippets/csrf_token.html.twig', 'productId': product.id})) }}">
+	<div class="site-wrap" v-if="product">
+		<div class="s-product">
+
+			<tax-switch></tax-switch>
+
+			{% set tabs = 'care,ingredients' | split(',') %}
+
+				<div class="s-product__first-title">
+					<h1 class="s-product__first-title">
+						{{ product.title }}
+					</h1>
+					<p class="s-product__sku">Réf : [[ replacestring(current_variant.sku,'_',' ') ]]</p>
+				</div>
+
+			{% if product.images| length %}
+				<div class="s-product__images">
+
+					<div class="s-product__image-print">
+						<img src="{% include '@SyliusShop/snippets/picture_url.html.twig' with { src: reversed_images[0], resize: '1920x1440' } %}"/>
+					</div>
+
+					<transition name="fade">
+						<div class="s-product__zoom" v-if="zoomed">
+							<div class="s-product__zoom-inner">
+								{% if images_count > 1 %}
+									<swiper ref="swiper_zoom">
+										{% for image in reversed_images %}
+											<swiper-slide>
+												{% include '@SyliusShop/snippets/picture.html.twig' with { src: image, resize: '1080x1080', alt: image.title } %}
+											</swiper-slide>
+										{% endfor %}
+										<div class="swiper-pagination" slot="pagination"></div>
+										<div class="swiper-button-prev icon_after-arrow-left" slot="button-prev"></div>
+										<div class="swiper-button-next icon_after-arrow-right" slot="button-next"></div>
+									</swiper>
+								{% elseif images_count == 1 %}
+									{% include '@SyliusShop/snippets/picture.html.twig' with { src: reversed_images[0], resize: '1080x1080', alt: image.title } %}
+								{% else %}
+									<img src="{{ 'img/blank.png' | asset_url }}"/>
+									<div class="sn-push-product__image-empty">
+										<img src="{{ ('img/logo-' ~ settings.theme ~ '.png') | asset_url }}"/>
+									</div>
+								{% endif %}
+								<a class="s-product__zoom-close icon-close" @click="zoomed=false"></a>
+							</div>
+						</div>
+					</transition>
+
+					{% if images_count > 1 %}
+						<div class="s-product__swiper">
+							<a class="s-product__image-zoom icon-layer-expand" @click="zoom"></a>
+							<swiper ref="swiper">
+								{% for image in reversed_images %}
+									<swiper-slide>
+										{% include '@SyliusShop/snippets/picture.html.twig' with { src: image, resize: '540x540', alt: image.title } %}
+									</swiper-slide>
+								{% endfor %}
+								<div class="swiper-pagination" slot="pagination"></div>
+								<div class="swiper-button-prev icon_after-arrow-left" slot="button-prev"></div>
+								<div class="swiper-button-next icon_after-arrow-right" slot="button-next"></div>
+							</swiper>
+						</div>
+					{% elseif images_count == 1 %}
+						<div class="s-product__swiper s-product__swiper--disabled">
+							<a class="s-product__image-zoom icon-layer-expand" @click="zoom"></a>
+							{% include '@SyliusShop/snippets/picture.html.twig' with { src: reversed_images[0], resize: '540x540', alt: image.title } %}
+						</div>
+					{% endif %}
+				</div>
+			{% else %}
+				<div class="s-product__images s-product__zoom-inner">
+				{# {% include '@SyliusShop/snippets/picture.html.twig' with { src: 'img/blank.png' | asset_url, resize: '1080x1080', alt: 'blank' } %} #}
+					<img src="{{ 'img/blank.png' | asset_url }}"/>
+					<div class="sn-push-product__image-empty">
+						<img src="{{ ('img/logo-' ~ settings.theme ~ '.png') | asset_url }}"/>
+					</div>
+				</div>
+			{% endif %}
+
+			<div class="s-product__content">
+				<div class="s-product__title">
+					<h1 class="s-product__title">
+						{{ product.title }}
+					</h1>
+
+					<p class="s-product__sku">Réf : [[ replacestring(current_variant.sku,'_',' ') ]]</p>
+				</div>
+				<div class="s-product__content--info">
+					<form @submit.prevent="addToCart" class="s-product__form">
+
+						{% if not product.has_only_default_variant %}
+							<div class="s-product__choose">
+								<div class="s-product__options">
+									{% for option in product.options_with_values %}
+										{% set option_handle = option.name|handleize %}
+										<div class="s-product__option s-product__option--{{ option_handle }} s-product__option--{{ option.values | length }}">
+											<div class="s-product__values">
+												{% if option_handle == "color" %}
+													{% for color in option.values %}
+														<label class="color">
+															<input type="radio" v-model="options[{{ option.position }}]" :disabled="!isAvailable({{ option.position }}, '{{ color }}')" @change="updateSelected({{ option.position }})" name="options[{{ option.name }}]" value="{{ color }}" {% if option.selected_value == value %} checked {% endif %}>
+															{% set colors = color | split('/') %}
+															{% if colors.size == 2 %}
+																<a class="color__item color__double">
+																	{% for _color in colors %}
+																		<span class="bg-color--{{ _color | handle }}"></span>
+																	{% endfor %}
+																</a>
+															{% else %}
+																<a class="color__item bg-color--{{ color | handle }}"></a>
+															{% endif %}
+														</label>
+													{% endfor %}
+												{% else %}
+													{% for value in option.values %}
+														<label class="checkbox-button">
+															<input type="radio" v-model="options[{{ option.position }}]" :disabled="!isAvailable({{ option.position }}, '{{ value }}')" @change="updateSelected({{ option.position }})" name="options[{{ option.name }}]" value="{{ value }}" {% if option.selected_value == value %} checked {% endif %}>
+															<a>{{ value }}</a>
+														</label>
+													{% endfor %}
+												{% endif %}
+											</div>
+											{% if option_handle == 'size' and product.metafields.connector.size_guide != blank %}
+												<a @click="$open('size_guide')" class="s-product__values-more">{{ 'products.product.size_guide' | t }}</a>
+											{% endif %}
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+
+						<div class="s-product__price">
+							{% include '@SyliusShop/snippets/price.html.twig' with { data:product } %}
+						</div>
+						<div class="supplier">
+							<em>Partenaire :</em>
+							<span class="partner">[[ partner.title ]]</span>
+						</div>
+						<hr>
+						{% if product.has_compatibility %}
+						<div class="s-product__description s-product__description--text">	
+								<p class="s-product__description-title">
+									<img src="{{ 'img/icons/car.svg' | asset_url }}">
+									{{ 'products.product.models_title' | t }}</p>
+								<div class="compatible-models s-product__description-text">
+									{% for vehicle in product.vehicles %}
+										{% if vehicle.level > 0 %}
+											<span>
+												{% if vehicle.level == 2 %}
+													{{ vehicle.parent.title | capitalize  }}
+												{% endif %}
+												{{ vehicle.title | capitalize }},
+                                            </span>
+										{% endif %}
+									{% endfor %}
+								</div>
+                                {% if product.vehicles|length > 3 %}
+                                    <a href="#" class="see-more-link"> Voir tous les modèles</a>
+                                {% endif %}
+						</div>
+						<hr>
+						{% endif %}
+						<div class="s-product__description s-product__description--text">
+							{% if product.require_quotation %}
+								<p class="s-product__description-title is-quotation">{{ 'products.product.quotation' | t }}</p>
+								<div class="s-product__description-text is-quotation">{{ 'products.product.quotation_detail' | t }}</div>
+							{% else %}
+								<template v-if="current_variant_quantity">
+									<p class="s-product__description-title">
+										<img src="{{ 'img/icons/box.svg' | asset_url }}">
+										{{ 'products.product.available' | t }}</p>
+									<div class="s-product__description-text">{{ 'products.product.available_detail' | t }}</div>
+								</template>
+								<template v-else>
+									<p class="s-product__description-title"><img src="{{ 'img/icons/box.svg' | asset_url }}">
+										{{ 'products.product.unavailable' | t }}</p>
+									<div class="s-product__description-text is-unavailable">{{ 'products.product.unavailable_detail' | t }}</div>
+								</template>
+							{% endif %}
+						</div>
+
+
+						<div class="s-product__actions">
+							<input type="hidden" v-model="quantity" name="quantity" value="1" min="1">
+							<div class="s-product__submit">
+								<button type="submit" name="add" :disabled="!current_variant" class="button button--full">
+                                {% if settings.theme == 'skoda' %}
+                                <img src="{{ 'img/icons/shopping-cart-black.svg' | asset_url }}">
+                                {% else %}
+                                <img src="{{ 'img/icons/shopping-cart.svg' | asset_url }}"> 
+                                {% endif %}
+									{{ 'products.product.add_to_cart' | t }}
+								</button>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</product>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const seeMoreLink = document.querySelector('.see-more-link');
+        const compatibleModels = document.querySelector('.compatible-models');
+
+        if (seeMoreLink && compatibleModels) {
+            seeMoreLink.addEventListener('click', function (event) {
+                event.preventDefault();
+                compatibleModels.classList.toggle('show-all');
+                seeMoreLink.textContent = compatibleModels.classList.contains('show-all') ? 'Voir moins' : 'Voir tous les modèles';
+            });
+        }
+    });
+</script>

@@ -1,0 +1,248 @@
+sylius_shop_homepage:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: monsieurbiz_homepage.controller.homepage:indexAction
+        _sylius:
+            template: '@SyliusShop/templates/index.html.twig'
+            repository:
+                method: findOneByChannelAndLocale
+                arguments:
+                    - "expr:service('sylius.context.channel').getChannel()"
+                    - "expr:service('sylius.context.locale').getLocaleCode()"
+
+
+sylius_shop_collection_root:
+    path: /collections
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+    defaults:
+        # this value can be an absolute path or an absolute URL
+        path: /collections/accessoires
+        permanent: true
+
+sylius_shop_collection:
+    path: /collections/{slug}
+    defaults:
+        _controller: bitbag_sylius_elasticsearch_plugin.controller.action.shop.list_products
+        template: "@SyliusShop/templates/collection.html.twig"
+    requirements:
+        slug: ([^\/]+)
+
+sylius_shop_collection_vehicle:
+    path: /collections/{slug}/{vehicle}
+    defaults:
+        _controller: App\Controller\ListProductsAction
+        template: "@SyliusShop/templates/collection.html.twig"
+    requirements:
+        slug: ([^\/]+)
+        vehicle: ([^\/]+)
+
+bitbag_sylius_elasticsearch_plugin_shop_search:
+    path: /search
+    defaults:
+        _controller: bitbag_sylius_elasticsearch_plugin.controller.action.shop.search
+        template: "@SyliusShop/templates/search.html.twig"
+        
+sylius_shop_product_show:
+    path: /products/{slug}
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.product:showAction
+        _sylius:
+            template: "@SyliusShop/templates/product.html.twig"
+            repository:
+                method: findOneByChannelAndSlug
+                arguments:
+                    - "expr:service('sylius.context.channel').getChannel()"
+                    - "expr:service('sylius.context.locale').getLocaleCode()"
+                    - $slug
+        
+sylius_shop_product_in_collection:
+    path: /collections/{collection}/products/{slug}
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.product:showAction
+        _sylius:
+            template: "@SyliusShop/templates/product.html.twig"
+            repository:
+                method: findOneByChannelAndSlug
+                arguments:
+                    - "expr:service('sylius.context.channel').getChannel()"
+                    - "expr:service('sylius.context.locale').getLocaleCode()"
+                    - $slug
+
+sylius_shop_auto_complete:
+    path: /search/suggest.json
+    defaults:
+        _controller: bitbag_sylius_elasticsearch_plugin.controller.action.shop.auto_complete_product_name
+        
+# Show page
+sylius_shop_page:
+    path: /pages/{slug}
+    methods: [GET]
+    defaults:
+        _controller: monsieurbiz_cms_page.controller.page:showAction
+        _sylius:
+            template: "@SyliusShop/templates/page.html.twig"
+            repository:
+                method: findOneEnabledBySlugAndChannelCode
+                arguments:
+                    - $slug
+                    - "expr:service('sylius.context.locale').getLocaleCode()"
+                    - "expr:service('sylius.context.channel').getChannel().getCode()"
+    requirements:
+        slug: .+
+        
+custom_reinsurance_page:
+    path: /page/{slug}
+    methods: [GET]
+    defaults:
+        _controller: monsieurbiz_cms_page.controller.page:showAction
+        _sylius:
+            template: "@SyliusShop/templates/reinsurancePageCustom.html.twig"
+            repository:
+                method: findOneEnabledBySlugAndChannelCode
+                arguments:
+                    - $slug
+                    - "expr:service('sylius.context.locale').getLocaleCode()"
+                    - "expr:service('sylius.context.channel').getChannel().getCode()"
+    requirements:
+        slug: .+
+
+sylius_shop_cart_summary:
+    path: /cart/
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.order:summaryAction
+        _sylius:
+            template: "@SyliusShop/templates/cart.html.twig"
+            form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+
+sylius_shop_ajax_cart:
+    path: /cart.js
+    methods: [GET]
+    controller: App\Controller\OrderItemController::getCart
+    
+    
+sylius_shop_ajax_cart_clear:
+    path: /cart/clear.js
+    methods: [POST]
+    controller: App\Controller\OrderItemController::clearCart
+
+sylius_shop_ajax_cart_refresh:
+    path: /cart/refresh.js
+    methods: [POST]
+    controller: App\Controller\OrderItemController::refreshCart
+
+sylius_shop_ajax_cart_change:
+    path: /cart/change.js
+    methods: [POST]
+    controller: App\Controller\OrderItemController::updateCart
+    
+sylius_shop_ajax_cart_add_item:
+    path: /cart/add.js
+    methods: [POST]
+    defaults:
+        _controller: sylius.controller.order_item:addAction
+        _format: json
+        _sylius:
+            factory:
+                method: createForProduct
+                arguments: [expr:notFoundOnNull(service('sylius.repository.product').find($productId))]
+            form:
+                type: Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType
+                options:
+                    product: expr:notFoundOnNull(service('sylius.repository.product').find($productId))
+            redirect:
+                route: sylius_shop_cart_summary
+                parameters: {}
+        
+sylius_shop_cart_validate:
+    path: /cart/validate/
+    defaults:
+        _controller: sylius.controller.order:summaryAction
+        _sylius:
+            template: "@SyliusShop/templates/validate.html.twig"
+
+sylius_shop_api_get_dealers:
+    path: /api/dealers
+    methods: [GET]
+    controller: App\Controller\ShopApiController::getDealersAction
+
+sylius_shop_api_get_dealer_terms:
+    path: /api/dealer/{id}/terms
+    methods: [GET]
+    controller: App\Controller\ShopApiController::getDealerTerms
+    
+sylius_shop_api_get_dealer:
+    path: /api/dealer/{service_center_id}
+    methods: [GET]
+    controller: App\Controller\ShopApiController::getDealerAction
+
+sylius_shop_api_create_lead:
+    path: /api/lead
+    methods: [POST]
+    controller: App\Controller\ShopApiController::createLeadAction
+
+sylius_shop_create_lead:
+    path: /api/lead
+    methods: [GET]
+    controller: App\Controller\ShopApiController::createLeadAction
+
+service_center_get_terms:
+    path: /service_center/{service_center_id}
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::getTerms
+
+service_center_api_activate_payment:
+    path: /service_center/{service_center_id}/payment/activate
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::activatePayment
+
+service_center_api_remove_payment:
+    path: /service_center/{service_center_id}/payment/remove
+    methods: [GET]
+    controller: App\Controller\ServiceCenterApiController::removePayment
+
+    
+synolia_synolia_maintenance:
+    resource: "@SynoliaSyliusMaintenancePlugin/Resources/config/admin_routing.yaml"
+    prefix: '/%sylius_admin.path_name%'
+
+sylius_shop_order_after_pay:
+    path: /after-pay
+    methods: [GET, POST]
+    defaults:
+        _controller: sylius.controller.payum:afterCaptureAction
+        
+sylius_shop_payum:
+    resource: "@SyliusShopBundle/Resources/config/routing/payum.yml"        
+
+sylius_shop_checkout:
+    resource: "@SyliusShopBundle/Resources/config/routing/checkout.yml"
+    prefix: /checkout
+
+sylius_shop_ajax_user:
+    resource: "@SyliusShopBundle/Resources/config/routing/ajax/user.yml"
+    prefix: /ajax/users
+
+sylius_shop_security:
+    resource: "@SyliusShopBundle/Resources/config/routing/security.yml"
+
+sylius_shop_ajax_render_province_form:
+    path: /ajax/render-province-form
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.province:choiceOrTextFieldFormAction
+        _sylius:
+            template: "@SyliusShop/Common/Form/_province.html.twig"
+
+sylius_shop_order:
+    resource: "@SyliusShopBundle/Resources/config/routing/order.yml"
+    prefix: /order
+
+alaska_sylius_smartpay_plugin_payment_webhook:
+    path: /smartpay/payment/webhook
+    methods: [GET, POST]
+    defaults:
+        _controller: Alaska\SyliusSmartpayPlugin\Controller\WebhookController::paymentWebhookAction

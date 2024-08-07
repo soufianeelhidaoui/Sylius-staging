@@ -1,0 +1,21 @@
+<div class="s-pushes site-wrap">
+  {% for block in data.blocks %}
+
+      {% if loop.first == true %}
+        {% set image_size = '600x394' %}
+       {% else %}
+        {% set image_size = '420x273' %}
+      {% endif %}
+
+    <div class="s-pushes__block">
+        <div class="s-pushes__img">
+            {% include '@SyliusShop/snippets/picture.html.twig' with{ src: block.image, resize: image_size, alt: block.title } %}
+        </div>
+        <div class="s-pushes__txt">
+          <h2 class="s-pushes__title">{{ block.title | truncate(80) }}</h2>
+
+          <a href="{{ block.url }}" class="s-pushes__cta {{ block.cta_style }}">{{ block.label }}</a>
+        </div>
+    </div>
+  {% endfor %}
+</div>

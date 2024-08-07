@@ -1,0 +1,26 @@
+.sn-push-products{
+  .site-wrap{ padding-left: 0; padding-right: 0 }
+  .swiper-container{ padding-bottom: $space-l; padding-left: $space-s; padding-right: $space-s; padding-top: 1rem; margin-top: -1rem; overflow: visible;
+    @media #{$to-small}{ padding-left: 8.6rem; padding-right: 8.6rem }
+    @media #{$to-phone}{ padding-left: calc(3.6rem + 5%); padding-right: calc(2.4rem  + 5%)}
+  }
+  .swiper-button-next{ right: 0; margin-top: -5rem }
+  .swiper-button-prev{ left: 0; margin-top: -5rem }
+  .swiper-button-prev, .swiper-button-next {
+    @media #{$to-small}{ display: none }
+  }
+  .swiper-button-disabled{ opacity: 0 }
+  .swiper-slide{
+    opacity: 0.2; pointer-events: none; transition: allow(opacity);
+    @media #{$to-phone}{ opacity: 1 }
+    &-visible{ opacity: 1; pointer-events: all }
+  }
+  .swiper-scrollbar{
+    @media #{$to-phone}{ bottom: -3rem !important; }
+  }
+  &__title{
+    @extend %title; font-size: $font-size-ll; padding-left: $space-s; padding-right: $space-s; font-weight: 400;
+    @media #{$to-small}{ padding-left: 8.6rem; padding-right: 8.6rem }
+    @media #{$to-phone}{ padding-left: $space-s; padding-right: $space-s; font-size: $font-size-m; margin-bottom: $space-ml }
+  }
+}

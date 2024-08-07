@@ -1,0 +1,49 @@
+@use "sass:math";
+
+.c-burger {
+	@media #{$exclude-small}{
+		display: none
+	}
+	$c: &;
+	$height: 2px;
+	$width: 24px;
+	$color: $color-primary;
+	$offset: 6px;
+	$delta: $offset - $height;
+
+	position: absolute; top: 0; right: 0; z-index: 5; margin-top: 0; cursor: pointer;
+
+	&__icon {
+		position: relative; width: $width; display: inline-block; height: #{3*$height+2*$delta}; margin-right: 8px;
+		i{
+			position: absolute; height: $height; left: 0; width: 14px;
+			top: calc(50% - #{math.div($height,2)}); background-color: $color;
+
+			&:after, &:before {
+				position: absolute; content: ''; width: 100%; height: 100%;
+				left: 0; background-color: $color;
+			}
+
+			&, &:after, &:before{
+				transition: allow(background transform); transform-origin: left;
+				.has-scrolled &{ background: $color-primary!important }
+			}
+
+			&:after { transform: translateY($offset) scaleX(1.4) }
+			&:before { transform: translateY(-$offset) scaleX(1.7) }
+		}
+
+	}
+
+	.has-nav-main &{
+		i{
+			transform: scaleX(1.7);
+			&:after { transform: translateY($offset) scaleX(1); }
+			&:before { transform: translateY(-$offset) scaleX(1) }
+		}
+	}
+
+	@media #{$to-phone}{
+		&__text{ display: none }
+	}
+}

@@ -1,0 +1,82 @@
+main .shopify-section:nth-of-type(2){ margin-top: 0 !important }
+
+.s-reinsurance{
+  $size:14.6rem;
+  background-color: #FFFFFF;
+  border: none; padding: 104px 20px 104px 20px;
+  &__title{
+    text-align: left; @extend %title;
+    @media #{$to-phone}{ font-size: $font-size-m }
+  }
+  &__entries{
+    padding-top: 4rem; display: flex; justify-content: space-around;
+    @media #{$to-phone} {
+      flex-wrap: wrap;
+     }
+    .icon-arrow-right::before {
+      font-size: 2.4rem;
+      color: #A7AEB4;
+      margin-top: 15px;
+    }
+    .icon-arrow-right:nth-of-type(4) {
+      @media #{$to-phone} {
+        text-align-last: end;
+        width: 100%;
+
+        &::before {
+          transform: rotate(90deg);
+          margin-top: 2rem;
+          margin-bottom: 2rem;
+        }
+      }
+
+      @media (max-width: 320px) {
+        &::before {
+        margin-right: 40px;}
+      }
+
+      @media (min-width: 321px) and (max-width: 376px) {
+        &::before {
+        margin-right: 50px;}
+      }
+
+      @media (min-width: 377px) and (max-width: 767px) {
+        &::before {
+        margin-right: 60px;}
+      }
+    }
+    
+    .icon-arrow-right:nth-of-type(6) {
+      @media #{$to-phone} {
+        &::before {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+  &__entry{
+    display: flex; align-items: center; flex-direction: column; text-align: center; width: 25%;
+    &-icon{
+      background: #FFFFFF; width: 60.9px; height: 60px; border-radius: 8px; box-shadow: 0 4px 24px 0 #6666660D;
+      display: flex; align-content: center; flex-direction: row; flex-wrap: nowrap; align-items: center;
+      justify-content: center; color: $color-primary;
+      &:before { font-size: 28px; }
+      @media #{$to-phone}{ width: 60.9px; height: 60px;
+        &:before { font-size: 28px; }
+      }
+    }
+    &-title{
+      margin-top: $space-m; @extend %text; line-height: 21px; font-size: 16px;
+      @media #{$to-phone}{ margin-top: $space-xs; line-height: 1.2; font-size: 14px; }
+    }
+    @media #{$to-phone}{ width: 40% }
+  }
+  &__next{
+    img{ top: math.div($size,2); position: relative; transform: translateY(-50%) }
+  }
+  .site-wrap{
+    @media #{$to-phone}{ padding-left: $space-s; padding-right: $space-s }
+  }
+
+  .template-cart:not(.design_mode) &{ display: none!important }
+}

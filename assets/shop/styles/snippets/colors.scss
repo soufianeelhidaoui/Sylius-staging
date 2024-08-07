@@ -1,0 +1,7 @@
+.sn-colors{
+  display: flex;
+  &__item{
+    width: 8px; height: 8px; border-radius: 50%;
+    &+&{ margin-left: 3px }
+  }
+}

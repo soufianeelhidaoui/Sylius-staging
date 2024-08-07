@@ -1,0 +1,87 @@
+.t-404 {
+  h1 { font-weight: 300; font-size: 92px; color: var(--color-body-text);}
+  p {font-weight: 400; color: var(--color-body-text);}
+  .shopify-section{ display: block }
+  &__image{ margin: 0 }
+}
+
+.t-search{
+  &__form{
+    input { background: $color-grey-dark; color: #fff}
+    label{ position: relative }
+    button{ color: #fff; }
+  }
+}
+
+.t-collection{
+  .sn-official{ display: none }
+}
+
+.t-page{
+&__title-content{
+  font-weight: 300;
+  font-size: 56px;
+  line-height: 64px;
+  b{
+      font-weight: normal;
+  }
+}
+&__description{
+  b{
+    font-weight:400;
+  }
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 36px;
+}
+}
+
+.t-cart {
+  &__map-later{
+    background: #143B48;
+    opacity: 0.8;
+  }
+  &__total {
+    background: $color-grey-dark;
+    @media #{$from-small}{ padding: 3.8rem }
+  }
+  &__description-title{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 36px;
+  }
+  &__price{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 36px;
+  }
+  &__description-ref{
+    font-size: 14px;
+    line-height: 24px;
+  }
+  &__remove{
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 0.8rem;
+  }
+  &__legal{
+    color: #242221;
+  }
+  &__lead .field-group--text label{ font-size: $font-size-xs }
+
+  &__empty + .button, &__lead > .button--primary{  background: $color-primary; border-color: $color-primary; color: #fff; }
+
+  &__table{
+    .s-product__quantity{
+      margin-top: 0;
+    }
+  }
+}
+.t-404{
+   h1 {
+    @media #{$to-phone}{ font-size: $font-size-xxl }
+  }
+  p {
+    @media #{$to-phone}{ font-size: 1.8rem }
+  }
+}

@@ -1,0 +1,9 @@
+{%- set translated_data = data -%}
+{%- set data_key = data | handle -%}
+{%- for translation in shop.metafields.connector.options.translations -%}
+    {%- set translation_key = translation.key | handle -%}
+    {%- if data_key == translation_key -%}
+        {%- set translated_data = translation.value -%}
+    {%- endif -%}
+{%- endfor -%}
+{{ translated_data }}

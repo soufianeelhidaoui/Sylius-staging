@@ -1,0 +1,22 @@
+<div class="s-push-blog">
+  <div class="site-wrap s-push-blog__inner">
+    {% for block in data.blocks %}
+
+      {% if loop.first == true or loop.index == 4  %}
+        {% set image_size = '720x500'  %}
+      {% else %}
+        {% set image_size = '420x294'  %}
+      {% endif %}
+
+      <div class="s-push-blog__block">
+        {% include '@SyliusShop/snippets/picture.html.twig' with{ src: block.image, resize: image_size, alt: block.title } %}
+        <h2 class="s-push-blog__title">{{ block.title | truncate(80) }}</h2>
+        {% if block.text != blank %}
+          <p class="s-push-blog__text">{{ block.text }}</p>
+        {% endif %}
+
+        <a href="{{ block.url }}" class="s-push-blog__cta {{ block.cta_style }}">{{ block.label }}</a>
+      </div>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<search inline-template :autocomplete="true">
+    <transition name="fade">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="sn-search" :class="{'focused':focused}" v-if="visible" autocomplete="off" @submit="prevent">
+            <div class="sn-search__inner icon-magnifier">
+                <input tabindex="1" class="sn-search__input" name="bitbag_elasticsearch_search[box][query]" maxlength="50" placeholder="{{ 'general.search.placeholder' | t }}" ref="input" :value="params.q" @input="e => suggest(e)" type="search" autocomplete="off" value="{{ search.terms | escape }}" @focus="focus"/>
+                <a class="sn-search__close icon-close" @click="$close('search')"></a>
+                <button tabindex="2" type="submit" class="sn-search__submit icon-search"></button>
+                <div class="sn-search__list" v-if="autocomplete && focused && count">
+                    <a v-for="product in results.products" :href="product.slug">[[ product.name ]]</a>
+                </div>
+            </div>
+        </form>
+    </transition>
+</search>

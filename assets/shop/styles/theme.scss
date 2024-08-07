@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+@use "sass:math";
+
+/**
+ * Alaska
+ */
+
+// Settings
+@import './variables';
+
+// Tools
+@import './tools/*';
+
+// Vendors
+@import '~swiper/css/swiper.css';
+@import '~vue-slider-component/theme/antd.css';
+@import './vendor/*.scss';
+
+// Core
+@import './core/*';
+
+// Components
+@import './components/*';
+
+// Snippets
+@import './snippets/*';
+
+// Sections
+@import './sections/*';
+
+// Templates
+@import './templates/**/*.scss';

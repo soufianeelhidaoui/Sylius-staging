@@ -1,0 +1,113 @@
+{% set vehicles = collections('vehicles') %}
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale|lower|replace({'_':'-'}) }}" dir="ltr" style="--bron-root-font-size:10px">
+<head>
+	{% if template == 'list-collections' %}
+		<meta name="robots" content="noindex">
+		<script>
+			document.location.href = '{{ routes.all_products_collection_url }}';
+		</script>
+		{% elseif 'account' in template or 'customers' in template or 'gift_card' in template %}
+	    <meta name="robots" content="noindex">
+		<script>
+			document.location.href = '{{ routes.root_url }}';
+		</script>
+	{% endif %}
+        <script>
+            window.appConfig = {
+                dataExpiryTimeMs:"{{ data_expiry_time_ms }}"
+            };
+        </script>
+
+	<title>{%- block title -%}{{ sylius.channel.name }}{%- endblock -%}</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="theme-color" content="{{ settings.color_accent }}">
+
+	<link rel="shortcut icon" href="{{ ('img/favicon-' ~ settings.theme ~ '.png') | asset_url }}" type="image/png">
+
+	{% block metatags %}{% endblock %}
+
+	{% include '@SyliusShop/snippets/external-scripts.html.twig' %}
+
+    {% set bronson_theme = settings.theme %}
+    {% if (settings.theme =='vw' or settings.theme=='vwu') %}
+        {% set bronson_theme = 'vw6' %}
+    {% endif %}
+    <link rel="stylesheet" href="https://cdn.bronson.vwfs.tools/{{ bronson_theme }}/v/15.0.0/css/style.scoped.min.css">
+
+    {{ 'css/theme.css' | asset_url | stylesheet_tag }}
+
+	{% if settings.theme %}
+		{% set theme_css = settings.theme | append('.css') | prepend('css/') %}
+		{{ theme_css | asset_url | stylesheet_tag }}
+	{% endif %}
+
+	{% include '@SyliusShop/snippets/global-variables.html.twig' %}
+
+</head>
+
+<body class="loading template-{{ template | handle }} {%- block body_class -%}{%- endblock -%}">
+
+{% if settings.gtm != blank %}
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm }}"
+                      height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
+{% endif %}
+
+<div id="app" :class="{'has-scrolled':hasScrolled}">
+
+	{% include '@SyliusShop/sections/header.html.twig' %}
+
+	<main role="main">
+		{{ sylius_template_event('sylius.shop.layout.before_content') }}
+
+		{% block content %}{% endblock %}
+
+		{{ sylius_template_event('sylius.shop.layout.after_content') }}
+
+
+	</main>
+
+	{% include '@SyliusShop/snippets/map.html.twig' %}
+	{% include '@SyliusShop/sections/footer.html.twig' %}
+
+</div>
+
+{{ 'js/theme.js' | asset_url | script_tag }}
+
+{% if settings.theme %}
+	{% set theme_js = settings.theme | append('.js')| prepend('js/') %}
+	{{ theme_js | asset_url | script_tag }}
+{% endif %}
+
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "{{ shop.name }}",
+      {% if section.settings.logo %}
+	{% set image_size = section.settings.logo.width | append('x') %}
+        "logo": "https:{{ section.settings.logo | img_url(image_size) }}",
+      {% endif %}
+      "sameAs": [
+        "{{ settings.social_twitter_link }}",
+        "{{ settings.social_facebook_link }}",
+        "{{ settings.social_instagram_link }}"
+      ],
+      "url": "{{ shop.url }}{{ page.url }}"
+    }
+    </script>
+
+{% if settings.datalayer and settings.theme == 'skoda' %}
+	{% include '@SyliusShop/snippets/datalayer_skoda.html.twig' %}
+{% else %}
+    {% include '@SyliusShop/snippets/datalayer.html.twig' %}
+{% endif %}
+
+
+</body>
+</html>

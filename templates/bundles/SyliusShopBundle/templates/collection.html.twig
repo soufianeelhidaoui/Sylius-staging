@@ -1,0 +1,12 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ taxon.title }} {% endblock %}
+
+{% block content %}
+    <div class="t-collection">
+
+        <collection handle="{{ app.request.get('vehicle') ? app.request.get('vehicle') : app.request.get('slug') }}" :tags="{{ current_tags | json | replace({'"':"'"}) }}" inline-template>
+            {% include '@SyliusShop/sections/collection.html.twig' with { collection:taxon } %}
+        </collection>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+.c-sort{
+  position: relative; display: inline-block; margin-left: 1rem;
+  &__options{
+    position: absolute;; background: #fff; z-index: 99; right: 0; top: 100%; display: flex; flex-flow: column;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); padding: $space 0; font-size: 14px; min-width: 100%;
+    margin-top: 5px;width: 200px !important; font-weight: 700; border-radius: 4px;
+
+    @media #{$to-phone}{ font-size: 1.2rem; width: 166px !important; }
+
+    a{
+      white-space: nowrap; padding: $space $space-s; cursor: pointer; transition: allow(background color);
+      &:hover{ background: $color-primary; color: #fff }
+      &.is-active{ pointer-events: none; opacity: 0.5 }
+    }
+  }
+}

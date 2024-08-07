@@ -1,0 +1,10 @@
+.sn-push-article{
+  display: flex;
+  &+&{ margin-top: $space-l }
+  &__image{ width: 30% }
+  &__content{ width: 70%; padding-left: 2rem }
+  &__published{ font-size: $font-size-s }
+  &__description{ margin: 1rem 0; @extend %text }
+  &__title{ margin-bottom: 1rem; font-weight: bold; @extend %title}
+  &__cta{ margin-top: 2rem; font-weight: bold; text-transform: uppercase; text-decoration: underline }
+}

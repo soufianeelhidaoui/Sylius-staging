@@ -1,0 +1,31 @@
+sylius_shop_partial_cart:
+    resource: "@SyliusShopBundle/Resources/config/routing/partial/cart.yml"
+    prefix: /cart
+
+sylius_shop_cart_save:
+    path: /cart/
+    methods: [PUT, PATCH]
+    defaults:
+        _controller: sylius.controller.order:saveAction
+        _sylius:
+            form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+            redirect: sylius_shop_cart_summary
+            flash: sylius.cart.save
+
+sylius_shop_cart_item_remove:
+    path: /cart/{id}/remove
+    methods: [DELETE]
+    defaults:
+        _controller: sylius.controller.order_item:removeAction
+        _sylius:
+            redirect:
+                route: sylius_shop_cart_summary
+                parameters: {}
+
+sylius_shop_cart_clear:
+    path: /cart/
+    methods: [DELETE]
+    defaults:
+        _controller: sylius.controller.order:clearAction
+        _sylius:
+            redirect: sylius_shop_cart_summary

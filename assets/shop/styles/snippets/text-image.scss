@@ -1,0 +1,61 @@
+.sn-text-image{
+	$c:&;
+	display: flex; align-items: flex-start; justify-content: space-between;
+    &--bg-black{
+        align-items: stretch;
+        #{$c} {
+            &__content{
+                background-color: #000000;
+                color: #ffffff;
+                padding: 4.6rem;
+            }
+        }
+    }
+    @media #{$to-phone} { flex-direction: column !important; }
+	&--image-right{ flex-direction: row-reverse;
+		@media #{$to-phone} { flex-direction: initial; }
+	}
+	&--image-bottom{
+		width: 100%; flex-direction: column-reverse;
+		@media #{$to-phone} { flex-direction: column-reverse !important; }
+		#{$c}{
+			&__title, &__content h3{ font-size: $font-size-xl }
+			&__image {
+				width: 100%;
+				p{
+					display: flex; justify-content: space-between;
+					@media #{$to-phone} { flex-direction: column }
+					img, picture{
+						min-width: 0;
+						&+img, &+picture{
+							margin-left: 2rem;
+							@media #{$to-phone} { margin-left: 0; margin-top: 2rem }
+
+						}
+					}
+				}
+				.swiper-button-prev, .swiper-button-next { display:none }
+			}
+			&__content { width: 100%; padding-left: 0 }
+		}
+	}
+	&__image{
+		width: 60%;
+		@media #{$to-phone} { width: 100% }
+		img{ max-width: none; width: 100% }
+	}
+	&__content{
+		width: 40%; padding-left: 4.6rem;
+		@media #{$to-phone} { width: 100%; padding-left: 0 }
+		#{$c}--image-right &{ padding-right: 4.6rem; padding-left: 0;
+			@media #{$to-phone} { padding-right: 0 }
+		}
+	}
+	&__title, h3{ @extend %title; font-size: $font-size-l; font-weight: normal;
+		@media #{$to-phone} { font-size: 1.8rem !important; margin-bottom: $space-xs; margin-top: $space-xs }
+	}
+	&__subtitle{ @extend %subtitle }
+	&__text, &__content p{ margin: 0 0 2rem; @extend %text; font-size: 1.8rem;
+		@media #{$to-phone} { font-size: $font-size-xs }
+	}
+}

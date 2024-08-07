@@ -1,0 +1,18 @@
+liip_imagine:
+    resolvers:
+        default:
+            web_path:
+                web_root: "%kernel.project_dir%/public"
+                cache_prefix: "media/cache"
+    loaders:
+        default:
+            filesystem:
+                data_root: "%kernel.project_dir%/public"
+    filter_sets:
+        cache: ~
+        runtime:
+            quality: 90
+        thumb:
+            quality: 75
+            filters:
+                thumbnail: { size: [ 150, 150 ], mode: outbound }

@@ -1,0 +1,53 @@
+{% extends '@SyliusShop/Checkout/layout.html.twig' %}
+
+{% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+
+{% block title %}{{ 'sylius.ui.payment'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="pass-step">
+        <div class="bron">
+            <div class="c-spinner  c-spinner--center" aria-live="polite" aria-busy="true">
+
+                <div class="c-spinner__loader">
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                    <span class="c-spinner__element"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="t-checkout">
+
+            {{ sylius_template_event(['sylius.shop.checkout.select_payment.steps', 'sylius.shop.checkout.steps'], _context|merge({'active': 'select_payment', 'orderTotal': order.total})) }}
+
+            <h1 class="t-cart__title">{{ 'cart.checkout.payment' |  t }}</h1>
+
+            <div id="sylius-payment-methods">
+                {{ sylius_template_event('sylius.shop.checkout.select_payment.before_form', {'order': order}) }}
+
+                {{ form_start(form, {'action': path('sylius_shop_checkout_select_payment'), 'attr': {'class': 'ui loadable form', 'novalidate': 'novalidate'}}) }}
+                {{ form_errors(form) }}
+                <input type="hidden" name="_method" value="PUT" />
+
+                {% include '@SyliusShop/Checkout/SelectPayment/_form.html.twig' %}
+
+                {{ sylius_template_event('sylius.shop.checkout.select_payment.before_navigation', {'order': order}) }}
+                {% include '@SyliusShop/Checkout/SelectPayment/_navigation.html.twig' %}
+
+                {{ form_row(form._token) }}
+                {{ form_end(form, {'render_rest': false}) }}
+
+                <div class="t-checkout__informations">
+                    {{ 'cart.checkout.shipping' |  t }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

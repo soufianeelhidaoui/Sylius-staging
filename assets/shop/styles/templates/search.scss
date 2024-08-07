@@ -1,0 +1,37 @@
+.t-search{
+    &__results{
+        display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 1fr; grid-column-gap: 2rem; grid-row-gap: 2rem;
+        @media #{$to-phone}{ grid-template-columns: repeat(1, 1fr) }
+    }
+    &__title{
+        @extend %title; text-align: center; font-size: $font-size-l; text-transform: capitalize;
+        span+span{ margin-left: 0.5em; display: inline-block }
+        @media #{$to-phone}{ display: none }
+    }
+    &__form{
+        text-align: center; margin-bottom: $space-ml; margin-top: $space-m;
+        input{ border: none; border-radius: 50px; font-size: $font-size-s; padding-left: 5.4rem; width: 100% }
+        label{ position: relative; display: block; max-width: 60rem; margin: 0 auto }
+        button{
+            #app &{ position: absolute; left: 2.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; padding: 0; color: #001E50; box-shadow: none }
+        }
+    }
+    &__right{ display: none; left: auto!important; right: 0!important; }
+    &__filters{
+        position: relative;
+    }
+    &__no-result{
+        background: #fff;
+    }
+    &__pagination{
+        text-align: center; margin-top: $space-xl;
+        .button{ margin-left: 1rem }
+    }
+    .sn-filter-bar{
+        left: 0; top: 0; width: 100%;
+        margin-bottom: 3.2rem; margin-top: 3.2rem;
+        @media #{$to-phone}{ position: static }
+        .button--alt{ display: none }
+        &__sort{ display: none }
+    }
+}

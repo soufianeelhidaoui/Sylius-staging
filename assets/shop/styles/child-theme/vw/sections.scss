@@ -1,0 +1,198 @@
+.s-header{
+	&__logo{
+
+		@media #{$from-tablet}{
+			position: absolute; padding: 0; margin: 0; top: 100%; align-items: center; grid-column-gap: $space-s; transform: translateY(-50%);
+			grid-template-columns: auto max-content 55rem; display: grid; left: -$space-s; right: -$space-s; transition: allow(opacity);
+			&:before, &:after{ height: 2px; width: auto; background: $color-primary; content: ''; position: static }
+		}
+
+		.has-scrolled &{ opacity: 0 }
+
+		@media #{$to-phone}{
+			background: white; transition: allow(height opacity);
+
+			&:before{ background-color: $color-primary }
+        }
+
+		img{ height: 48px }
+	}
+	&.sticky{
+		border-bottom-color: transparent;
+		background: transparent;
+		.has-search &, .has-scrolled &{
+			@media #{$to-phone}{ border-bottom-color: $color-primary }
+		}
+	}
+	.has-scrolled &{
+		background: #fff;
+
+		&__shadow{
+			display: none;
+		}
+	}
+	&__main{
+		background: none;
+		max-width: none !important;
+    padding-left: 4%;
+    padding-right: 4%;
+
+		@media #{$to-phone}{
+			padding-bottom: 5rem;
+
+			.has-scrolled &{ padding-bottom: $space-xs }
+		}
+	}
+}
+
+.template-collection, .template-collection-lifestyle{
+	.s-header.sticky {
+		border-bottom-color: transparent;
+		background: #fff !important;
+		color: #001e50 !important;
+	}
+
+    .c-burger__icon i{
+		background: #001e50 !important;
+	}
+
+	.s-header{
+		&__logo{
+			a{
+				display: none !important;
+			}
+		}
+		&, .s-header__link:before{
+			color: #001e50 !important;
+		}
+	}
+}
+
+.template-index, .template-page-parse, .template-collection, .template-collection-lifestyle{
+	.has-scrolled{
+		.s-header{
+			background: #fff;
+			&, .s-header__link:before{
+				color: $color-primary
+			}
+		}
+	}
+	.s-header{
+		&__logo{
+			background: none;
+			&:before, &:after{ background: #fff }
+			&-alt{ display: block }
+			&-main{ display: none }
+		}
+		&, .s-header__link:before{
+			color: #fff;
+		}
+	}
+}
+
+
+.s-hero{
+	margin-bottom: 0; overflow: hidden;
+	&__content{
+		min-height: 12rem; position: relative; max-width: none;
+
+		@media #{$from-tablet}{
+			width: 50%; min-height: 18rem;  padding: $space-m $space-m $space-l 0;
+		}
+
+		@media #{$to-phone}{ padding-top: $space-s }
+		@media #{$from-large}{ min-height: 22rem }
+
+		&:after{
+			top: 0; position: absolute; right: 0; width: 50vw; height: 100%; background: $gradient; content: ''; z-index: -1;
+			@media #{$to-phone}{ width: 100vw; left: -$space-s  }
+		}
+	}
+	&__wrapper{ position: relative }
+	&__cta{ border: 0 }
+
+	&__title{
+		text-shadow: none;
+		@media #{$from-tablet}{ font-size: $font-size-xl;  }
+
+		@media #{$to-phone}{
+			& + *{ margin-top: $space-s }
+		}
+	}
+
+	&__text{
+		text-shadow: none;
+
+		@media #{$from-tablet}{ font-size: $font-size-l;  }
+		@media #{$to-phone}{
+			margin-right:$space-s;
+			& + *{ margin-top: $space-s }
+		}
+	}
+	&__official{
+		position: static
+	}
+	.sn-official{
+		@media #{$to-phone}{
+			top: auto; bottom: $space-s; transform: none; padding: $space $space-s;
+			&__text{ font-size: $font-size-body; display: block }
+			&__brand{ width: 102px }
+		}
+	}
+}
+
+.s-pushes{
+	@media #{$to-phone}{
+		&__title{ text-transform: none; font-size:  $font-size-body }
+
+		&__block:nth-of-type(n + 2) {
+			.s-pushes__cta{ font-size: $font-size-body }
+		}
+
+	}
+	&__cta{ color: $color-primary }
+}
+
+.s-vehicles-list{
+	&__tags{ display: none }
+}
+
+.s-collection {
+	margin-top: 11rem;
+	&__header{
+		position: relative;
+	}
+	&__image{ margin-bottom: 0; overflow: hidden }
+	&__title {
+		&-model{ display: block }
+		&-content {
+			position: relative; padding: $space-m; padding-bottom: $space-l; background: none; min-height: 12rem;
+
+			small{ display: inline; margin-left: 1rem }
+
+			@media #{$to-phone}{ padding-left: 0; padding-top: $space-s; padding-bottom: $space-ml }
+			@media #{$from-tablet}{
+				width: 50%; font-size: $font-size-xl; min-height: 18rem;
+				small { font-size: $font-size-xl; }
+			}
+			@media #{$from-medium}{ padding-left: 0 }
+			@media #{$from-large}{ min-height: 22rem }
+
+			&:after{
+				position: absolute; right: 0; width: 100vw; height: 100%; background: $gradient; content: ''; z-index: -1; top: 0;
+				@media #{$to-phone}{ right: -$space-s; left: -$space-s; }
+				@media #{$from-tablet}{ width: 75vw }
+				@media #{$from-medium}{ width: 50vw }
+			}
+		}
+	}
+	&__filters {
+		&-cta span {
+			background: $color-purple;
+		}
+	}
+}
+
+.s-push-blog__title{
+	@media #{$to-phone} { text-transform: none }
+}

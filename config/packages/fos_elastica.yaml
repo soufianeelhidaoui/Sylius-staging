@@ -1,0 +1,4 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+fos_elastica:
+    clients:
+        default: { host: "%es_host%", port: "%es_port%", username: "%es_username%", password: "%es_password%" }

@@ -1,0 +1,7 @@
+<div class="ui stackable two column grid">
+    <div class="column">
+        {% if element.image is not empty %}
+            <img class="ui image" src="{{ element.image| imagine_filter('thumb') }}" alt="{{ element.alt|default('') }}" />
+        {% endif %}
+    </div>
+</div>

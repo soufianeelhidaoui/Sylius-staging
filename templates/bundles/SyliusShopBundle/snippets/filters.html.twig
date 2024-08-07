@@ -1,0 +1,127 @@
+{% set prices = [] %}
+{% for product in all_products %}
+  {% set prices = prices | merge([product.price]) %}
+{% endfor %}
+<filters inline-template>
+    {% set form_url = collection.breadcrumb ? collection|url : '/collections' %}
+   <form class="sn-filters" :action="{% if searchForm %}'{{ routes.search_url }}'{% else %}getUrl('{{ form_url }}'){% endif %}" method="get" ref="filtersForm" @submit="save">
+        
+        <a class="sn-filters__reset" @click="reset">{{ 'collections.general.filters_reset' |  t }}</a>
+         {% if not collection.childOf('lifestyle') %}
+            <div class="sn-filters__group sn-filters__group--vehicle">
+                <a class="sn-filters__title" @click="show('vehicle')">
+                    {{ 'layout.vehicles.model_vehicles' |  t }}<span v-if="params.vehicle">1</span>
+                </a>
+                <div class="sn-filters__list sn-filters__list--desktop" v-if="active==='vehicle'">
+                    {%- for vehicle in vehicles.items -%}
+                        <label class="sn-filters__list-item">
+                            <input type="radio" name="vehicle" value="{{ vehicle.slug }}" v-model="params.vehicle" @change="active=false">
+                            <a><img src="{{ vehicle.image.path | img_url('276x125') }}"/> {{ vehicle.title }}</a>
+                        </label>
+                    {%- endfor -%}
+                </div>
+                <select class="sn-filters__select" v-model="params.vehicle" aria-label=" {{ 'layout.vehicles.model_vehicles' |  t }}" v-show="active==='vehicle'" ref="vehicle">
+                    {%- for vehicle in vehicles.items -%}
+                        <option value="{{ vehicle.slug }}">{{ vehicle.title }}</option>
+                    {% endfor %}
+                </select>
+                <div class="sn-filters__selected">
+                    <a v-if="params.vehicle" @click="remove('vehicle','vehicle')">[[ getName('model', params.vehicle) ]]</a>
+                </div>
+            </div>
+
+            <div class="sn-filters__group sn-filters__group--version" :class="{'sn-filters__group--disabled':!params.vehicle}">
+                <a class="sn-filters__title" @click="show('version')">{{ 'collections.filters.year_vehicle' |  t }}<span v-if="params.version">1</span></a>
+                <div class="sn-filters__list sn-filters__list--desktop" v-if="active==='version'">
+                    {% for vehicle in vehicles.items %}
+                        {% for version in vehicle.items %}
+                            <label class="sn-filters__list-item" v-if="params.vehicle==='{{ vehicle.slug }}'">
+                                <input type="radio" name="version" value="{{ version.slug }}" v-model="params.version" @change="active=false">
+                                <a>{{ version.title }}</a>
+                            </label>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <select class="sn-filters__select" v-model="params.version" aria-label="{{ 'collections.filters.year_vehicle' |  t }}" v-show="active==='version'" ref="version">
+                    {% for vehicle in vehicles.items %}
+                        {% for version in vehicle.items %}
+                            <option value="{{ version.slug }}" v-if="params.vehicle==='{{ vehicle.slug }}'">{{ version.title }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+                <div class="sn-filters__selected">
+                    <a v-if="params.version" @click="remove('vehicle','version')">[[ getName('model', params.version) ]]</a>
+                </div>
+            </div>
+        {% endif %}
+
+        <div v-if="all_filters" class="sn-filters__container">
+           <template v-for="filter in all_filters">
+           <div class="sn-filters__group" :class="'sn-filters__group--'+filter.handle" v-if="filter.type==='list' && filter.values.length">
+                    <a class="sn-filters__title" @click="show(filter.handle)" :class="{'sn-filters__title--disabled':(filter.handle==='type' && params.filters[filter.handle].length)}">
+                        [[ filter.label ]]<span v-if="params.filters[filter.handle].length">[[ params.filters[filter.handle].length ]]</span>
+                    </a>
+                    <div class="sn-filters__list sn-filters__list--desktop" v-show="active===filter.handle">
+                        <label class="sn-filters__list-item" v-for="filter_value in filter.values">
+                            <input type="checkbox" :name="filter_value.param_name" :value="filter_value.value" v-model="params.filters[filter.handle]" {% if filter_value.active -%}checked{%- endif %}>
+                            <a>[[filter_value.label]]</a>
+                        </label>
+                    </div>
+                    <select class="sn-filters__select" v-for="filter_value in filter.values" v-model="params.filters[filter.handle]" multiple v-show="active===filter.handle" :ref="filter.handle" :disabled="params.filters[filter.handle].length">
+                        <option :value="filter_value.value">[[ filter_value.label ]]</option>
+                    </select>
+                    <div class="sn-filters__selected">
+                        <a v-for="value in params.filters[filter.handle]" @click="remove(filter.type, filter.handle, value)"><span v-if="filter.handle=='price'">[[ priceFormat(value/100) ]]</span><span v-else>[[ value ]]</span></a>
+                    </div>
+                </div>
+                <div class="sn-filters__group sn-filters__group--price" v-else-if="filter.type==='price_range'">
+                    <a class="sn-filters__title" :class="{'sn-filters__title--disabled': filter.max_value.range_max===0}" @click="active='price'">
+                        [[ filter.label ]]
+                        <span v-if="params.filters[filter.handle][0]||params.filters[filter.handle][1]">1</span>
+                    </a>
+                    {% if prices is not empty %}
+                        {% set maxPrice = max(prices) %}
+                        <div class="sn-filters__list" v-if="active==='price'">
+                            <vue-slider v-model="params.range_price" tooltip="always" :min="filter.min_value.range_min" :max="maxPrix" :interval="1" :tooltip-formatter="priceFormat" :height="2"></vue-slider>
+                            <div class="sn-filters__list-range">
+                                <span>[[ filter.min_value.range_min ]]€</span>
+                                <span>[[maxPrix]]€</span>
+                            </div>
+                            <div class="sn-filters__list-action">
+                                <a class="button button--light" @click="remove(filter.type, filter.handle)">{{ 'collections.filters.cancel' | t }}</a>
+                                <a class="button" @click="setPriceRange(filter.handle)">{{ 'collections.filters.apply' | t }}</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="sn-filters__list" v-if="active==='price'">
+                            <vue-slider v-model="params.range_price" tooltip="always" :min="filter.min_value.range_min" :max="filter.max_value.range_max" :interval="1" :tooltip-formatter="priceFormat" :height="2"></vue-slider>
+                            <div class="sn-filters__list-range">
+                                <span>[[ filter.min_value.range_min ]]€</span>
+                                <span>[[ filter.max_value.range_max ]]€</span>
+                            </div>
+                            <div class="sn-filters__list-action">
+                                <a class="button button--light" @click="remove(filter.type, filter.handle)">{{ 'collections.filters.cancel' | t }}</a>
+                                <a class="button" @click="setPriceRange(filter.handle)">{{ 'collections.filters.apply' | t }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <input :name="filter.min_value.param_name" v-model="params.filters[filter.handle][0]" type="hidden" :disabled="!params.filters[filter.handle][0]">
+                    <input :name="filter.max_value.param_name" v-model="params.filters[filter.handle][1]" type="hidden" :disabled="!params.filters[filter.handle][1]">
+                    <div class="sn-filters__selected">
+                        <a v-if="params.filters[filter.handle][0]||params.filters[filter.handle][1]" @click="remove(filter.type, filter.handle)">[[ params.filters[filter.handle][0] ]]€ - [[ params.filters[filter.handle][1] ]]€</a>
+                    </div>
+                </div>
+            </template>
+        </div>
+             <div v-if="loading" class="sn-filters__loader"><img src="{{ 'img/loader.svg' | asset_url }}"></div>
+     {% if data.sort_by %}
+            <input type="hidden" name="sort_by" value="{{ data.sort_by }}"/>
+        {% endif %}
+
+        {% if terms %}
+            <input type="hidden" name="bitbag_elasticsearch_search[box][query]" value="{{ terms }}"/>
+            <input type="hidden" name="bitbag_elasticsearch_search[facets][taxon][]" :value="collection" v-if="collection"/>
+        {% endif %}
+      <button type="submit" class="sn-filters__submit">{{ 'collections.general.do_filter' | t }}</button>
+     </form>
+</filters>

@@ -1,0 +1,61 @@
+{% set results = results | default([]) %}
+{% set in_stock_products = results|filter(p => p.total_quantity > 0) %}
+{% set form = searchForm %}
+{% set terms = searchForm.vars.data.box.query|striptags %}
+{% set prices = [] %}
+{% for product in in_stock_products %}
+  {% set prices = prices | merge([product.price]) %}
+{% endfor %}
+{% if prices is empty %}
+  {% set prices = [300.00,400.00] %}
+{% endif %}
+{% set maxPrice = max(prices) |money_without_currency %}
+
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ 'layout.header.search' | t }} : {{ 'general.search.results_with_count' | t({terms: terms, count: results|length}) }}{% endblock %}
+
+{% block content %}
+
+    <paginate :max="{{maxPrice}}" :per_page="8" :init="8" :page_size="{{ min( in_stock_products|length, results.maxPerPage) }}" :total="{{ in_stock_products|length }}" inline-template>
+
+        <div class="t-search site-wrap">
+
+            {% include '@SyliusShop/snippets/breadcrumb.html.twig' %}
+
+            <div class="t-search__filters">
+                {% include '@SyliusShop/snippets/filter-bar.html.twig' with {data:searchForm} %}
+            </div>
+
+            {% if in_stock_products|length == 0 %}
+                <div class="t-cart__wrapper">
+                    <p class="t-cart__empty">
+                        {{ 'general.search.results_with_count' | t({terms: terms, count: 0}) }}
+                        <small>{{ 'general.search.no_results_html' | t }}</small>
+                    </p>
+                </div>
+            {% else %}
+                <div class="t-search__results">
+                    {% for item in results.currentPageResults if item.total_quantity > 0 %}
+                        <template v-if="count >= {{ loop.index }}">
+                            {% include '@SyliusShop/snippets/push-product.html.twig' with { data:item } %}
+                        </template>
+                    {% endfor %}
+                </div>
+                <div class="t-search__pagination" v-if="count<page_size">
+                    <button class="button" @click="loadMore">{{ 'collections.general.load_more' |  t }}</button>
+                </div>
+                {% if in_stock_products.hasNextPage() %}
+                    <div class="t-search__pagination t-search__pagination--page" v-else>
+                        <a class="button" href="{{ paginate_next_url(app.request) }}">{{ 'collections.general.load_more' |  t }}</a>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            <drawer position="right" type="filters" title="Tous les filtres">
+                {% include '@SyliusShop/snippets/filters.html.twig' with { data:searchForm, cart:cart ,all_products:in_stock_products} %}
+            </drawer>
+
+        </div>
+    </paginate>
+{% endblock %}

@@ -1,0 +1,26 @@
+{%- set _sources = sources | split(',') -%}
+{%- set _crop = crop | default('center') -%}
+{%- set _sizes = sizes | default('')| split(',') -%}
+{%- set _resize = resize | default('')| split('x') -%}
+{%- if src.id != blank -%}{%- set src_url = src.path -%}{%- else -%}{%- set src_url = src -%}{%- endif -%}
+
+{% if src_url != blank %}
+  <responsive-picture inline-template>
+    <picture>
+        {%- for source in _sources -%}
+            {%- set _source = source | split('=') -%}
+            {%- set _source_size = _source|length -%}
+            {%- if _source_size == 2 -%}
+                <source media="({{ _source[0] }})" srcset="{{ src_url | img_url(_source[1]) }}">
+            {%- endif -%}
+        {%- endfor -%}
+
+        {%- set _resize_size = _resize.size -%}
+        {% if not eager %}
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=" data-src="{{ src_url | img_url(resize) }}" alt="{{ alt | escape }}" loading="lazy" {% if _resize_size %} width="{{ _resize[0] }}" {% endif %} {% if _resize_size > 1 %} height="{{ _resize[1] }}" {% endif %}/>
+        {% else %}
+            <img src="{{ src_url | img_url(resize) }}" alt="{{ alt | escape }}" {% if _resize_size %} width="{{ _resize[0] }}" {% endif %} {% if _resize_size > 1 %} height="{{ _resize[1] }}" {% endif %}/>
+        {%- endif -%}
+    </picture>
+</responsive-picture>
+{% endif %}

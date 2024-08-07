@@ -1,0 +1,147 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: fr_FR
+    es_host: '%env(ELASTICSEARCH_HOST)%'
+    es_port: '%env(ELASTICSEARCH_PORT)%'
+    es_username: '%env(ELASTICSEARCH_USERNAME)%'
+    es_password: '%env(ELASTICSEARCH_PASSWORD)%'
+    
+
+services:
+    # Default configuration for services in *this* file
+    _defaults:
+        # Automatically injects dependencies in your services
+        autowire: true
+
+        # Automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+
+        # Allows optimizing the container by removing unused services; this also means
+        # fetching services directly from the container via $container->get() won't work
+        public: false
+        
+    Sylius\Bundle\CoreBundle\Templating\Helper\VariantResolverHelper: '@sylius.templating.helper.variant_resolver'
+    Sylius\Bundle\CoreBundle\Templating\Helper\PriceHelper: '@sylius.templating.helper.price'
+    BitBag\SyliusElasticsearchPlugin\Finder\ShopProductsFinderInterface: '@bitbag_sylius_elasticsearch_plugin.finder.shop_products'
+
+    app.twig.switch:
+        class: buzzingpixel\twigswitch\SwitchTwigExtension
+        tags:
+            - { name: twig.extension }    
+
+    _instanceof:
+        Sylius\Bundle\ResourceBundle\Controller\ResourceController:
+            autowire: false
+        Sylius\Bundle\ResourceBundle\Form\Type\AbstractResourceType:
+            autowire: false
+
+    # Makes classes in src/ available to be used as services;
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+
+    # Controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\Controller\OrderItemController:
+        class: App\Controller\OrderItemController
+        autowire: false
+        tags: ['controller.service_arguments']
+
+    App\Service\MailAfterOrderService:
+        arguments:
+            - '@swiftmailer.mailer.default'
+            - '@twig'
+            - '@logger'
+        public: true
+
+    App\Form\ProductType:
+        arguments:
+            - '%sylius.model.product.class%'
+            - '%sylius.form.type.product.validation_groups%'
+            - '@sylius.product_variant_resolver.default'
+            - '@sylius.factory.product_attribute_value'
+            - '@sylius.translation_locale_provider'
+        tags: ['form.type']
+
+    App\Form\ProductVariantType:
+        arguments:
+            - '%sylius.model.product_variant.class%'
+            - '%sylius.form.type.product.validation_groups%'
+        tags: ['form.type']
+
+    App\Form\OrderListType:
+        arguments:
+            - '%sylius.model.product_variant.class%'
+            - '%sylius.form.type.product.validation_groups%'
+        tags: ['form.type']
+
+    App\Form\TaxonType:
+        arguments:
+            - '%sylius.model.product.class%'
+            - '%sylius.form.type.product.validation_groups%'
+            - '@sylius.product_variant_resolver.default'
+            - '@sylius.factory.product_attribute_value'
+            - '@sylius.translation_locale_provider'
+        tags: ['form.type']
+        
+    App\Controller\ListProductsAction:
+        arguments:
+            - '@form.factory'
+            - '@bitbag_sylius_elasticsearch_plugin.controller.request_data_handler.shop_product_list'
+            - '@bitbag_sylius_elasticsearch_plugin.controller.request_data_handler.shop_products_sort'
+            - '@bitbag_sylius_elasticsearch_plugin.controller.request_data_handler.pagination'
+            - '@bitbag_sylius_elasticsearch_plugin.finder.shop_products'
+            - '@twig'
+        tags: ['controller.service_arguments']
+        
+    App\Service\ShopProductsQueryBuilder:
+        decorates: bitbag_sylius_elasticsearch_plugin.query_builder.shop_products
+        # pass the old service as an argument, with the name of the current service with the .inner at the end
+        arguments:
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.is_enabled'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_channel'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.contains_name'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_product_taxon'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_options'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_attributes'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_price_between'
+            - '%bitbag_es_shop_option_property_prefix%'
+            - '%bitbag_es_shop_attribute_property_prefix%'
+
+    App\Service\SearchProductsQueryBuilder:
+        decorates: bitbag_sylius_elasticsearch_plugin.query_builder.search_products
+        # pass the old service as an argument, with the name of the current service with the .inner at the end
+        arguments:
+            - '@bitbag_sylius_elasticsearch_plugin.search_property_name_resolver_registry'
+            - '@sylius.context.locale'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.is_enabled'
+            - '@bitbag_sylius_elasticsearch_plugin.query_builder.has_channel'
+
+    App\EventListener\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+
+    bitbag_sylius_elasticsearch_plugin.facet.registry:
+        class: BitBag\SyliusElasticsearchPlugin\Facet\Registry
+        calls:
+            -   method: addFacet
+                arguments:
+                    - price
+                    - '@bitbag_sylius_elasticsearch_plugin.facet.price'
+            -   method: addFacet
+                arguments:
+                    - taxon
+                    - '@bitbag_sylius_elasticsearch_plugin.facet.taxon'
+
+    Sentry\Integration\IgnoreErrorsIntegration:
+        arguments:
+            $options:
+                ignore_exceptions:
+                    - Symfony\Component\HttpKernel\Exception\NotFoundHttpException

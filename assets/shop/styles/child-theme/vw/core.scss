@@ -1,0 +1,66 @@
+@font-face {
+	font-family: 'VWHead';
+	src: url('../../../fonts/VWHead-Bold.woff2') format('woff2'),
+	url('../../../fonts/VWHead-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'VWHead';
+	src: url('../../../fonts/VWHead-Light.woff2') format('woff2'),
+	url('../../../fonts/VWHead-Light.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'VWHead';
+	src: url('../../../fonts/VWHead.woff2') format('woff2'),
+	url('../../../fonts/VWHead.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: block;
+}
+
+@media #{$to-phone}{
+	@font-face {
+		font-family: 'VWHead';
+		src: url('../../../fonts/VWHead.woff2') format('woff2'),
+		url('../../../fonts/VWHead.woff') format('woff');
+		font-weight: 400;
+		font-style: normal;
+		font-display: block;
+	}
+}
+
+.template-index, .template-page-parse, .template-collection, .template-collection-lifestyle{
+	.sticky-placeholder--header{
+		display: none;
+	}
+}
+
+.button, %button, #app button{
+	border-radius: 50px; font-size: $font-size-s; padding: 0.75em 2em; font-weight: 500; font-family: 'VWHead', sans-serif;
+	&:hover { background: $color-primary-over; color: $color-primary; border-color: $color-primary !important;}
+	&--small{ padding: 0.6em 1.6em; border-width: 1px; font-size: $font-size-xs }
+	&--light{ color: $color-primary }
+	&--thin{ padding-left: $space-xs; padding-right: $space-xs }
+	&--reset{
+		&:hover{ color: $color-secondary!important; }
+	}
+	&--full, &--alt{
+		background: $color-secondary; border-color: $color-secondary; color: white;
+		&:hover { background: $color-secondary }
+	}
+	&--primary{
+		background: $color-primary; color: white; border-color: $color-primary;
+
+		&:hover { background: white!important; color: $color-primary!important; border-color: $color-primary !important; }
+	}
+}
+
+.swiper-scrollbar-drag{ background: $color-primary; }
+.swiper-scrollbar{ background: #DFE4E8; }

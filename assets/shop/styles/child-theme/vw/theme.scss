@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+@use "sass:math";
+
+@import '../../variables';
+@import '../../tools/functions';
+@import '../../tools/mixins';
+@import '../../tools/media-queries';
+
+$gradient : linear-gradient(106.54deg, #00437A 0%, #001E50 58.81%);
+
+
+:root{
+	--color-primary : #001E50;
+	--color-primary-over : #F3F5F6;
+	--color-input : #CECECE;
+	--color-body-text : #000;
+	--color-secondary : #00B0F0;
+	--color-grey-light : #A7AEB4;
+	--color-border : #DFE4E8;
+	--color-grey-dark : #33302E;
+	--color-purple : #5B08A4;
+	--color-available: #00437A;
+	--color-quotation: #5B08A4;
+	--color-unavailable: #6A767D;
+	--color-counter : #5B08A4;
+	--color-button-full: white;
+	--width-product-desc: 100%;
+	--font-heading: 'VWHead', sans-serif;
+	--font-body: 'VWHead', sans-serif;
+	--background-mainColor: #001E50;
+	--color-text-primary: #fff;
+}
+
+@import 'core';
+@import 'components';
+@import 'sections';
+@import 'snippets';
+@import 'template';

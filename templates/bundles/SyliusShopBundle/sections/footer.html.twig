@@ -1,0 +1,59 @@
+<footer class="s-footer">
+    {% include '@SyliusShop/snippets/lom.html.twig' %}
+    <div class="site-wrap">
+
+        <div class="s-footer__main">
+            {% if menu.footer|length > 0 %}
+                {% for category in menu.footer %}
+                    <div class="s-footer__col">
+                        {% if category.label != blank %}
+                            <p class="s-footer__title">{{ category.label }}</p>
+                        {% endif %}
+                        <ul class="s-footer__links">
+                            {% for item in category.items %}
+                                {% set socials = ['facebook', 'instagram', 'x', 'youtube', 'linkedin', 'tiktok'] %}
+                                {% set theme_black_icons = ['vw', 'cupra', 'vwu'] %}
+                                <li class="s-footer__link{% if item.label|lower in socials %} has-social-link{% endif %}">
+                                    {% if item.label|lower in socials %}
+                                        <a href="{% if item.url is empty %}#{% else %}{{ item.url }}{% endif %}">
+                                            {% set icon_suffix = (settings.theme in theme_black_icons) ? '-black' : '' %}
+                                            <img src="{{ ('img/social-icons/' ~ item.label|lower ~ icon_suffix ~ '.svg') | asset_url }}" style="display: inline;width: 19px;vertical-align: text-bottom;margin-right: 0.5rem;" alt="{{ item.label|lower }} logo"/>
+                                            <span class="social-label">{{ item.label }}</span>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% if item.url is empty %}#{% else %}{{ item.url }}{% endif %}">{{ item.label }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            {% endif %}
+		</div>
+
+        {% if menu.sub_footer|length > 0 %}
+			<div class="s-footer__submenu">
+				<ul class="s-footer__links">
+					{% for link in menu.sub_footer %}
+						 {% if link.label == "CGV" %}
+						    <li v-if="partner_data && partner_data.has_term" class="s-footer__link">
+                                <a :href="'/api/dealer/'+partner.kvps+'/terms'" target="_blank">{{ link.label }}</a>
+						    </li>
+                        {% elseif link.label != "CGV"  %}
+                            <li class="s-footer__link">
+							    <a href="{{ link.url }}" {% if link.type == 'http_link' %}target="_blank"{% endif %}>{{ link.label }}</a>
+                            </li>
+                        {% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		{% endif %}
+
+        <div class="s-footer__sub">
+            <div class="s-footer__copy">
+                <a href="{{ routes.root_url }}" itemprop="url">&copy; {{ ('general.layout.' ~ settings.theme) | t }} - {{ "now" | date("Y") }}</a>
+            </div>
+        </div>
+
+    </div>
+</footer>

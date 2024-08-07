@@ -1,0 +1,8 @@
+<div class="ui stackable two column grid">
+    {% for block in element.blocks %}
+        <div class="column">
+            <h4>{{ block.title|default('') }}</h4>
+            <img class="ui image" src="{{ block.image| imagine_filter('thumb') }}" alt="{{ block.alt|default('') }}" title="{{ block.title|default('') }}" />
+        </div>
+    {% endfor %}
+</div>

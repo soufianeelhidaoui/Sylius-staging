@@ -1,0 +1,96 @@
+{% set t = template | split('.') | first  %}
+{% set results = results | default([]) %}
+{% set in_stock_products = results|filter(p => p.total_quantity > 0) %}
+
+<nav class="sn-breadcrumb" aria-label="breadcrumbs">
+    <ul itemscope itemtype="https://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="{{ routes.root_url }}" title="{{ 'layout.breadcrumb.home' | t }}"  itemprop="item"><span itemprop="name">{{ 'layout.breadcrumb.home' | t }}</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        {% switch t %}
+        {% case 'search' %}
+
+            <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                <span itemprop="name" class="sn-breadcrumb__current">{{ 'layout.header.search' | t }} : {{ 'general.search.results_with_count' | t({terms: terms, count: in_stock_products|length}) }}</span>
+                <meta itemprop="position" content="2" />
+            </li>
+        {% case 'page' %}
+
+            <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                <span itemprop="name" class="sn-breadcrumb__current">{{ page.title | truncate(50) }}</span>
+                <meta itemprop="position" content="2" />
+            </li>
+        {% case 'collection' %}
+
+            {% set position = 1 %}
+            {% set parent = collection.parent %}
+
+            {% if parent and (parent.breadcrumb or (not collection.breadcrumb and parent.parent)) %}
+                {% set grand_parent = parent.parent %}
+                {% if grand_parent and grand_parent.breadcrumb %}
+                    <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                        <a href="{{ grand_parent|url }}" itemprop="item"><span itemprop="name">{{ grand_parent.title | truncate(50) }}</span></a>
+                        <meta itemprop="position" content="{{ position }}" />
+                    </li>
+                    {% set position = position +1 %}
+                {% endif %}
+                <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                    <a href="{{ parent|url }}" itemprop="item"><span itemprop="name">{{ parent.title | truncate(50) }}</span></a>
+                    <meta itemprop="position" content="{{ position }}" />
+                </li>
+                {% set position = position +1 %}
+            {% endif %}
+
+            <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                <span itemprop="name" class="sn-breadcrumb__current">{{ collection.title | truncate(50) }}</span>
+                <meta itemprop="position" content="{{ position }}" />
+            </li>
+        {% case 'product' %}
+
+            {% set position = 1 %}
+            {% set parent = product.mainTaxon %}
+
+            {% if parent and (parent.breadcrumb or (not collection.breadcrumb and parent.parent)) %}
+                {% set grand_parent = parent.parent %}
+                {% if grand_parent and grand_parent.breadcrumb %}
+                    <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                        <a href="{{ grand_parent|url }}" itemprop="item"><span itemprop="name">{{ grand_parent.title | truncate(50) }}</span></a>
+                        <meta itemprop="position" content="{{ position }}" />
+                    </li>
+                    {% set position = position +1 %}
+                {% endif %}
+                <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                    <a href="{{ parent|url }}" itemprop="item"><span itemprop="name">{{ parent.title | truncate(50) }}</span></a>
+                    <meta itemprop="position" content="{{ position }}" />
+                </li>
+                {% set position = position +1 %}
+            {% endif %}
+            <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                <span itemprop="name" class="sn-breadcrumb__current">{{ product.title | truncate(50) }}</span>
+                <meta itemprop="position" content="{{ position }}" />
+            </li>
+        {% default %}
+            {% if mod == 'checkout' %}
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                    <a href="{{ routes.cart_url }}" title="{{ 'layout.breadcrumb.cart' | t }}"  itemprop="item"><span itemprop="name">{{ 'layout.breadcrumb.cart' | t }}</span></a>
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                    <a class="non-clickable" :class="{'sn-color':!sent}" href="#" title="{{ 'layout.breadcrumb.cart' | t }}"  itemprop="item"><span itemprop="name" :class="{'sn-breadcrumb__current':!sent}">{{ 'layout.breadcrumb.cart_checkout' | t }}</span></a>
+                    <meta itemprop="position" content="2" />
+                </li>
+                <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right" v-if="sent">
+                    <span itemprop="name" class="sn-breadcrumb__current">{{ 'layout.breadcrumb.checkout_summary' | t }}</span>
+                    <meta itemprop="position" content="3" />
+                </li>
+            {% else %}
+                <li aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="icon-chevron-right">
+                    <span itemprop="name" class="sn-breadcrumb__current">{{ 'layout.breadcrumb.cart' | t }}</span>
+                    <meta itemprop="position" content="2" />
+                </li>
+            {% endif %}
+        {% endswitch %}
+
+    </ul>
+</nav>

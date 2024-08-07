@@ -1,0 +1,9 @@
+<div class="ui stackable two column grid">
+    <div class="column">
+        <ul>
+            {% for block in element.blocks %}
+                <li>{{ block.title|default('') | raw }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>

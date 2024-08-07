@@ -1,0 +1,103 @@
+.t-search{
+  &__form {
+    button{
+      #app &{ left: 0 }
+    }
+    input {
+      border-bottom: 1px solid #000; border-radius: 0; padding-left: 3.4rem;
+    }
+  }
+  &__right{
+    display: block;
+    #app &:before{ margin-right: 0 }
+  }
+}
+
+.template-page-parse .t-page {
+  &__top {
+    display: flex; flex-direction: column-reverse;
+    .breadcrumb {
+      margin-bottom: $space-xl;
+      @media #{$to-phone}{ margin-bottom: $space-m }
+    }
+  }
+  &__title {
+    margin-top: 0; margin-bottom: $space-xs; font-size: 4.4rem;
+
+    .site-wrap{
+      @media #{$to-phone}{ padding-right: 0 }
+    }
+    &-content {
+      position: relative;
+      width: 50%;
+      max-width: none;
+      padding: 3.2rem;
+      padding-left: 0;
+      color: #fff;
+      @media #{$to-phone}{ width: 100%; font-size: 1.8rem; line-height: $font-size-l }
+      &:after{
+        position: absolute; right: 0; width: 50vw; height: 100%; background: $gradient; content: ''; z-index: -1; top: 0;
+        @media #{$to-phone}{ width: 100vw; }
+      }
+    }
+  }
+}
+
+.t-collection {
+  .s-collection{
+    &__image{
+      .sn-official {display: none}
+    }
+  }
+}
+
+.t-404{
+  text-align: left; margin-bottom: #{$space-xl*3};
+  h1{ font-size: $font-size-l; font-weight: normal; margin-top: $space-xl; margin-bottom: $space-l;
+    @media #{$to-phone}{ font-size: 1.8rem; margin-bottom: $space-xs }
+  }
+  p{ margin-bottom: $space-s; font-size: 1.8rem; font-weight: 500;
+    @media #{$to-phone}{ font-size: $font-size-xs }
+  }
+  ul{
+    font-size: $font-size-s; color: $color-primary; list-style: disc; list-style-position: inside; font-weight: bold;
+    @media #{$to-phone}{ font-size: $font-size-xs }
+  }
+  p, ul{ width: 80%; margin-left: auto; margin-right: auto;
+    @media #{$to-phone}{ width: 100%; margin-left: 0; margin-right: 0 }
+  }
+}
+
+.thankyou{
+  margin-top:17rem !important;
+}
+
+.t-cart{
+  &__price{
+    sup{ display: inline-block }
+  }
+  &__table { 
+    table {
+      tbody tr { 
+        img{ max-width: 10rem !important; margin-left: 1em;
+        @media #{$to-phone} { max-width: 100% ; text-align: center; margin-left: 0; display: inline-block;}
+        }
+      }
+    }
+  }
+  
+  &__total-content_subtotal-buttons a.button img {
+    margin-top: -4px;
+  }
+}
+
+.custom-hover {
+  background-color: initial;
+  color: initial; 
+  transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.custom-hover:hover {
+  background-color: var(--color-primary) !important;
+  color: var(--color-text-primary) !important;
+}

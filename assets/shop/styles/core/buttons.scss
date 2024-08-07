@@ -1,0 +1,35 @@
+.button, #app button, %button {
+  display: inline-flex; align-items: center; border: 2px solid; text-align: center; white-space: nowrap; cursor: pointer; vertical-align: middle;
+  text-decoration: none; user-select: none; appearance: none; padding: $space $space-s; background: transparent; border-radius: 4px;
+  font-weight: 700; color: $color-primary; max-width: max-content; font-size: $font-size-s; transition: allow(background border color box-shadow);
+  &:before {margin-right: $space }
+  &:hover { color: $color-primary-over!important; border-color: $color-primary-over!important; }
+  @media #{$to-small}{ font-size: $font-size-s }
+  @media #{$to-phone}{ font-size: $font-size-xxs; padding: 0.8rem $space-s; border: 1px solid }
+  &--small{ padding: math.div($space,2) math.div($space-s,2); font-size: $font-size-xs }
+  &--primary{
+    background: $color-primary; color: white; border-color: $color-primary;
+    &:hover{ background: white !important }
+  }
+  &--full{
+    background: $color-primary; color: #fff; border-color: $color-primary;
+    &:hover{ background: none }
+  }
+  &--light{
+    background: transparent; color: $color-body-text
+  }
+  &--loading{
+    pointer-events: none; cursor: wait; opacity: 0.5; animation: pulse 1s infinite ease-in-out
+  }
+  &--thin{
+    padding-left: $space-xs; padding-right: $space-xs;
+  }
+  &--reset{
+    border: none; padding: 0!important; text-transform: none!important; background: none!important; font-weight: normal!important;
+    &:hover{ background: none!important; }
+  }
+  &[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

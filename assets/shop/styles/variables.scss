@@ -1,0 +1,96 @@
+$include-animations: true;
+
+$color-primary: var(--color-primary);
+$color-primary-over: var(--color-primary-over);
+$color-secondary: var(--color-secondary);
+$color-black: #0F0F0F;
+$color-grey-dark: var(--color-grey-dark);
+$color-grey-light: var(--color-grey-light);
+$color-purple: var(--color-purple);
+$color-counter: var(--color-counter);
+$color-white: #FFF;
+$color-quotation: var(--color-quotation);
+$color-available: var(--color-available);
+$color-unavailable: var(--color-unavailable);
+$color-command: #00AFAC;
+$color-zorba: #9F948E;
+$color-signal: #029640;
+$color-bright: #FCC446;
+$color-footer: #EBEBEB;
+$color-footer-titles: #161718;
+$color-footer-links: #666666;
+$color-footer-copy: #999999;
+$background-mainColor: var(--background-mainColor);
+$color-text-primary: var(--color-text-primary);
+$dark-grey: #666666;
+$light-grey: #F5F5F5;
+$background-light-grey: #fafafa;
+$color-button-full: var(--color-button-full);
+
+// Text colors
+$color-body-text: var(--color-body-text);
+$color-input: var(--color-input);
+
+// Placeholders
+$placeholder-color-foreground: #161d25;
+$placeholder-color-background: #f9fafb;
+
+$box-shadow: 0 0 5px rgba(0,0,0,0.1);
+$text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+// Helper colors for form error states
+$color-border: #DFE4E8;
+$color-error: #ff6d6d;
+$color-error-bg: #fff3f3;
+$color-success: #6dff9b;
+$color-success-bg: #f0fff4;
+
+// Typography
+$font-icon: 'icomoon';
+$font-heading: var(--font-heading);
+$font-body: var(--font-body);
+
+// Transitions
+$animation-duration: 0.3s;
+$transition-duration: 0.3s;
+$ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+$transition-timing: $ease-in-out-cubic;
+
+// Grid
+$grid-max-width: 124rem;
+$grid-gutter: 32px;
+
+// space for padding and margin
+$space-xl: 9.6rem;
+$space-l: 6.4rem;
+$space-ml: 4.8rem;
+$space-m: 3.2rem;
+$space-s: 2.4rem;
+$space-xs: 1.6rem;
+$space: 1.2rem;
+
+// Font sizes
+$font-size-xxl: 5.6rem;
+$font-size-xl: 4.4rem;
+$font-size-ll: 3.6rem;
+$font-size-l: 3.2rem;
+$font-size-m: 2.4rem;
+$font-size-body: 2rem;
+$font-size-s: 1.6rem;
+$font-size-icon: 1.8rem;
+$font-size-xs: 1.4rem;
+$font-size-xxs: 1.2rem;
+
+// Width
+$width-product-desc: var(--width-product-desc);
+
+// Font weight
+$font-weight-normal: 400;
+
+$z-popin: 99;
+
+// Button background
+$btn-available-bg: #F6FEFB;
+$btn-unavailable-bg: #F6F7FE;
+$btn-unavailable-color: #1B3CEA;
+$btn-available-color: #1BEA93;

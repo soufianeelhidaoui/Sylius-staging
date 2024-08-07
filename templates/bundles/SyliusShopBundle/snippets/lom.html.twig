@@ -1,0 +1,14 @@
+{% set lom_a = 'Pensez à covoiturer. #SeDéplacerMoinsPolluer' %}
+{% set lom_b = 'Pour les trajets courts, privilégiez la marche ou le vélo. #SeDéplacerMoinsPolluer' %}
+{% set lom_c = 'Au quotidien, prenez les transports en commun. #SeDéplacerMoinsPolluer' %}
+{% set lom_text = [lom_a, lom_b, lom_c] %}
+
+<swiper class="swiper sn-lom" :options="{ slidesPerView: 1, grabCursor: true, loop: true, autoplay: true }">
+    {% if lom_text %}
+        {% for lom in lom_text %}
+            <swiper-slide class="slide sn-lom__lom-text">
+                {{ lom }}
+            </swiper-slide>
+        {% endfor %}
+    {% endif %}
+</swiper>

@@ -1,0 +1,48 @@
+
+<reinsurance inline-template>
+    <div class="s-reinsurance">
+        <div class="site-wrap">
+            <div class="s-reinsurance__entries">
+                <div v-if="isMobile" class="mobile-only-content">
+            
+                    <div class="s-reinsurance__entries">
+                        {% for block in data.blocks %}
+                            {% if loop.index == 3 %}
+                                {% set displayBlock = data.blocks[3] %}
+                            {% elseif loop.index == 4 %}
+                                {% set displayBlock = data.blocks[2] %}
+                          {% else %}
+                                {% set displayBlock = block %}
+                           {% endif %}
+                            
+                            <div class="s-reinsurance__entry">
+                                <div class="s-reinsurance__entry-icon icon-{{ displayBlock.icon }}"></div>
+                                <div class="s-reinsurance__entry-title">
+                                    {{ displayBlock.title | raw }}
+                                </div>
+                            </div>
+                            {% if not loop.last %}
+                                <div class="icon-arrow-right"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="s-reinsurance__entries">
+                        {% for block in data.blocks %}
+                            <div class="s-reinsurance__entry">
+                                <div class="s-reinsurance__entry-icon icon-{{ block.icon }}"></div>
+                                <div class="s-reinsurance__entry-title">
+                                    {{ block.title | raw }}
+                                </div>
+                            </div>
+                            {% if not loop.last %}
+                                <div class="icon-arrow-right"></div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</reinsurance>

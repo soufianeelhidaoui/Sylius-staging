@@ -1,0 +1,130 @@
+<!doctype html>
+<html class="no-js supports-no-cookies" lang="{{ shop.locale|slice(0, 2) }}" dir="ltr" style="--bron-root-font-size:10px">
+<head>
+
+	<title>{%- block title -%}{{ sylius.channel.name }}{%- endblock -%}</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="theme-color" content="{{ settings.color_accent }}">
+
+	<link rel="shortcut icon" href="{{ ('img/favicon-' ~ settings.theme ~ '.png') | asset_url }}" type="image/png">
+
+	{% block metatags %}{% endblock %}
+
+	{% include '@SyliusShop/snippets/external-scripts.html.twig' %}
+
+    {% set bronson_theme = settings.theme %}
+    {% if (settings.theme =='vw' or settings.theme=='vwu') %}
+        {% set bronson_theme = 'vw6' %}
+    {% endif %}
+    <link rel="stylesheet" href="https://cdn.bronson.vwfs.tools/{{ bronson_theme }}/v/15.0.0/css/style.scoped.min.css">
+
+    {{ 'css/theme.css' | asset_url | stylesheet_tag }}
+
+	{% if settings.theme %}
+		{% set theme_css = settings.theme | append('.css') | prepend('css/') %}
+		{{ theme_css | asset_url | stylesheet_tag }}
+	{% endif %}
+
+    {% if(template=='payum_capture_do') %}
+        <script src="https://sdk.smartpay.jpmmps.com/smp-bundle.js"></script>
+    {% endif %}
+
+	{% include '@SyliusShop/snippets/global-variables.html.twig' %}
+
+</head>
+
+<body class="loading template-{{ template | handle }} {%- block body_class -%}{%- endblock -%}">
+
+{% if settings.gtm != blank %}
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id={{ settings.gtm }}"
+                      height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+    </noscript>
+{% endif %}
+
+<div id="app" :class="{'has-scrolled':hasScrolled}">
+        {% include '@SyliusShop/sections/header.html.twig' %}
+        
+        <main role="main">
+            <div class="shopify-section">
+                {{ sylius_template_event('sylius.shop.layout.before_content') }}
+
+                <payment inline-template>
+                    <div class="site-wrap">
+                        {% block content %}{% endblock %}
+                    </div>
+                </payment>
+
+                {{ sylius_template_event('sylius.shop.layout.after_content') }}
+            </div>
+        </main>
+
+        {% include '@SyliusShop/snippets/map.html.twig' %}
+	    {% include '@SyliusShop/sections/footer.html.twig' %}
+    </div>
+
+    {{ 'js/theme.js' | asset_url | script_tag }}
+
+    {% if(template=='payum_capture_do') %}
+        <script>
+            const app = window.SmpLibrary.SmartPayAppInstance;
+            const checkoutToken = '{{ checkoutToken }}';
+            // Simple CIT
+            app.renderWidget({
+                paymentCheckoutToken: checkoutToken,
+                container: "selector-container",
+                successHandler: function(data) {
+                    window.location.href = "{{ targetURL }}";
+                    console.log("{{ targetURL }}");
+                    console.log("successHandler");
+                    console.log(data);
+                },
+                errorHandler: function(errorCode, error) {
+                    window.location.href = '//' + location.host + location.pathname + '?payment_error=1';
+                },
+                paypalButtonStyle: {
+                    layout:  'horizontal',
+                    color:   'blue',
+                    shape:   'rect',
+                    label:   'paypal'
+                }
+            });
+        </script>
+    {% endif %}
+
+    {% if settings.theme %}
+        {% set theme_js = settings.theme | append('.js')| prepend('js/') %}
+        {{ theme_js | asset_url | script_tag }}
+    {% endif %}
+
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "name": "{{ shop.name }}",
+          {% if section.settings.logo %}
+        {% set image_size = section.settings.logo.width | append('x') %}
+            "logo": "https:{{ section.settings.logo | img_url(image_size) }}",
+          {% endif %}
+          "sameAs": [
+            "{{ settings.social_twitter_link }}",
+            "{{ settings.social_facebook_link }}",
+            "{{ settings.social_instagram_link }}"
+          ],
+          "url": "{{ shop.url }}{{ page.url }}"
+        }
+        </script>
+
+    {% if settings.datalayer and settings.theme == 'skoda' %}
+        {% include '@SyliusShop/snippets/datalayer_skoda.html.twig' %}
+    {% elseif settings.datalayer and settings.theme == 'seat' %}
+        {% include '@SyliusShop/snippets/datalayer_seat.html.twig' %}
+    {% elseif settings.datalayer %}
+        {% include '@SyliusShop/snippets/datalayer.html.twig' %}
+    {% endif %}
+
+</body>
+</html>

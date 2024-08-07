@@ -1,0 +1,53 @@
+api_doc:
+    path: /api/docs
+    methods: [GET]
+    controller: App\Controller\AdminApiController::getDocumentation
+
+admin_api_get_products:
+    path: /api/admin/products
+    methods: [GET]
+    controller: App\Controller\AdminApiController::getProducts
+
+admin_api_create_product:
+    path: /api/admin/product
+    methods: [POST]
+    controller: App\Controller\AdminApiController::createProduct
+
+admin_api_create_products:
+    path: /api/admin/products
+    methods: [POST]
+    controller: App\Controller\AdminApiController::createProducts
+
+admin_api_update_product:
+    path: /api/admin/product/{code}
+    methods: [PUT]
+    controller: App\Controller\AdminApiController::updateProduct
+    
+admin_api_get_taxons:
+    path: /api/admin/taxons
+    methods: [GET]
+    controller: App\Controller\AdminApiController::getTaxons
+
+admin_api_create_taxon:
+    path: /api/admin/taxon
+    methods: [POST]
+    controller: App\Controller\AdminApiController::createTaxon
+
+admin_api_update_taxon:
+    path: /api/admin/taxon/{code}
+    methods: [PUT]
+    controller: App\Controller\AdminApiController::updateTaxon
+
+admin_api_update_stock:
+    path: /api/admin/stock
+    methods: [PUT]
+    controller: App\Controller\AdminApiController::updateStock
+
+admin_api_authentication:
+    path: /api/admin/authentication-token
+    methods: [POST]
+
+admin_api_cleanup:
+    path: /api/admin/cleanup
+    methods: [POST]
+    controller: App\Controller\AdminApiController::cleanup

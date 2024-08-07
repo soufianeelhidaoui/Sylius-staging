@@ -1,0 +1,8 @@
+.c-tax-switch{
+	@media print { display: none; }
+	padding-bottom: 0.2rem; border-bottom: 1px solid $color-primary; color: $color-primary; cursor: pointer;
+	display: none; font-size: $font-size-s; vertical-align: middle;
+
+	@media #{$to-phone}{ font-size: $font-size-xs; font-weight: normal }
+	&:before { margin-right: 1rem; border-bottom: 0; display: inline-block; transform: rotate(90deg) }
+}

@@ -1,0 +1,281 @@
+.s-header{
+&__logo img{
+  height: 21px;
+}
+&__link-count{
+  color: $color-grey-dark;
+}
+}
+.s-hero {
+  @media #{$to-phone} {
+    margin-bottom: 0;
+  }
+
+  &__official {
+    @media #{$from-medium}{ top: 95px !important;}
+  }
+
+  &__content {
+    padding: 1rem;
+  }
+
+  &:after {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    content: "";
+    background-size: 100% 100%;
+    height: 95px;
+    pointer-events: none;
+    z-index: 1;
+
+    @media #{$to-phone} {
+      height: 45px;
+      background-size: 150% 100%;
+    }
+  }
+
+  &__wrapper {
+    @media #{$to-phone} {
+      background-color: black;
+      padding: 1rem 0;
+    }
+
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+
+  &__title {
+    @media #{$to-phone} {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    line-height: 62px;
+  }
+
+  &__text {
+    @media #{$to-phone} {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    font-size: 48px;
+  }
+
+  picture {
+    &:after {
+      @media #{$to-phone} {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        content: "";
+        ;
+        background: url('../../../img/skoda-slider.png') no-repeat
+      }
+    }
+  }
+
+  &__cta {
+    color: $color-grey-dark;
+
+    &.button:hover {
+      background: $color-background
+    }
+  }
+
+  .swiper-pagination {
+    bottom: 5rem;
+
+    @media #{$to-phone} {
+      bottom: 3rem
+    }
+  }
+}
+
+.sn-official {
+  background: $color-grey-dark;
+
+  &__text {
+    color: #78FAAE;
+    font-weight: 500;
+  }
+}
+
+.s-reinsurance__entry-icon {
+  color: $color-grey-dark;
+}
+
+.s-vehicles-list {
+  &:after {
+    width: 100%;
+    content: '';
+    background: url('../../../img/skoda-vehicles-list.png') no-repeat;
+    background-size: 100% 100%;
+    height: 189px;
+    pointer-events: none;
+    display: none;
+
+    @media #{$to-phone} {
+      height: 107px
+    }
+  }
+  input::placeholder{
+    color: black;
+  }
+  &__title{
+    color: black;
+  }
+  &__tags {
+    position: static;
+    transform: none;
+
+    @media #{$to-phone} {
+      display: block
+    }
+  }
+  &__version:hover{
+    color: black;
+  }
+  &__engines {
+    top: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    position: absolute;
+    margin-top: 2px;
+
+    @media #{$to-phone} {
+      display: block;
+      top: auto;
+      bottom: math.div($space, 2)
+    }
+  }
+
+  &__tag {
+    font-size: 10px;
+    letter-spacing: 2.5px;
+
+    &--new {
+      position: absolute;
+      left: 0;
+      bottom: 100%;
+      background: none;
+      color: #777;
+    }
+
+    &--engine {
+      background: #CECECE;
+      color: $color-body-text;
+
+      &:after {
+        display: none
+      }
+    }
+  }
+}
+.s-pushes{
+  &__title{
+    color: black;
+    font-weight: 400;
+  }
+  &__cta.link{
+    color: black;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 24px;
+  }
+}
+.s-push-blog {
+  @media #{$from-tablet} {
+    margin-bottom: -10rem
+  }
+
+  &:before {
+    width: 100%;
+    content: '';
+    background: url('../../../img/skoda-blog-header.png') no-repeat;
+    background-size: 100% 100%;
+    height: 147px;
+    pointer-events: none;
+    display: block;
+    margin-bottom: 10rem;
+
+    @media #{$to-phone} {
+      display: none
+    }
+  }
+
+  &:after {
+    width: 100%;
+    content: '';
+    background: url('../../../img/skoda-blog-footer.png') no-repeat;
+    background-size: 100% 100%;
+    height: 174px;
+    pointer-events: none;
+    display: block;
+
+    @media #{$to-phone} {
+      display: none
+    }
+  }
+}
+
+.s-collection {
+  &__header{
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+  }
+  &__title-content{
+    background: none;
+    font-weight: 700;
+    font-size: 28px;
+  }
+  .sn-official {
+    bottom: -38px;
+  }
+
+  &__title {
+
+    span {
+      font-weight: inherit
+    }
+  }
+
+  &__image {
+    picture {
+      &:after {
+       display: none;
+      }
+    }
+
+    .sn-official {
+      flex-flow: column-reverse;
+    }
+  }
+}
+.rte{
+  a{
+    color: var(--color-grey-dark);
+  }
+}
+
+.s-footer{
+	background-color: $color-grey-dark;
+	&__title {color: white;}
+
+	&__sub{
+	  color: white;
+	}
+
+	&__copy {
+	  color: white;
+	}
+
+	&__link{
+		color: white;
+		a{
+		  &:hover{ color: $color-grey-light; }
+		}
+  }
+}

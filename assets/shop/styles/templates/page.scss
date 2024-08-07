@@ -1,0 +1,22 @@
+.t-page{
+	img, picture { width: 100%; top: 0; }
+	> .shopify-section{ margin-top: 0 }
+	&__title{
+		@extend %title; text-align: left; font-weight: normal; margin-top: $space-l;
+        .shopify-section &{ margin-top: -$space-xl }
+		.template-page &{ font-size: $font-size-xl }
+		span { display: block }
+
+		@media #{$to-phone}{ font-size: $font-size-l; margin-top: $space-m }
+	}
+	&__description{ text-align: left; font-size: 1.8rem;
+		@media #{$to-phone}{ font-size: $font-size-xs }
+	}
+	&__top{
+		.breadcrumb {
+			@media #{$to-phone}{
+				margin-bottom: $space-m
+			}
+		}
+	}
+}

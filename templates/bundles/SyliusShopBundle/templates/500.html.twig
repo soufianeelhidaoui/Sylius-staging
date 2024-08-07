@@ -1,0 +1,22 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ 'general.500.subtext_vw_html' | t }}{% endblock %}
+
+{% block content %}
+    <div class="t-404">
+        <div class="site-wrap">
+            {% if 'vw' in settings.theme %}
+                <h1>{{ 'general.500.title_vw' | t }}</h1>
+                <p>{{ 'general.500.subtext_vw_html' | t }}</p>
+                <ul>
+                    <li><a href="/">{{ 'general.500.homepage' | t }}</a></li>
+                </ul>
+            {% else %}
+                <img src="{{ 'img/404.svg' | asset_url }}" class="t-404__image"/>
+                <h1>{{ 'general.500.title' | t }}</h1>
+                <p>{{ 'general.500.subtext_html' | t }}</p>
+                <a class="button button--full" href="/">{{ 'general.500.cta' | t }}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

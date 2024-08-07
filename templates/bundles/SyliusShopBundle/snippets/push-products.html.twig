@@ -1,0 +1,17 @@
+<section class="sn-push-products">
+	<div class="site-wrap">
+
+		<h2 class="sn-push-products__title">{{ title|raw }}</h2>
+		<swiper :options="{slidesPerView: 1.05, spaceBetween: 24, watchSlidesVisibility: true, scrollbar: {el: '.swiper-scrollbar', draggable: true }, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, breakpoints: { 1025: { slidesPerView: 4, spaceBetween: 24 }, 1024: { slidesPerView: 3.5, spaceBetween: 43 }}}">
+
+			{% for product in products if product.total_quantity > 0 %}
+				<swiper-slide>
+					{% include '@SyliusShop/snippets/push-product.html.twig' with { data: product } %}
+				</swiper-slide>
+			{% endfor %}
+			<div class="swiper-scrollbar" slot="scrollbar"></div>
+			<div class="swiper-button-prev" slot="button-prev"></div>
+			<div class="swiper-button-next" slot="button-next"></div>
+		</swiper>
+	</div>
+</section>

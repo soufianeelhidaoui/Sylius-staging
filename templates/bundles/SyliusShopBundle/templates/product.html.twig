@@ -1,0 +1,86 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+    <div class="t-product">
+
+        <div class="site-wrap">
+
+            {% include '@SyliusShop/snippets/breadcrumb.html.twig' %}
+
+            {% set main_collection = false %}
+            {% if product.collections|length %}
+                {% for collection in product.collections %}
+                    {% if collection.breadcrumb %}
+                        {% set main_collection = collection %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+
+            {% if main_collection %}
+                <a class="t-product__back icon-arrow-left" v-collection href="{{ main_collection|url }}">{{ 'products.product.back_to_list' | t }}</a>
+            {% else %}
+                <a class="t-product__back icon-arrow-left" v-collection href="{{ routes.all_products_collection_url }}">{{ 'products.product.back_to_list' | t }}</a>
+            {% endif %}
+        </div>
+
+        {% include '@SyliusShop/sections/product.html.twig' %}
+    </div>
+    {% include '@SyliusShop/snippets/product_infos.html.twig' %}
+
+    <script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "url": "{{ shop.url }}{{ product|url }}",
+  {% if product.featured_image %}
+    "image": [
+      "{{ shop.url }}{{ product.featured_image | img_url('1920x1080') }}"
+    ],
+  {% endif %}
+  "description": "{{ product.description | strip_html | escape }}",
+  {% if current_variant.sku != blank %}
+    "sku": "{{ current_variant.sku }}",
+  {% endif %}
+  "brand": {
+    "@type": "Thing",
+    "name": "{{ settings.brand | escape }}"
+  },
+  {% if product.variants %}
+    "offers": [
+      {% for variant in product.variants %}
+        {
+          "@type" : "Offer",
+          "availability" : "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+          "price" : "{{ variant.price|default(0) | divided_by(100.00) }}",
+          "priceCurrency" : "{{ shop.currency }}",
+          "url" : "{{ shop.url }}{{ variant|url }}",
+          "itemOffered" :
+          {
+              "@type" : "Product",
+		      {% if variant.title != blank %}
+                "name" : "{{ variant.title | escape }}",
+              {% endif %}
+              {% if variant.sku != blank %}
+                "sku": "{{ variant.sku }}",
+              {% endif %}
+              {% if variant.weight != blank %}
+                "weight": {
+                  "@type": "QuantitativeValue",
+                  {% if variant.weight_unit != blank %}
+                    "unitCode": "{{ variant.weight_unit }}",
+                  {% endif %}
+                  "value": "{{ variant.weight | weight_with_unit(variant.weight_unit) }}"
+                },
+              {% endif %}
+              "url": "{{ shop.url }}{{ variant|url }}"
+          }
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+  {% endif %}
+}
+</script>
+{% endblock %}

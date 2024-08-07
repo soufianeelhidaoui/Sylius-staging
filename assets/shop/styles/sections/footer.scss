@@ -1,0 +1,79 @@
+.s-footer{
+  background-color: $color-footer; margin-top: $space-xl; font-size: $font-size-body; line-height: $font-size-m;
+
+  @media #{$to-phone}{ margin-top: $space-l ; padding-left: 0px; padding-right: 0px}
+
+  .template-cart &{ display: block }
+  .site-wrap{ position: relative; padding-left: 120px; padding-right: 120px; 
+    @media #{$to-tablet}{padding-left: 3.2rem; padding-right: 1.2rem;}
+    @media #{$to-phone}{padding-left: 1.2rem !important; padding-right: 1.2rem !important;}
+
+  }
+
+  &__title {font-size: $font-size-s; font-weight: 700; margin-bottom: 2.8rem; color: $color-footer-titles;}
+
+  ul{ list-style: none; margin: 0; padding: 0 }
+
+  &__logo{
+    text-decoration: none; font-weight: bold; font-size: $font-size-s; text-align: center;
+  }
+
+  &__main{
+    display: flex; justify-content: space-between; padding-top:$space-l; padding-bottom: $space-s*2;
+    @media #{$to-phone}{display: block; text-align: center;}
+  }
+
+  &__col{
+    flex: 1 1 0; padding:0 $space-s;
+    @media #{$to-phone}{ padding: 0;
+      &+&{ margin-top: $space-m }
+    }
+    &:first-of-type{ padding-left: 0 }
+    &:last-of-type{ padding-right: 0 }
+  }
+
+  &__socials{
+    display: flex;
+  }
+
+  &__social{
+    a{ text-decoration: none; padding: 0.5rem 1rem }
+  }
+
+  &__sub{
+    font-size: $font-size-s; padding-bottom: $space-s; padding-top: $space-s; display: flex; color: $color-footer-copy;
+    justify-content: center;
+  }
+  &__copy {
+    color: $color-footer-copy;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 42px;
+    text-align: center;
+    text-transform: capitalize;
+  }
+
+  &__submenu{
+    padding-bottom: $space-s*2;
+    .s-footer__links{ display:flex; flex-flow: row; line-height: 1; flex-flow: wrap; @media #{$to-phone}{justify-content: center;}}
+    .s-footer__link{ margin-top: 0.5rem!important; margin-bottom: 0.5rem!important; }
+    .s-footer__link:not(:last-child){ border-right: 1px solid; margin-right: 1.5rem; padding-right: 1.5rem }
+  }
+
+  &__link{
+    color: $color-footer-links;font-size: $font-size-s;
+    &+&{ margin-top: 1.5rem }
+    a{
+      display: inline-block; font-weight: 500; transition: allow(color);
+      &:hover{ color: $color-grey-dark }
+    }
+    &.has-social-link{
+        @media #{$to-phone}{ display: contents }
+    }
+    .social-label{
+        @media #{$to-phone}{ display: none }
+    }
+  }
+
+  @media print { display:none;}
+}

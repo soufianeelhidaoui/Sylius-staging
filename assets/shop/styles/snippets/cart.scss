@@ -1,0 +1,30 @@
+.sn-cart{
+  &__item{
+    display: flex; position: relative;
+    &+&{ margin-top: 2rem }
+    &-thumbnail{
+      margin-right: 1rem; flex-shrink: 0;
+      img{ display: block }
+    }
+    &-title{ margin-bottom: 1rem; font-weight: bold }
+    &-description{ @include line-clamp(1); @extend %text }
+    &-variant{ margin-top: 1rem }
+    &-remove{
+      position: absolute; right: 0; top: 0; font-size: $font-size-s; cursor: pointer;
+      &:before{ font-size: inherit }
+    }
+    &-quantity{
+      display: flex; align-items: center; margin: 1rem 0;
+      label{ display: block }
+      select{ border:0; padding-top: 0; padding-bottom: 0 }
+    }
+    &-details{
+      display: flex; flex-direction: column
+    }
+    &-total{ font-weight: bold; margin-top: auto }
+  }
+  &__details{ margin-top: 1rem }
+  &__subtotal{ display: flex; justify-content: space-between; padding: 1rem; border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin: 1rem 0 }
+  &__total{ display: flex; justify-content: space-between; font-weight: bold; margin-top: 1rem }
+  &__actions{ margin-top: 1rem; display: flex; justify-content: space-between; align-items: center; }
+}

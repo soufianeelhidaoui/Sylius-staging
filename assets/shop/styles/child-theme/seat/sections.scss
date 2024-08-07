@@ -1,0 +1,57 @@
+.s-header{
+    &.sticky{
+        @media #{$to-phone}{
+            border-bottom-color: transparent;
+            .has-scrolled &{ border-bottom-color: $color-secondary}
+        }
+    }
+}
+
+.s-collection {
+  &__image{ margin-bottom: 0 }
+  &__title{ position: absolute; bottom: 0 }
+  &__header{ top: 0; bottom:  0; height: auto }
+}
+
+.s-hero{
+  .sn-official{
+    @media #{$to-phone}{
+      box-shadow: 0 14px 10px rgba(0, 0, 0, 0.35);
+    }
+  }
+  &__official{
+    @media #{$from-medium}{ top: 100px !important;}
+  }
+}
+
+.s-pushes__cta.button, .s-hero__cta.button{
+  background: $color-primary; border-color: $color-primary; color: #fff;
+}
+
+.s-pushes__cta.button{
+  &:hover{ background: transparent }
+}
+
+.s-hero__cta.button{
+  &:hover{ background: #fff }
+}
+
+.s-footer{
+	background-color: $color-grey-dark;
+	&__title {color: white;}
+
+	&__sub{
+	  color: white;
+	}
+
+	&__copy {
+	  color: white;
+	}
+
+	&__link{
+		color: white;
+		a{
+		  &:hover{ color: $color-grey-light; }
+		}
+  }
+}

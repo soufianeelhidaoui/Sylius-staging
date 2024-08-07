@@ -1,0 +1,42 @@
+# vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/config/app/config.yml
+sylius_ui:
+    events:
+        sylius.shop.product.show.right_sidebar:
+            blocks:
+                header:
+                    template: "@SyliusShop/Product/Show/_header.html.twig"
+                    priority: 50
+                after_product_header_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 45
+                    context:
+                        event: sylius.shop.product.show.after_product_header
+                after_reviews_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 35
+                    context:
+                        event: sylius.shop.product.show.after_reviews
+                price_widget:
+                    template: "@SyliusShop/Product/Show/_priceWidget.html.twig"
+                    priority: 30
+                after_price_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 25
+                    context:
+                        event: sylius.shop.product.show.after_price
+                short_description:
+                    template: "@SyliusShop/Product/Show/_shortDescription.html.twig"
+                    priority: 20
+                after_description_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 15
+                    context:
+                        event: sylius.shop.product.show.after_description
+                variant_selection:
+                    template: "@SyliusShop/Product/Show/_variantSelection.html.twig"
+                    priority: 10
+                after_add_to_cart_legacy:
+                    template: "@SyliusUi/Block/_legacySonataEvent.html.twig"
+                    priority: 5
+                    context:
+                        event: sylius.shop.product.show.after_add_to_cart

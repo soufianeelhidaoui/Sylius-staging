@@ -1,0 +1,10 @@
+{% if sections %}
+    {% for section in sections %}
+        {% set snippet_content %}{% include section.type, data: section.data %}{% endset %}
+        {% if not snippet_content contains "Liquid error" %}
+            <div class="shopify-section">
+                {{ snippet_content }}
+            </div>
+        {% endunless %}
+    {% endfor %}
+{% endif %}

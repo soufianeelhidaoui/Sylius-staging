@@ -1,0 +1,32 @@
+<price inline-template code="{{ data.sku }}">
+    <div class="sn-price">
+
+        {% if data.compare_at_price > data.price %}
+
+            <b v-if="mode==='ttc'"><span v-if="custom">[[price| money]]</span><span v-else>{{ data.price | money }}</span></b>
+            <b v-else><span v-if="custom">[[price/1.2| money]]</span><span v-else>{{ data.price | divided_by(1.2) | money }}</span><sup>[[ mode ]]</sup></b>
+
+            <s v-if="mode==='ttc'">{{ data.compare_at_price | money }}</s>
+            <s v-else>{{ data.compare_at_price | divided_by(1.2) | money }}<sup>[[ mode ]]</sup></s>
+        {% else %}
+
+            {% if data.price_varies %}
+                {%- set price = data.price | money -%}
+                <span v-if="mode==='ttc'">
+                    {{ 'products.product.from_text_html' | t({'price': price}) }}
+                </span>
+                <span v-else>
+                     {%- set price = data.price| divided_by(1.2) | money -%}
+                    {{ 'products.product.from_text_html' | t({'price': price }) }}<sup>[[ mode ]]</sup>
+                </span>
+            {% else %}
+                <span v-if="mode==='ttc'">
+                    <span v-if="custom">[[price| money]]</span><span v-else>{{ data.price | money }}</span>
+                </span>
+                <span v-else>
+                    <span v-if="custom">[[price/1.2| money]]</span><span v-else>{{ data.price | divided_by(1.2) | money }}</span><sup>[[ mode ]]</sup>
+                </span>
+            {% endif %}
+        {% endif %}
+    </div>
+</price>

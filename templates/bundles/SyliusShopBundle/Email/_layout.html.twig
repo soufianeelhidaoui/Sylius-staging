@@ -1,0 +1,185 @@
+{% block body %}
+    <!doctype html>
+    <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+    <head>
+        <title>
+            {{ email_title }}
+        </title>
+        <!--[if !mso]><!-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!--<![endif]-->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style type="text/css">
+            @font-face {
+                font-family: 'mainFont';
+                src: url({{ app.request.schemeAndHttpHost }}{{ 'fonts/VWHead-Bold.woff2' | asset_url }}) format('woff2'),
+                url({{ app.request.schemeAndHttpHost }}{{ 'fonts/VWHead-Bold.woff' | asset_url }}) format('woff');
+                font-weight: 700;
+                font-style: normal;
+                font-display: block;
+            }
+            @font-face {
+                font-family: 'mainFont';
+                src: url({{ app.request.schemeAndHttpHost }}{{ 'fonts/VWHead-Light.woff2' | asset_url }}) format('woff2'),
+                url({{ app.request.schemeAndHttpHost }}{{ 'fonts/VWHead-Light.woff' | asset_url }}) format('woff');
+                font-weight: 400;
+                font-style: normal;
+                font-display: block;
+            }
+            #outlook a { padding:0; }
+            body { margin:0;padding:0;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%; }
+            table, td { border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt; }
+            img { border:0;height:auto;line-height:100%; outline:none;text-decoration:none;-ms-interpolation-mode:bicubic; }
+            p { display:block;margin:13px 0; }
+        </style>
+        <!--[if mso]>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:AllowPNG/>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+        <![endif]-->
+        <!--[if lte mso 11]>
+        <style type="text/css">
+            .mj-outlook-group-fix { width:100% !important; }
+        </style>
+        <![endif]-->
+
+
+        <style type="text/css">
+            @media only screen and (min-width:480px) {
+                .mj-column-per-100 { width:100% !important; max-width: 100%; }
+                .mj-column-per-43 { width:43% !important; max-width: 43%; }
+                .mj-column-per-50 { width:50% !important; max-width: 50%; }
+                .mj-column-per-18 { width:18% !important; max-width: 18%; }
+                .mj-column-per-25 { width:25% !important; max-width: 25%; }
+                .mj-column-per-64 { width:64% !important; max-width: 64%; }
+            }
+        </style>
+
+
+        <style type="text/css">
+
+
+
+            @media only screen and (max-width:480px) {
+                table.mj-full-width-mobile { width: 100% !important; }
+                td.mj-full-width-mobile { width: auto !important; }
+            }
+
+        </style>
+        <style type="text/css">@media (max-width:479px){
+                .wrapper td{ padding-left: 10px !important; padding-right: 10px !important }
+                [class^="mj-column-"] + [class^="mj-column-"]{ margin-top: 20px }
+            }</style>
+
+    </head>
+    <body style="word-spacing:normal;background-color:{{shop.email_accent_color}}">
+
+
+    <div style="background-color:{{shop.email_accent_color}}">
+
+
+        <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+
+
+        <div style="margin:0px auto;max-width:600px;">
+
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+                <tbody>
+                <tr>
+                    <td style="direction:ltr;font-size:0px;padding:48px 0 16px;padding-bottom:0;text-align:center;">
+                        <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:600px;" ><![endif]-->
+
+                        <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                                <tbody>
+
+                                <tr>
+                                    <td align="center" style="font-size:0px;padding:10px 0;word-break:break-word;">
+
+                                        <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{app.request.schemeAndHttpHost}}">
+                                                        <img height="auto" src="{{ app.request.schemeAndHttpHost }}{{ ('img/email/email-logo-'~ settings.theme ~ '.png') | asset_url }}" style="border:0;display:block;outline:none;text-decoration:none;height:auto;font-size:13px;max-width: 100%" width="{{ settings.email_logo_width }}">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!--[if mso | IE]></td></tr></table><![endif]-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <!--[if mso | IE]></td></tr></table><![endif]-->
+
+        {% block content %}{% endblock %}
+        <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="wrapper-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+
+
+        <div class="wrapper" style="margin:0px auto;max-width:600px;">
+
+            <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+                <tbody>
+                <tr>
+                    <td style="direction:ltr;font-size:0px;padding:0 40px;text-align:center;">
+                        <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:520px;" ><![endif]-->
+
+                        <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+
+                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                                <tbody>
+
+                                <tr>
+                                    <td align="left" style="font-size:0px;padding:10px;word-break:break-word;">
+
+                                        <div style="font-family:SKODANext, Arial;font-size:12px;font-weight:300;line-height:24px;text-align:left;color:#878787;">
+                                            <p>{{ shop.name }}, division de Volkswagen Group France, responsable de traitement vous informe qu'il met en œuvre un traitement de vos données à caractère personnel afin de vous permettre de recevoir via l'adresse mail que vous avez renseignée les coordonnées et les références de votre Réparateur Agréé préféré sur la base légale de notre intérêt légitime dans le cadre de la gestion de notre relation client. Conformément au Règlement UE n°2016/679 sur la protection des données à caractère personnel, vous disposez d’un droit d’accès, d’interrogation, de rectification, d’effacement des informations vous concernant, d'opposition pour des raisons tenant à votre situation particulière ainsi que de limitation du traitement de données vous concernant.</p>
+                                            <p>Les demandes relatives à l’exercice de vos droits s’effectuent auprès à l’adresse mail suivante : donneespersonnelles@volkswagengroup.fr ou par courrier à l'adresse postale suivante : Volkswagen Group France, Service Relations Clients, 11 avenue de Boursonne 02600 Villers-Cotterêts. Vous apportez la preuve de votre identité par tout moyen.</p>
+                                            <p>Pour toutes informations supplémentaires sur le traitement de vos données à caractère personnel vous pouvez consulter la politique de confidentialité de Volkswagen / la politique de confidentialité de Volkswagen Véhicules utilitaires.</p>
+                                            <p>Enfin, Volkswagen Group France vous informe qu'en cas de litige vous disposez du droit d’introduire une réclamation auprès de la CNIL par courrier à l’adresse 3 Place de Fontenoy – TSA 80715 – 75334 Paris Cédex 07 (pour plus d’informations : http://www.cnil.fr/ ) </p>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                        <!--[if mso | IE]></td></tr></table><![endif]-->
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+
+        <!--[if mso | IE]></td></tr></table><![endif]-->
+
+
+    </div>
+
+    </body>
+    </html>
+{% endblock %}

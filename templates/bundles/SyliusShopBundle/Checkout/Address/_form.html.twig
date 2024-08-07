@@ -1,0 +1,66 @@
+<client-form inline-template>
+
+	<div id="sylius-billing-address" {{ sylius_test_html_attribute('billing-address') }}>
+
+		<div>
+			<div class="t-client-info" style="display:flex; justify-content: space-between; margin-bottom: 1.6rem; line-height: 1.5;">
+				<div>
+					<b>Informations client</b>
+				</div>
+				<div>
+					<a class="modifyBtn" @click.prevent="closeBlock" v-if="isEditing">Fermer</a>
+					<a class="modifyBtn" @click.prevent="startEditing" v-if="!isEditing">Modifier</a>
+				</div>
+			</div>
+			<hr style="margin-bottom: 24px;">
+            <span v-if="errors.general" style="color: red; margin-bottom: 2rem;">[[errors.general]]</span>
+			<div :style="isEditing ? {} : { display: 'none' }" class="bron" style="margin-top: 2rem;">
+				<fieldset class="o-fieldset">
+					{% include '@SyliusShop/Common/Form/_address.html.twig' with {'form': form.billingAddress, 'order': order, 'type': 'billing'} %}
+
+					{% if app.user is null %}
+						<div class="o-fieldset__row">
+							{% include '@SyliusShop/Common/Form/_login.html.twig' with {'form': form.customer} %}
+						</div>
+
+					{% endif %}
+
+
+					<div class="o-fieldset__row">
+						<input type="checkbox" id="sylius-cgu" required="required" class="c-checkbox__input  " v-model='cguCheckbox'>
+						<label class="c-checkbox__label" for="sylius-cgu">
+							{{ 'cart.checkout.cgu'|t }}
+							{{ 'cart.checkout.cgu_partner'|t }}
+							<partner inline-template>
+								<a :href="'/service_center/'+partner.kvps" target="_blank">[[ partner.title ]]</a>
+							</partner>
+						</label>
+					</div>
+                    <span v-if="errors.cguCheckbox" style="color: red;">[[errors.cguCheckbox]]</span>
+				</fieldset>
+				<hr style="margin-bottom: 24px;">
+				<button class="button full-button custom-hover" @click.prevent="closeBlock" v-if="isEditing" style="float: right; border-radius: 4px;text-transform: none;font-size: 14px;">Enregistrer les modifications</button>
+			</div>
+			<div :style="isEditing ? { display: 'none' } : {}" class="t-checkout__partner">
+				<div class="t-checkout__partner-logo">
+					<img src="{{ ('img/icons/profile.svg') | asset_url }}">
+				</div>
+
+				<div class="t-checkout__partner-content">
+					<div class="title">
+                        <span v-if="firstName">[[ firstName ]] [[ lastName ]]</span>
+                        <span v-else> Prénom Nom </span>
+                    </div>
+					<div class="adr">
+                        <span v-if="street">[[ street ]]</span>
+                        <span v-else> Adresse </span>
+                    </div>
+					<div class="city">
+                        <span v-if="postcode">[[ postcode ]] - [[ city ]]</span>
+                        <span v-else> Code postal - Ville </span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</client-form>

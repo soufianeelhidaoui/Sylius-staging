@@ -1,0 +1,26 @@
+{% if link.items != blank and link.items|length %}
+    <navigation type="{% if level == 1 %}sub{% else %}sub-child{% endif %}" inline-template ref="sub">
+        <div class="sn-nav__item">
+            <a href="{{ link|url }}" @click="open" class="sn-nav__link sn-nav__link--level{{ level }} has-child" :class="{'is-active':visible}" {% if link.type == 'http_link' %}target="_blank"{% elseif link.type == 'collection_link' %}v-collection-reset{% endif %}>{{ link.label }}</a>
+            <transition name="{% if level == 1 %}slide-from-right{% else %}fade{% endif %}">
+                <div class="sn-nav__submenu sn-nav__submenu--level{{ level }}" v-if="visible">
+                    {% if level == 1 %}
+                        <a class="sn-nav__back icon-back" @click="close">{{ 'layout.nav.back' |  t }}</a>
+                    {% endif %}
+                    <div class="sn-nav__items">
+                        <div class="sn-nav__items-container sn-nav__items-container--level{{ level }}">
+                            {% for childlink in link.items %}
+                                {% set sublevel = level|plus(1)  %}
+                                {% include '@SyliusShop/snippets/subnav.html.twig' with { link:childlink, level:sublevel, is_lifestyle:false } %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </transition>
+        </div>
+    </navigation>
+{% else %}
+    <div class="sn-nav__item">
+        <a href="{{ link|url }}" class="sn-nav__link sn-nav__link--level{{ level }}" {% if link.type == 'http_link' %}target="_blank" {% elseif link.type == 'collection_link' %}v-collection-reset{% endif %}>{{ link.label }}</a>
+    </div>
+{% endif %}

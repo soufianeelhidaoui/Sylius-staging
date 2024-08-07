@@ -1,0 +1,54 @@
+<div class="sn-filter-bar">
+    <vehicle inline-template>
+        <div>
+            <a class="button button--thin icon-filter sn-filter-bar__cta" @click="$open('filters')">
+                <strong class="sn-filter-bar__cta-text">{{ 'collections.general.filters' |  t }}</strong>
+                {% set filter_count = 0 %}
+                {%- for handle, option in data.children -%}
+                    {% if handle != 'price' and handle !='attributes' %}
+                        {% set count = option.vars.value|size %}
+
+                        {% if count > 0 %}
+                            {% for item in option.vars.value %}
+                                {% set item_count = item|size %}
+                                {% set filter_count = filter_count|plus(item_count) %}
+                            {% endfor %}
+                        {% else %}
+                            {% set filter_count = filter_count|plus(count) %}
+                        {% endif %}
+
+                    {% endif %}
+                {% endfor %}
+                {% if data.children.price.vars.value.min_price > 0 or data.children.price.vars.value.max_price > 0 %}
+                    {% set filter_count = filter_count|plus(1) %}
+                {% endif %}
+
+                {% for handle, option in data.children.facets.children %}
+                    {% if handle != 'taxon' %}
+                        {% set count = option.vars.value|size %}
+                        {% set filter_count = filter_count|plus(count) %}
+                    {% endif %}
+                {% endfor %}
+
+                <span v-if="count({{ filter_count }})">[[ count({{ filter_count }}) ]]</span>
+            </a>
+        </div>
+    </vehicle>
+
+    <div class="sn-filter-bar__sort">
+        <tax-switch></tax-switch>
+        {% set order_by = app.request.get('order_by') %}
+        {% set sort = app.request.get('sort') %}
+        <sort title="{% if order_by != blank %}{{ ('collections.filters.' ~ order_by ~ '-' ~ sort) | t }}{% else %}{{ 'collections.filters.manual' | t }}{% endif %}">
+            {% set queryParameters = app.request.query.all|unset_elements(['order_by', 'sort', 'page']) %}
+            {% set route = app.request.attributes.get('_route') %}
+            {% set slug = app.request.get('slug') %}
+            {% set vehicle = app.request.get('vehicle') %}
+            <template slot-scope="props">
+                <a href="{{ path(route, {'slug': slug, 'vehicle': vehicle}|merge(queryParameters)) }}">{{ 'collections.filters.manual'|t }}</a>
+                <a href="{{ path(route, {'slug': slug, 'vehicle': vehicle, 'order_by': 'price', 'sort': 'desc'}|merge(queryParameters)) }}">{{ 'collections.filters.price-desc'|t }}</a>
+                <a href="{{ path(route, {'slug': slug, 'vehicle': vehicle, 'order_by': 'price', 'sort': 'asc'}|merge(queryParameters)) }}">{{ 'collections.filters.price-asc'|t }}</a>
+            </template>
+        </sort>
+    </div>
+</div>

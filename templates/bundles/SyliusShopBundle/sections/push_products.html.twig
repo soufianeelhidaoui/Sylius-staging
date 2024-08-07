@@ -1,0 +1,4 @@
+{% if data.collection  %}
+    {% set products = all_products(data.collection) %}
+    {% include '@SyliusShop/snippets/push-products.html.twig' with { products: products, title: data.title } %}
+{% endif %}

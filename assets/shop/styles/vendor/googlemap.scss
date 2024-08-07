@@ -1,0 +1,13 @@
+.pac-container{
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); border-top: 0; border-radius: 0;
+  .pac-icon{ display: none }
+  &.pac-logo:after{ display: none }
+  .pac-item{
+    padding: 1rem 2rem; display: block; transition: allow(background color); cursor: pointer; color: $color-body-text;
+    > span{
+      opacity: 0.6;
+      &.pac-item-query{ color: inherit; opacity: 1 }
+    }
+    &:hover{ background: $color-primary; color: #fff }
+  }
+}

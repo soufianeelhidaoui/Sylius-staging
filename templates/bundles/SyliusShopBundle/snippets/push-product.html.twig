@@ -1,0 +1,48 @@
+{% set reversed_images = data.images | reverse %}
+<article class="sn-push-product">
+	<div class="sn-push-product__image">
+		{% if data.featured_image != blank %}
+			{% include '@SyliusShop/snippets/picture.html.twig' with { src: reversed_images[0], resize: '285x285', sources: 'max-width:420px=410x410', alt: data.title } %}
+		{% else %}
+			<img src="{{ 'img/blank.png' | asset_url }}"/>
+			<div class="sn-push-product__image-empty">
+				<img src="{{ ('img/logo-' ~ settings.theme ~ '.png') | asset_url }}"/>
+			</div>
+		{% endif %}
+		{% if 'new' in data.tags %}
+			<div class="sn-push-product__tag">
+				{{ 'products.product.new' |  t }}
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="sn-push-product__content">
+
+		<h2 class="sn-push-product__title">
+			<a href="{{ data.url | within(collection) }}">{{ data.title | truncate(56) }}</a>
+		</h2>
+
+		<div class="sn-push-product__price">
+			{% include '@SyliusShop/snippets/price.html.twig' with { data:data } %}
+		</div>
+		<div class="sn-push-product__bottom">
+			<div class="sn-push-product__avaibility">
+				{% if data.require_quotation %}
+					<span class="is-quotation">{{ 'products.product.quotation' | t }}</span>
+				{% else  %}
+					{% if data.total_quantity > 0 %}
+						<span class="is-available">{{ 'products.product.available' | t }}</span>
+					{% else  %}
+						<span class="is-unavailable">{{ 'products.product.unavailable' | t }}</span>
+					{% endif  %}
+				{% endif  %}
+			</div>
+			<a class="sn-push-product__cta" href="{{ data.url | within(collection) }}">
+				<span class="link">{{ 'products.product.discover' | t }}</span><i class="icon_after-external-link"></i>
+				<span class="button button--small">{{ 'products.product.discover' |  t }}</span>
+			</a>
+		</div>
+	</div>
+
+	<a class="sn-push-product__overlay" href="{{ data.url | within(collection) }}"></a>
+</article>

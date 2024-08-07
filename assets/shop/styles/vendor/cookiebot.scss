@@ -1,0 +1,9 @@
+#CybotCookiebotDialog *, #CybotCookiebotDialogBodyUnderlay *, #CookiebotWidget *{
+  box-shadow: none;
+}
+
+.CybotCookiebotDialogDetailBodyContentCookieContainerButton:before{
+  top: -0.1em!important; left: 1em!important;
+}
+
+.CookieDeclarationType{ border-color: $color-border!important }

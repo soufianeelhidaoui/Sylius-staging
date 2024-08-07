@@ -1,0 +1,12 @@
+sylius_mailer:
+    sender:
+        name: "Volkswagen"
+        address: no-reply@volkswagen.fr
+    emails:
+        order_confirmation:
+            enabled: false
+            #subject: "Nous avons bien reçu votre demande"
+            #template: "@SyliusShop/Email/orderConfirmation.html.twig"
+        #after_payment_confirmation:
+            #subject: "Nous avons bien reçu votre demande"
+            #template: "@SyliusShop/Email/orderConfirmation.html.twig"

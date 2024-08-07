@@ -1,0 +1,36 @@
+@use "sass:math";
+
+
+@function allow($properties, $speed:$transition-duration, $easing:$ease-in-out-cubic) {
+
+  $will-change : ();
+  $i           : 0;
+
+  @if($speed == false ){
+    $speed : $transition-duration
+  }
+
+  @each $property in $properties {
+
+    $will-change : append($will-change, $property);
+    @if($i < length($properties)-1){
+      $will-change : append($will-change, unquote(','));
+    }
+    $i: $i+1;
+  }
+
+  @return $will-change+unquote('; transition-duration:')+$speed+unquote('; transition-timing-function:')+$easing+unquote('; will-change:')+$will-change+unquote(';');
+}
+
+$transition-duration : 0.3s !default;
+$transition-delay : math.div($transition-duration,6) !default;
+
+$speed-very-fast : math.div($transition-duration,2) !default;
+$speed-fast      : $transition-duration !default;
+$speed-slow      : $transition-duration*2 !default;
+$speed-very-slow : $transition-duration*4 !default;
+
+@function overlay($position:'absolute') {
+
+  @return unquote($position+'; left: 0; top: 0; right: 0; bottom: 0');
+}

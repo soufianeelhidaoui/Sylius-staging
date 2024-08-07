@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+    elasticsearch:
+        container_name: es-container
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.6.1
+        environment:
+            - xpack.security.enabled=false
+            - "discovery.type=single-node"
+            - ELASTIC_PASSWORD=okok
+        ports:
+            - 9200:9200
+    sylius:
+        build:
+            context: .
+            dockerfile: container-images/sylius/Dockerfile
+        depends_on:
+            - mysql
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: 1
+            APP_SECRET: EDITME
+            DATABASE_URL: mysql://root:root@mysql/${BRAND}
+            MAILER_URL: smtp://mailhog:1025
+            PHP_DATE_TIMEZONE: ${PHP_DATE_TIMEZONE:-UTC}
+            BRAND: ${BRAND}
+            ELASTICSEARCH_HOST: es-container
+            ELASTICSEARCH_PORT: 9200
+            ELASTICSEARCH_PASSWORD: okok
+            ELASTICSEARCH_USERNAME: elastic
+            AWS_BUCKET_FOLDER: ${BRAND}
+
+        ports:
+            - "8080:8080"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+    
+    mysql:
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: ${BRAND}
+            MYSQL_ROOT_PASSWORD: root
+
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./init:/docker-entrypoint-initdb.d

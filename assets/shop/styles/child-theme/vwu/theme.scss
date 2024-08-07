@@ -1,0 +1,39 @@
+@import '../../variables';
+@import '../../tools/media-queries';
+
+:root{
+	--background-mainColor: #001E50;
+	--color-text-primary: #fff;
+	--color-button-full: white;
+	--width-product-desc: 100%;
+}
+
+.t-cart{
+	&__price{
+		sup{ display: inline-block }
+	}
+
+	&__total-content_subtotal-buttons a.button img {
+		margin-top: -4px;
+	}
+}
+
+.sn-filter-bar{
+	&__cta {
+		&.button {
+		  &:before{ content: url(../../../img/setting-vwu.svg) !important; }
+		}
+	}
+	@media #{$to-phone}{
+		.c-tax-switch{ position: absolute; bottom: $space-l; right: 0 }
+	}
+}
+
+.sn-push-product{
+	&__cta{
+		.icon_after-external-link{
+		&:after{ content: url(../../img/arrow-right-vwu.svg) !important; }
+		}
+	}
+}
+

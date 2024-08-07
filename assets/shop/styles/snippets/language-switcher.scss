@@ -1,0 +1,12 @@
+.sn-language-switcher{
+	form{
+		ul{
+			padding: 0; list-style: none; margin: 0; display: flex;
+			li{
+				text-transform: uppercase; cursor: pointer;
+				&.is-active{ font-weight: bold; pointer-events: none; text-decoration: underline }
+				&+li{ margin-left: 1rem }
+			}
+		}
+	}
+}

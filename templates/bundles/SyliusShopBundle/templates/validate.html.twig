@@ -1,0 +1,79 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ 'sylius.ui.your_shopping_cart'|trans }}{% endblock %}
+
+{% block content %}
+    <checkout inline-template>
+        <div  class="t-cart t-cart--checkout">
+            <div class="site-wrap">
+                {% include '@SyliusShop/snippets/breadcrumb.html.twig' with { mod: 'checkout' } %}
+                {% if cart.item_count > 0 %}
+                    <div v-if="!sent">
+                        <form class="t-cart__lead" @submit.prevent="send('{{ settings.theme }}')" ref="form">
+
+                            <h1 class="t-cart__subtitle">{{ 'cart.checkout.second_step' |  t({brand: settings.brand}) }}</h1>
+
+                            {% if settings.theme == 'skoda' %}
+                              
+                                <div class="field-group field-group--text field-group--email">
+                                    <input type="text" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" name="email" v-focus v-model="params.email" required maxlength="60" placeholder="email">
+                                    <label for="email">{{ 'cart.checkout.email' |  t }}*</label>
+                                    <span class="input-error">{{ 'cart.checkout.error_email' |  t }}</span>
+                                </div>
+<br>
+                                <button type="submit" :class="{'button--loading':sending}" name="checkout">{{ 'cart.checkout.contact_later_submit' | t }}</button>
+                            {% else %}
+
+                                <div class="field-group field-group--text field-group--email">
+                                    <label for="email">{{ 'cart.checkout.email' |  t }}</label>
+                                    <input type="text" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" name="email" placeholder="{{ 'cart.checkout.email_placeholder' |  t }}" ref="first_input" v-model="params.email" required maxlength="60">
+                                    <span class="input-error">{{ 'cart.checkout.error_email' |  t }}</span>
+                                </div>
+
+                                <button type="submit" class="button--full button--primary" :class="{'button--loading':sending}" name="checkout">{{ 'cart.checkout.contact_later_submit' | t }}</button>
+                            {% endif %}
+
+                            <div class="t-cart__message t-cart__message--error icon-alert" v-if="error">{{ 'cart.general.sent_error' | t }}</div>
+                        </form>
+
+                        <div class="t-cart__legal">
+                            <div class="toggle-title icon_after-chevron-down" v-toggle-active><p>{{ settings.legals_title }}</p></div>
+                            <div class="toggle-text">{{ settings.legals_text }}</div>
+                        </div>
+
+                    </div>
+    <div v-else>
+      <div class="t-checkout">
+         <div class="t-checkout__thanks" style="max-width:80rem;">
+            {% set lastPayment = order.payments.last() %}
+            <div class="header">
+                <img src="{{ ('img/icons/bag-tick-' ~ settings.theme ~ '.svg') | asset_url }}">
+                <b>{{ 'sylius.ui.thank_you'|trans }}</b>
+            </div>
+            <div class="sub header">
+             Un récapitulatif vous a été envoyé à l’adresse :
+            </div>
+            <div class="center"><b>[[ params.email ]]</b></div>
+            <div class="sub header">
+              <p>Vous y retrouverez votre sélection et les coordonnées du partenaire {{settings.brand | title}} sélectionné.</p>
+              <p>{{ 'cart.confirm.summary_3' |  t }}</p>
+            </div>
+            <div class="center">
+                <a href="{{ routes.root_url }}" class="button">Retourner à l'accueil</a>
+            </div>
+         </div>
+      </div>
+
+                {% else %}
+
+                    <script>
+                        document.location.href = '{{ routes.cart_url }}';
+                    </script>
+
+                {% endif %}
+         </div>
+     </div>
+    </checkout>
+
+
+{% endblock %}

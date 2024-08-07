@@ -1,0 +1,26 @@
+<div class="page-layout">
+    {% for content in contents %}
+        {% if not loop.first %}
+            <div class="shopify-section">
+                {% set lines = content | newline_to_br | strip_newlines | split: "<br />" %}
+                {% set images = '' %}
+                {% set text = '' %}
+                <!-- start content -->
+                {% for line in lines %}
+                    {% if line contains '<img' %}
+                        {% set images = images | append:line %}
+                    {% else %}
+                        {% set text = text | append:line %}
+                    {% endif %}
+                {% endfor %}
+                {% set _images = images | split:'<img' %}
+                {% set _images_size = _images | size %}
+                <div class="sn-text-image sn-text-image--{% if _images_size > 2 %}image-bottom{% else %}{% if not lines[1] contains '<img' %}image-right{% endif %}{% endif %} site-wrap">
+                    <div class="sn-text-image__image">{{ images }}</div>
+                    <div class="sn-text-image__content">{{ text }}</div>
+                </div>
+                <!-- end content -->
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

@@ -1,0 +1,12 @@
+.c-burger__icon i, .c-burger__icon i:after, .c-burger__icon i:before{
+    background-color: #001E50 !important;
+    ;
+}
+.s-header__link{
+    &:before{
+        color:#001E50;
+    }
+}
+.button{
+    color: $color-grey-dark !important;
+}

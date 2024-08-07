@@ -1,0 +1,12 @@
+<div class="sn-language-switcher" v-language>
+	<div class="sn-language-switcher__languages">
+		{%- form 'localization', class: 'selectors-form' -%}
+			<ul>
+				{% for available_language in localization.available_languages %}
+					<li class="sn-language-switcher__locale {% if available_language.iso_code == localization.language.iso_code %}is-active{% endif %}">{{ available_language.iso_code }}</li>
+				{% endfor %}
+			</ul>
+			<input type="hidden" class="sn-language-switcher__input" name="locale_code" value="{{ localization.language.iso_code }}" />
+		{%- endform -%}
+	</div>
+</div>

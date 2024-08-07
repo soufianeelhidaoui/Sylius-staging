@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+@use "sass:math";
+
+@import '../../variables';
+@import '../../tools/functions';
+@import '../../tools/mixins';
+@import '../../tools/media-queries';
+
+
+:root{
+	--color-primary : #EA5D1A;
+	--color-primary-over : #F08D5F;
+	--color-secondary : #DEDAD4;
+	--color-body-text : #000;
+	--color-input : #DEDAD4;
+	--color-border : #DFE4E8;
+	--color-grey-dark : #33302E;
+	--color-grey-light : #A7AEB4;
+	--color-counter : #EA5D1A;
+	--color-available: #84C497;
+	--color-unavailable: #00AFAC;
+	--color-button-full: white;
+	--width-product-desc: 100%;
+	--font-heading: 'SEATBCN', sans-serif;
+	--font-body: 'SEATBCN', sans-serif;
+	--background-mainColor: #EA5D1A;
+	--color-text-primary: #fff;
+}
+
+$color-background: #FAFAF9;
+
+
+@import 'core';
+@import 'components';
+@import 'sections';
+@import 'snippets';
+@import 'template';

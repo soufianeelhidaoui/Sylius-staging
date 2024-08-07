@@ -1,0 +1,73 @@
+.sn-collection-nav{
+  $c:&;
+  &__items{
+    position: relative;
+    &-wrapper{
+      display: inline-flex; min-width: 100%;
+      &:after{ border-bottom: 1px solid $color-border; content: ''; position: absolute; bottom: 0; left: 0; width: 100%; z-index: -1 }
+    }
+    @media #{$to-phone}{
+      width: 100%; overflow: auto; padding-left: $space-s; padding-right: $space-s;
+      &::-webkit-scrollbar { display: none }
+    }
+  }
+  &__item{
+    position: relative;
+    a{
+      transition: allow(color background);
+      span{ position: absolute; left: 2rem; right: 2rem; text-align: center }
+      b{ opacity: 0 }
+
+      @media #{$to-tablet} { & > * { pointer-events: none  }}
+    }
+    &--level2:hover > a{ background: $color-primary; color: #fff }
+    &:hover,&--active,&.is-open{
+      #{$c}__link--level1 {
+        border-bottom: solid 1px $color-primary;
+        &[style]{ border-bottom-color: inherit }
+      }
+      > a{
+        span{ opacity: 0 }
+        b{ opacity: 1 }
+      }
+    }
+    &:hover,&.is-open{
+      #{$c}__submenu{ opacity: 1; pointer-events: all }
+    }
+
+    &--category{
+      @media #{$from-tablet}{ display: none }
+      text-decoration: underline;
+    }
+
+    &.is-open{
+      @media #{$to-phone}{
+        #{$c}__submenu{
+          position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); display: block
+        }
+        #{$c}__submenu-overlay{ background: rgba(0,0,0,0.3); position: fixed; left: 0;top: 0; width: 100vw; height: 100vh; z-index: 100; opacity: 1; pointer-events: auto }
+      }
+    }
+  }
+  &__submenu{
+    position: absolute; left: 0; top: 100%; background: #fff; z-index: 999; padding: 1.4rem 0; margin-top: 1px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); opacity: 0; transition: allow(opacity); pointer-events: none;
+
+    @media #{$to-phone}{
+      display: none
+    }
+
+    &-overlay{ opacity: 0; pointer-events: none  }
+
+  }
+  &__link{
+    white-space: nowrap; padding: 1rem 2rem; display: block;
+
+    &--level1{ padding: 1rem 0; margin: 0 1.5rem }
+
+    @media #{$to-small}{ font-size: $font-size-body }
+  }
+  .site-wrap{
+    @media #{$to-phone}{ padding: 0 }
+  }
+}

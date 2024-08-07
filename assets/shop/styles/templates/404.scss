@@ -1,0 +1,7 @@
+.t-404 { text-align: center;
+  h1 { font-size: 8.4rem }
+  &__image { margin: 12rem auto 0 }
+  p { font-size: $font-size-l; font-weight: bold }
+  .button { margin: $space-m auto $space-m }
+  .shopify-section{ margin-top: 0; margin-bottom: $space-xl; display: none }
+}

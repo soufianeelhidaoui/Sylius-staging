@@ -1,0 +1,9 @@
+<div v-if="partner">
+    {% if select %}
+        <a class="button--primary" @click="select">
+            <span>
+                {{ 'cart.checkout.select' |  t }}
+            </span>
+        </a>
+    {% endif %}
+</div>

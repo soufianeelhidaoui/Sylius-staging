@@ -1,0 +1,9 @@
+{% set specialcontent = page.content|json_decode %}
+{% for component in specialcontent %}
+
+    <div class="shopify-section">
+        {% if component.code == 'sections.reinsurance' %}
+            {% include '@SyliusShop/' ~ component.code|replace({'.':'/'})~'.html.twig' with { data:component.data, position: loop.index0 } %}
+        {% endif %}
+    </div>
+{% endfor %}

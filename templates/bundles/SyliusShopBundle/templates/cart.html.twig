@@ -1,0 +1,203 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}
+	{{ 'sylius.ui.your_shopping_cart'|trans }}
+{% endblock %}
+
+{% block content %}
+	<div class="t-cart">
+		<div class="site-wrap">{% include '@SyliusShop/snippets/breadcrumb.html.twig' %}</div>
+
+		{% if cart.item_count > 0 %}
+			<h1 class="t-cart__title site-wrap">{{ 'cart.general.title' | t }}</h1>
+
+			<cart inline-template>
+				<div class="t-cart__flex site-wrap">
+					<div
+						class="t-cart__table">
+						<table class="responsive-table">
+							<tbody>
+
+								{% for item in cart.items %}
+
+									<tr class="responsive-table-row">
+
+										<td data-label="{{ 'customer.order.product' | t }}">
+                                        {% set reversed_images = item.product.images | reverse %}
+											{% if item.image != blank %}
+												<a href="{{ item.product|url }}" data-product-id="{{ item.id }}" data-product-name="{{ item.product.title }}">
+													<img src="{{reversed_images[0] | img_url( '460x460' ) }}"/>
+												</a>
+											{% endif %}
+
+										</td>
+										<td class="t-cart__description">
+											<a href="{{ item.product|url }}" class="t-cart__description-title" data-product-id="{{ item.id }}" data-product-name="{{ item.product.title }}">{{ item.product.title }}</a>
+
+											<span class="t-cart__description-ref">Réf :
+												{{ item.variant.sku }}</span>
+
+											{% for option in item.options_with_values %}
+												{% if option.value != 'Default Title' %}
+													<span class="t-cart__description-option t-cart__description-option--{{ option.name | handleize }}">{{ option.name }}
+														:
+														{{ option.value }}</span>
+												{% endif %}
+											{% endfor %}
+
+											<span class="t-cart__description-avaibility">
+												{% if item.product.require_quotation %}
+													<span class="is-quotation">{{ 'products.product.quotation' | t }}</span>
+												{% else %}
+													{% if item.variant.inventory_quantity > 0 %}
+														<span class="is-available">{{ 'products.product.available' | t }}</span>
+													{% else %}
+														<span class="is-unavailable">{{ 'products.product.unavailable' | t }}</span>
+													{% endif %}
+												{% endif %}
+											</span>
+										</td>
+										<td class="t-cart__column t-cart__column--quantity" data-label="{{ 'cart.label.quantity' | t }}">
+											<div class="s-product__quantity">
+												<form method="post">
+													<input type="hidden" name="partnerId" v-if="partner" :value="partner.kvps"/>
+													<input type="hidden" name="_method" value="PATCH"/>
+													<input type="hidden" name="sylius_cart[items][{{ loop.index0 }}][quantity]" value="{{ item.quantity | minus( 1 ) }}"/>
+													<input type="hidden" name="sylius_cart[_token]" value="{{ form._token.vars.value }}"/>
+													<button type="submit" class="s-product__quantity-action icon-remove"></button>
+												</form>
+												<b>{{ item.quantity }}</b>
+												<form method="post">
+													<input type="hidden" name="partnerId" v-if="partner" :value="partner.kvps"/>
+													<input type="hidden" name="_method" value="PATCH"/>
+													<input type="hidden" name="sylius_cart[items][{{ loop.index0 }}][quantity]" value="{{ item.quantity | plus( 1 ) }}"/>
+													<input type="hidden" name="sylius_cart[_token]" value="{{ form._token.vars.value }}"/>
+													<button type="submit" class="s-product__quantity-action icon-add"></button>
+												</form>
+											</div>
+										</td>
+										<td class="t-cart__column" data-label="{{ 'cart.label.total' | t }}">
+											<price inline-template>
+												<div class="t-cart__price">
+													<span v-if="mode==='ttc'">{{ item.line_price | money }}
+													</span>
+													<span v-else>{{ item.line_price | divided_by( 1.2 ) | money }}<sup>HT</sup>
+													</span>
+												</div>
+											</price>
+										</td>
+                                        <td class="t-cart__column  t-cart__column--order-2" data-label="{{ 'cart.label.remove' | t }}">
+                                            <form action="{{ path('sylius_shop_cart_item_remove', {'id': item.id}) }}" method="post">
+                                                <input type="hidden" name="partnerId" v-if="partner" :value="partner.kvps"/>
+                                                <input type="hidden" name="_method" value="DELETE"/>
+                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token(item.id) }}"/>
+                                                <button type="submit" class="remove" style="cursor: pointer;"><img src="{{ ('img/icons/close.svg') | asset_url }}"></button>
+                                            </form>
+                                        </td>
+
+									</tr>
+
+								{% endfor %}
+							</tbody>
+						</table>
+						{% if settings.payment %}
+							<div class="t-cart__info" v-if="mode==='lead'">
+								<div class="t-cart__legal">{{ 'cart.general.available' | t }}</div>
+								<div class="t-cart__legal">{{ 'cart.general.unavailable' | t }}</div>
+								<div class="t-cart__legal">
+									<div class="">
+										<p>{{ settings.legals_title }}</p>
+									</div>
+									<div class="">{{ settings.legals_text }}</div>
+								</div>
+							</div>
+							<div class="t-cart__info" v-else>
+								<div class="t-cart__legal">{{ 'cart.checkout.shipping' |  t }}</div>
+								<div class="t-cart__legal">
+									<div class="">
+										<p>{{ settings.legals_title }}</p>
+									</div>
+									<div class="">{{ settings.legals_text }}</div>
+								</div>
+							</div>
+						{% else %}
+							<div class="t-cart__info">
+								<div class="t-cart__legal">{{ 'cart.general.available' | t }}</div>
+								<div class="t-cart__legal">{{ 'cart.general.unavailable' | t }}</div>
+								<div class="t-cart__legal">
+									<div class="">
+										<p>{{ settings.legals_title }}</p>
+									</div>
+									<div class="">{{ settings.legals_text }}</div>
+								</div>
+							</div>
+						{% endif %}
+					</div>
+					<div class="t-cart__total">
+						<div class="t-cart__total-content">
+							<p class="t-cart__total-content_title">
+								Commande
+							</p>
+							<hr>
+							<div class="t-cart__total-content_subtotal">
+								<p class="t-cart__total-content_subtotal-details">
+									<img src="{{ 'img/icons/box.svg' | asset_url }}">
+									Détail du paiement
+								</p>
+								<div class="t-cart__column t-cart__item-block" data-label="{{ 'cart.label.total' | t }}">
+									<price inline-template>
+										<div class="t-cart__price">
+											<span class="label-mobile">{{ 'cart.label.total' | t }}
+												</span>
+											<span v-if="mode==='ttc'">{{ cart.total_price | money }}
+											</span>
+											<span v-else>{{ cart.total_price | divided_by( 1.2 ) | money }}<sup>HT</sup>
+											</span>
+										</div>
+									</price>
+									<price inline-template>
+										<div class="t-cart__price tva">
+											<span class="label-mobile">{{ 'cart.label.tva' | t }}</span>
+											<span v-if="mode==='ttc'">{{ cart.total_price | tva | money }}</span>
+											<span v-else>{{ cart.total_price | divided_by( 1.2 ) | tva | money }}<sup>HT</sup></span>
+										</div>
+									</price>
+								</div>
+							</div>
+							<div class="t-cart__total-content_subtotal-buttons">
+								{% if settings.payment %}
+									<a class="button full-button t-cart__total-content_subtotal-cta" href="{{ routes.validate_url }}" v-if="mode==='lead'">
+										<span><img src="{{ settings.theme == 'skoda' ? ('img/icons/favorite-black.svg') | asset_url : ('img/icons/favorite-white.svg') | asset_url }}">{{ 'cart.general.receive' | t }}</span>
+									</a>
+									<a class="button full-button t-cart__total-content_subtotal-cta" href="{{ routes.checkout_url }}" v-else-if="mode==='payment'">
+										<span><img src="{{ ('img/icons/shopping-cart-' ~ settings.theme ~ '.svg') | asset_url }}">{{ 'cart.general.checkout' | t }}</span>
+									</a>
+									<a class="t-cart__total-content_subtotal-cta" href="{{ routes.checkout_url }}" v-else>
+										<img style="display: block; margin-left: auto; margin-right: auto; margin-bottom: 2.4rem !important;" src="{{ 'img/loader.svg' | asset_url }}" height="16" width="16"/>
+									</a>
+                                    <a class="button continue_browsing" href="{{ routes.all_products_collection_url }}"><img src="{{ ('img/icons/shopping-' ~ settings.theme ~ '.svg') | asset_url }}">{{ 'cart.general.continue_browsing' | t }}</a>
+								{% else %}
+									<a class="button full-button t-cart__total-content_subtotal-cta" href="{{ routes.validate_url }}">
+										<span><img src="{{ settings.theme == 'skoda' ? ('img/icons/favorite-black.svg') | asset_url : ('img/icons/favorite-white.svg') | asset_url }}">{{ 'cart.general.receive' | t }}</span>
+									</a>
+									<a class="button continue_browsing" href="{{ routes.all_products_collection_url }}"><img src="{{ ('img/icons/shopping-' ~ settings.theme ~ '.svg') | asset_url }}">{{ 'cart.general.continue_browsing' | t }}</a>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</cart>
+		{% else %}
+			<h1 class="t-cart__title site-wrap">{{ 'cart.general.title' | t }}</h1>
+
+			<div class="t-cart__wrapper site-wrap">
+				<p class="t-cart__empty">{{ 'cart.general.empty' | t }}</p>
+				<a class="button continue_browsing" href="{{ routes.all_products_collection_url }}">{{ 'cart.general.continue_browsing' | t }}</a>
+			</div>
+
+		{% endif %}
+
+		{% include '@SyliusShop/sections/reinsurance.html.twig' %}
+	</div>
+
+{% endblock %}

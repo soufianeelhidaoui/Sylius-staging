@@ -1,0 +1,1012 @@
+<script>
+    /**********************
+     * DATALAYER ARCHITECTURE: Sylius
+     * DEFINITION: A data layer helps you collect more accurate analytics data, that in turn allows you to better understand what potential buyers are doing on your website and where you can make improvements. It also reduces the time to implement marketing tags on a website, and reduces the need for IT involvement, leaving them to get on with implementing new features and fixing bugs.
+
+     * RESOURCES:
+     * http://www.datalayerdoctor.com/a-gentle-introduction-to-the-data-layer-for-digital-marketers/
+     * http://www.simoahava.com/analytics/data-layer/
+
+     * DataLayer Architecture: shop v1.3
+     * COPYRIGHT 2021
+     * LICENSES: MIT ( https://opensource.org/licenses/MIT )
+     */
+
+    function DataLayerArchitecture(){
+
+        /**********************
+         * DYNAMIC DEPENDENCIES
+         ***********************/
+
+        var __DL__ = {
+            dynamicCart: true,  // if cart is dynamic (meaning no refresh on cart add) set to true
+            debug: false, // if true, console messages will be displayed
+            cart: null
+        };
+
+        /**********************
+         * Begin dataLayer Build
+         ***********************/
+
+        /**
+         * DEBUG
+         * Set to true or false to display messages to the console
+         */
+        if(__DL__.debug){
+            console.log('=============\n| DATALAYER |\n-------------');
+            console.log('Page Template: {{ template }}');
+        }
+
+        window.dataLayer = window.dataLayer || [];  // init data layer if doesn't already exist
+        dataLayer.push({'event': 'Begin DataLayer'}); // begin datalayer
+
+        var track_global_info = {
+            'page_location': window.location.href,
+            'page_path': window.location.pathname,
+            'page': window.location.pathname,
+            'siteName': 'site accessoires',
+            'eventCategory': 'site accessoires |'+document.title,
+            'ecommerce.currencyCode': 'EUR'
+        };
+        var page_view = {
+            'event': 'page_view',
+        };
+
+        // page_view all pages
+        dataLayer.push({...page_view, ...track_global_info})
+
+        /**
+         * Landing Page Cookie
+         * 1. Detect if user just landed on the site
+         * 2. Only fires if Page Title matches website */
+
+        var landingPage = sessionStorage.getItem('landingPage') === null || sessionStorage.getItem('landingPage').length === 0;
+
+        sessionStorage.setItem('landingPage', landingPage?'landed':'refresh');
+
+        if (__DL__.debug)
+            console.log('Landing Page: ' + landingPage);
+
+        /**
+         * Log State Cookie */
+
+        var isLoggedIn = {% if customer %}true{% else %}false{% endif %};
+
+        if (!isLoggedIn) {
+
+            sessionStorage.setItem('landingPage', 'loggedOut');
+        }
+        else {
+
+            if (sessionStorage.getItem('logState') === 'loggedOut' || sessionStorage.getItem('logState') === undefined)
+                sessionStorage.setItem('landingPage', 'firstLog');
+            else if (sessionStorage.getItem('logState') === 'firstLog')
+                sessionStorage.setItem('landingPage', 'refresh');
+        }
+
+        var firstLog = sessionStorage.getItem('logState') === 'firstLog';
+
+        /**********************
+         * DATALAYER SECTIONS
+         ***********************/
+
+
+
+        /**
+         * DATALAYER: Landing Page
+         * Fires any time a user first lands on the site. */
+
+        if (sessionStorage.getItem('landingPage') === 'landed') {
+
+            dataLayer.push({
+                'pageType': 'Landing',
+                'event': 'Landing'
+            });
+
+            if (__DL__.debug)
+                console.log('DATALAYER: Landing Page fired.');
+        }
+
+        /**
+         * DATALAYER: Log State
+         * 1. Determine if user is logged in or not.
+         * 2. Return User specific data. */
+
+        var logState = {
+            {% if shop.customer_accounts_enabled %}
+            {% if customer %}
+            'userId'        : {{customer.id | json}},
+            'customerEmail' : {{customer.email | json}},
+            'logState'      : "Logged In",
+            'customerInfo'  : {
+                'firstName'   : {{customer_address.first_name | json}},
+                'lastName'    : {{customer_address.last_name | json}},
+                'address1'    : {{customer_address.address1 | json}},
+                'address2'    : {{customer_address.address2 | json}},
+                'street'      : {{customer_address.street | json}},
+                'city'        : {{customer_address.city | json}},
+                'province'    : {{customer_address.province | json}},
+                'zip'         : {{customer_address.zip | json}},
+                'country'     : {{customer_address.country | json}},
+                'phone'       : {{customer_address.phone | json}},
+                'totalOrders' : {{customer.orders_count | json}},
+                'totalSpent'  : {{customer.total_spent | money_without_currency | remove(",") | json}}
+            },
+            {% if customer.orders_count > 2 %}
+            'customerType'       : 'Returning',
+            'customerTypeNumber' : '0',
+            {% else %}
+            'customerType'       : 'New',
+            'customerTypeNumber' :'1',
+            {% endif %}
+            {% else %}
+            'logState' : "Logged Out",
+            {% endif %}
+            {% endif %}
+            'firstLog'      : firstLog,
+            'timestamp'     : Date.now(),
+            {% if checkout %}
+            'shippingInfo' : {
+                'fullName'  : {{checkout.shipping_address.name | json}},
+                'firstName' : {{checkout.shipping_address.first_name | json}},
+                'lastName'  : {{checkout.shipping_address.last_name | json}},
+                'address1'  : {{checkout.shipping_address.address1 | json}},
+                'address2'  : {{checkout.shipping_address.address2 | json}},
+                'street'    : {{checkout.shipping_address.street | json}},
+                'city'      : {{checkout.shipping_address.city | json}},
+                'province'  : {{checkout.shipping_address.province | json}},
+                'zip'       : {{checkout.shipping_address.zip | json}},
+                'country'   : {{checkout.shipping_address.country | json}},
+                'phone'     : {{checkout.shipping_address.phone | json}},
+            },
+            'billingInfo' : {
+                'fullName'  : {{checkout.billing_address.name | json}},
+                'firstName' : {{checkout.billing_address.first_name | json}},
+                'lastName'  : {{checkout.billing_address.last_name | json}},
+                'address1'  : {{checkout.billing_address.address1 | json}},
+                'address2'  : {{checkout.billing_address.address2 | json}},
+                'street'    : {{checkout.billing_address.street | json}},
+                'city'      : {{checkout.billing_address.city | json}},
+                'province'  : {{checkout.billing_address.province | json}},
+                'zip'       : {{checkout.billing_address.zip | json}},
+                'country'   : {{checkout.billing_address.country | json}},
+                'phone'     : {{checkout.billing_address.phone | json}},
+            },
+            'checkoutEmail' : {{checkout.email | json}},
+            {% endif %}
+            'currency'      : {{shop.currency | json}},
+            'pageType'      : 'Log State',
+            'event'         : 'Log State'
+        }
+
+        dataLayer.push(logState);
+
+        if(__DL__.debug)
+            console.log("Log State"+" :"+JSON.stringify(logState, null, " "));
+
+        /**
+         * DATALAYER: Homepage */
+
+        if(document.location.pathname === "/"){
+
+            //dataLayer.push({...variable_info,...track_global_info})
+
+            var homepage = {
+                'pageType' : 'Homepage',
+                'event'    : 'Homepage'
+            };
+
+            dataLayer.push(homepage);
+
+            /**
+             * Dynamique click on hero cta
+             * **/
+            var hero_cta = document.querySelectorAll(".s-hero__cta");
+            for (let i = 0; i < hero_cta.length; i++) {
+                hero_cta[i].addEventListener("click", function(e) {
+                    e = e || window.event;
+                    var target = e.target || e.srcElement;
+                    text = target.textContent || target.innerText;
+
+                    var variable_info = {
+                        {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                            'event': 'event',
+                            'eventAction': 'discover',
+                            'eventLabel': text
+                        {% else %}
+                            'event': 'Discover',
+                            'eventAction': 'discover',
+                            'eventLabel': text
+                        {% endif %}
+
+                    };
+                    dataLayer.push({...variable_info,...track_global_info})
+                });
+            }
+
+            /**
+             * Dynamique select vehicule version
+             * **/
+            var vehicule_selector_cta = document.querySelectorAll(".s-vehicles-list__version");
+            for (let i = 0; i < vehicule_selector_cta.length; i++) {
+                vehicule_selector_cta[i].addEventListener("click", function(e) {
+                    e = e || window.event;
+                    var target = e.target;
+                    var variable_info = {
+                        {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                            'event': 'event',
+                            'eventAction': 'select_model',
+                            'eventLabel': target.dataset.title
+                        {% else %}
+                            'event': 'select_model',
+                            'eventAction': 'select_model',
+                            'eventLabel': target.dataset.title
+                        {% endif %}
+
+
+                    };
+                    dataLayer.push({...variable_info,...track_global_info})
+                });
+            }
+
+            if(__DL__.debug)
+                console.log("Homepage"+" :"+JSON.stringify(homepage, null, " "));
+        }
+
+        /**
+         * DATALAYER: Blog Articles
+         * Fire on Blog Article Pages */
+
+            {% if 'article' in template %}
+        var blog = {
+                'author'      : {{article.author | json}},
+                'title'       : {{article.title | json}},
+                'dateCreated' : {{article.created_at | json}},
+                'pageType'    : 'Blog',
+                'event'       : 'Blog'
+            };
+
+        dataLayer.push(blog);
+
+        if(__DL__.debug)
+            console.log("Blog"+" :"+JSON.stringify(blog, null, " "));
+
+        {% endif %}
+
+        /**
+         * DATALAYER: Pages
+         * Fire on Pages */
+
+            {% if 'page' in template %}
+        var blog = {
+                'title'       : {{page.title | json}},
+                'dateCreated' : {{page.created_at | json}},
+                'pageType'    : 'Page',
+                'event'       : 'Page'
+            };
+
+        dataLayer.push(blog);
+
+        if(__DL__.debug)
+            console.log("Page"+" :"+JSON.stringify(blog, null, " "));
+
+        {% endif %}
+
+        /** DATALAYER: Product List Page (Collections, Category)
+         * Fire on all product listing pages. */
+
+            {% if 'collection' in template %}
+        var products = {
+                'products': [
+                    {% for product in products %}
+                    {
+                        'id'              : {{product.id | json}},
+                        'sku'             : {{product.selected_or_first_available_variant.sku | json}},
+                        'variantId'       : {{product.selected_or_first_available_variant.id | json}},
+                        'productType'     : {{product.type | json}},
+                        'name'            : {{product.title | json}},
+                        'price'           : {{product.price | money_without_currency | remove(",") | json}},
+                        'imageURL'        : "{{ shop.url }}{{product.featured_image|img_url('grande')}}",
+                        'productURL'      : '{{ shop.url }}{{product.url | within(taxon)}}',
+                        'brand'           : {{shop.name | json}},
+                        'comparePrice'    : {{product.compare_at_price_max | money_without_currency | remove(",") | json}},
+                        'categories'      : {{product.collections|object_map("title") | json}},
+                        'currentCategory' : {{taxon.title | json}},
+                        'productOptions'  :
+                            {
+        {%- for option in product.options_with_values -%}
+        {%- for value in option.values -%}
+        {%- if option.selected_value == value -%}
+        {{option.name | json}} : {{value | json}},
+        {%- endif -%}
+        {%- endfor -%}
+        {%- endfor -%}
+    }
+    },
+        {% endfor %}
+    ]
+    }
+
+        var collection = {
+            'productList' : {{ taxon.title | json}},
+            'pageType'    : 'Collection',
+            'event'       : 'Collection'
+        };
+
+        //Add dataLayer informations
+        var variable_info_product_list = {
+            'event': 'view_item_list',
+            'eventAction': 'view_item_list',
+            'eventLabel': 'view_item_list',
+            'ecommerce.currencyCode': {{shop.currency | json}},
+            'items': products,
+        };
+        dataLayer.push({ ...variable_info_product_list, ...track_global_info})
+
+
+        /**
+         * Dynamique click on filters
+         * **/
+
+        const container = document.querySelector('.s-collection');
+        document.addEventListener('DOMContentLoaded', function() {
+            container.addEventListener('click', function (e) {
+                document.querySelector(".sn-filters__submit").addEventListener("click", function (e){
+                    let filter_concat = '';
+                    filters = document.querySelectorAll(".sn-filters__selected");
+                    filters.forEach(function (element, index){
+                    if(index == 0) filter_concat = element.innerText;
+                    else filter_concat = filter_concat + '|' + element.innerText;
+                    });
+
+                    const variable_info = {
+                        {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                            'event': 'event',
+                            'eventAction': 'filter',
+                            'eventLabel': filter_concat
+                        {% else %}
+                            'event': 'Filter',
+                            'eventAction': 'filter',
+                            'eventLabel': filter_concat
+                        {% endif %}
+                    };
+                    dataLayer.push({...variable_info, ...track_global_info});
+                });
+            });
+        });
+
+        dataLayer.push(products);
+        dataLayer.push(collection);
+
+        if(__DL__.debug){
+            console.log("Products"+" :"+JSON.stringify(products, null, " "));
+            console.log("Collection"+" :"+JSON.stringify(collection, null, " "));
+        }
+        {% endif %}
+
+        /** DATALAYER: Product List Page (Search)
+         * Fire on all search pages. */
+
+            {% if 'search' in template %}
+        var products = {
+                'products': [
+                        {% for item in results.currentPageResults %}{
+                        'id'              : {{item.id | json}},
+                        'sku'             : {{item.selected_or_first_available_variant.sku | json}},
+                        'variantId'       : {{item.selected_or_first_available_variant.id | json}},
+                        'productType'     : {{item.type | json}},
+                        'name'            : {{item.title | json}},
+                        'price'           : {{item.price | money_without_currency | remove(",") | json}},
+                        'imageURL'        : "{{ shop.url }}{{item.featured_image|img_url('grande')}}",
+                        'productURL'      : '{{ shop.url }}{{item.url | within(null)}}',
+                        'brand'           : {{shop.name | json}},
+                        'comparePrice'    : {{item.compare_at_price_max | money_without_currency | remove(",") | json}},
+                        'categories'      : {{item.collections|object_map("title") | json}},
+                        'productOptions'  : {
+        {%- for option in item.options_with_values -%}
+        {%- for value in option.values -%}
+        {%- if option.selected_value == value -%}
+        {{option.name | json}} : {{value | json}},
+        {%- endif -%}
+        {%- endfor -%}
+        {%- endfor -%}
+    }
+    },
+        {% endfor %}
+    ]
+    }
+
+        var search = {
+            'searchTerm'  : {{ terms | json }},
+            'pageType'    : 'Search',
+            'event'       : 'Search'
+        };
+
+        //Add dataLayer informations
+        var variable_info_search = {
+            'event': 'view_search_result',
+            'eventAction': 'view_search_result',
+            'eventLabel': '{{ terms | json }}',
+            'items': {
+                'products': [
+                    {% for item in results.currentPageResults %}
+                    {
+                        'id'              : {{item.id | json}},
+                        'sku'             : {{item.selected_or_first_available_variant.sku | json}},
+                        'variantId'       : {{item.selected_or_first_available_variant.id | json}},
+                        'productType'     : {{item.type | json}},
+                        'name'            : {{item.title | json}},
+                        'price'           : {{item.price | money_without_currency | remove(",") | json}},
+                        'imageURL'        : "{{ shop.url }}{{item.featured_image|img_url('grande')}}",
+                        'productURL'      : '{{ shop.url }}{{item.url | within(null)}}',
+                        'brand'           : {{shop.name | json}},
+                        'comparePrice'    : {{item.compare_at_price_max | money_without_currency | remove(",") | json}},
+                        'categories'      : {{item.collections|object_map("title") | json}},
+                        'productOptions'  : {
+        {%- for option in item.options_with_values -%}
+        {%- for value in option.values -%}
+        {%- if option.selected_value == value -%}
+        {{option.name | json}} : {{value | json}},
+        {%- endif -%}
+        {%- endfor -%}
+        {%- endfor -%}
+    }
+    },
+        {% endfor %}
+    ]
+    }
+    }
+        dataLayer.push({...variable_info_search, ...track_global_info})
+
+
+        dataLayer.push(products);
+        dataLayer.push(search);
+
+        if(__DL__.debug){
+            console.log("Products"+" :"+JSON.stringify(products, null, " "));
+            console.log("Search"+" :"+JSON.stringify(search, null, " "));
+        }
+        {% endif %}
+
+        /** DATALAYER: Product Page
+         * Fire on all Product View pages. */
+
+            {% if 'product' in template %}
+            {% set main_collection = false %}
+            {% if product.collections|length %}
+            {% for collection in product.collections %}
+            {% if collection.breadcrumb %}
+            {% set main_collection = collection %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+        var product = {
+                'products': [{
+                    'id'              : {{product.id | json}},
+                    'sku'             : {{product.selected_or_first_available_variant.sku | json}},
+                    'variantId'       : {{product.selected_or_first_available_variant.id | json}},
+                    'productType'     : {{product.type | json}},
+                    'name'            : {{product.title | json}},
+                    'price'           : {{product.price | money_without_currency | remove(",") | json}},
+                    'description'     : {{product.description | strip_newlines | strip_html | json}},
+                    'imageURL'        : "{{ shop.url }}{{product.featured_image|img_url('grande')}}",
+                    'productURL'      : '{{ shop.url }}{{product.url | within(main_collection)}}',
+                    'brand'           : {{shop.name | json}},
+                    'comparePrice'    : {{product.compare_at_price_max | money_without_currency | remove(",") | json}},
+                    'categories'      : {{product.collections | object_map("title") | json}},
+                    'currentCategory' : {% if main_collection %}{{main_collection.title | json}}{% else %}false{% endif %},
+                    'productOptions'  : {
+        {% for option in product.options_with_values %}
+        {% for value in option.values %}
+        {% if option.selected_value == value %}
+        {{option.name | json}} : {{value | json}},
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
+    }
+    }]
+    }
+
+        dataLayer.push(product, {
+            'pageType' : 'Product',
+            'event'    : 'Product'
+        });
+
+        /**
+         * Product view
+         **/
+            //Add dataLayer informations
+        var variable_info_product = {
+                'event': 'view_item',
+                'eventAction': 'select_product',
+                'eventLabel': {{product.title | json}} + '|' + {{product.code | json}},
+                'ecommerce.click.products.name': {{product.title | json}},
+                'ecommerce.click.products.id': {{product.code | json}}
+
+            };
+        dataLayer.push({...variable_info_product,...track_global_info});
+
+        /**
+         * Product Add to cart
+         **/
+        document.querySelector(".s-product__submit").addEventListener("click", function (e){
+            var variable_info = {
+                'event': 'add_to_cart',
+                'eventAction': 'add_to_cart',
+                'eventLabel': {{product.title | json}} + '|' + {{product.code | json}} + '|' + document.getElementsByName("quantity")[0].value,
+                'ecommerce.add.products.name': {{product.title | json}},
+                'ecommerce.add.products.id': {{product.code | json}},
+                'ecommerce.add.products.category': {{ product.mainTaxon | json }},
+                'ecommerce.add.products.quantity': document.getElementsByName("quantity")[0].value
+            };
+            dataLayer.push({...variable_info,...track_global_info})
+        });
+
+        /**
+         * Product print
+         **/
+        document.querySelector(".icon-printer").addEventListener("click", function (e){
+            var variable_info = {
+                {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                    'event': 'event',
+                    'eventAction': 'print_description',
+                    'eventLabel': {{product.title | json}} + '|' + {{product.code | json}},
+                    'ecommerce.add.products.quantity': document.getElementsByName("quantity")[0].value,
+                    'ecommerce.add.products.name': {{product.title | json}},
+                    'ecommerce.add.products.id': {{product.code | json}},
+                    'ecommerce.add.products.category': {{ product.mainTaxon | json }}
+                {% else %}
+                    'event': 'print_description',
+                    'eventAction': 'print_description',
+                    'eventLabel': {{product.title | json}} + '|' + {{product.code | json}},
+                    'ecommerce.add.products.quantity': document.getElementsByName("quantity")[0].value,
+                    'ecommerce.add.products.name': {{product.title | json}},
+                    'ecommerce.add.products.id': {{product.code | json}},
+                    'ecommerce.add.products.category': {{ product.mainTaxon | json }}
+                {% endif %}
+
+            };
+            dataLayer.push({...variable_info,...track_global_info})
+        });
+
+
+        if(__DL__.debug)
+            console.log("Product"+" :"+JSON.stringify(product, null, " "));
+
+        {% endif %}
+
+
+        /** DATALAYER: Select Partner
+         * */
+
+            {% if 'cart-checkout' in template %}
+        var cart = {
+                'products':[
+                    {% for line_item in cart.items %}
+                    {
+                        'id'       : {{line_item.id | json}},
+                        'sku'      : {{line_item.variant.sku | json}},
+                        'variant'  : {{line_item.variant.id | json}},
+                        'name'     : {{line_item.product.title | json}},
+                        'price'    : {{line_item.price | money_without_currency | remove(",") | json}},
+                        'quantity' : {{line_item.quantity | json}}
+                    },
+                    {% endfor %}
+                ],
+                'pageType' : 'Cart',
+                'event'    : 'Cart'
+        };
+
+        /**
+         * Submit form dealer
+         **/``
+
+        var element_form = document.querySelector('.t-cart__dealer');
+        element_form.addEventListener("DOMNodeInserted", function (ev) {
+            if (document.querySelectorAll('.t-cart__lead').length > 0) {
+                document.getElementsByName("checkout")[0].addEventListener("click", function (e){
+                    var target = e.target || e.srcElement;
+
+                    var variable_info = {
+                        'event': 'generate_lead',
+                        'eventAction': 'get_quote',
+                        'eventLabel': target.innerText,
+                        'items': cart.products,
+                        'page': '/recapitulatif_de_commande'
+                    };
+                    dataLayer.push({...track_global_info,...variable_info})
+                });
+            }
+        }, false);
+
+
+
+        /** DATALAYER: Cart View
+         * Fire anytime a user views their cart (non-dynamic) */
+
+            {% elseif 'cart' in template %}
+        var cart = {
+                'products':[
+                    {% for line_item in cart.items %}
+                    {
+                        'id'       : {{line_item.id | json}},
+                        'sku'      : {{line_item.variant.sku | json}},
+                        'variant'  : {{line_item.variant.id | json}},
+                        'name'     : {{line_item.product.title | json}},
+                        'price'    : {{line_item.price | money_without_currency | remove(",") | json}},
+                        'quantity' : {{line_item.quantity | json}}
+                    },
+                    {% endfor %}
+                ],
+                'pageType' : 'Cart',
+                'event'    : 'Cart'
+            };
+
+        var variable_info_cart = {
+
+            {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                'event': 'event',
+                'eventAction': 'view_cart',
+                'eventLabel': 'Ma sélection d\'achats',
+            {% else %}
+                'event': 'purchase_selection',
+                'eventAction': 'view_cart',
+                'eventLabel': 'Ma sélection d\'achats',
+            {% endif %}
+            'items':
+                {
+                    'products':[
+                        {% for line_item in cart.items %}
+                        {
+                            'id'       : {{line_item.id | json}},
+                            'sku'      : {{line_item.variant.sku | json}},
+                            'variant'  : {{line_item.variant.id | json}},
+                            'name'     : {{line_item.product.title | json}},
+                            'price'    : {{line_item.price | money_without_currency | remove(",") | json}},
+                            'quantity' : {{line_item.quantity | json}}
+                        },
+                        {% endfor %}
+                    ],
+                }
+        }
+
+        dataLayer.push({...variable_info_cart, ...track_global_info})
+        dataLayer.push(cart);
+
+
+        /**
+         * Remove product from cart
+         **/
+        var remove_cta = document.querySelectorAll(".t-cart button.remove");
+        for (let i = 0; i < remove_cta.length; i++) {
+            remove_cta[i].addEventListener("click", function(e) {
+
+                var variable_info = {
+                    'event': 'remove_from_cart',
+                    'eventAction': 'remove_cart',
+                    'eventLabel': 'Retirer du panier'
+
+                };
+                dataLayer.push({...variable_info,...track_global_info})
+            });
+        }
+
+        /**
+         * Contact partner
+         **/
+        document.querySelector(".t-cart__total-content_subtotal-cta").addEventListener("click", function (e){
+            var variable_info = {
+                {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                    'event': 'event',
+                    'eventAction': 'choose_a_dealer',
+                    'eventLabel': 'Etre recontacté par mon partenaire',
+                    'ecommerce.currencyCode': {{shop.currency | json}},
+                    'items': cart.products
+                {% else %}
+                    'event': 'partner_contact_request',
+                    'eventAction': 'choose_a_dealer',
+                    'eventLabel': 'Etre recontacté par mon partenaire',
+                    'ecommerce.currencyCode': {{shop.currency | json}},
+                    'items': cart.products
+                {% endif %}
+
+            };
+            dataLayer.push({...variable_info,...track_global_info})
+        });
+
+
+        if(__DL__.debug)
+            console.log("Cart"+" :"+JSON.stringify(cart, null, " "));
+
+        __DL__.cart = cart.products;
+
+        {% endif %}
+
+        {% if checkout %}
+
+        /**
+         * DATALAYER Variable
+         * Checkout & Transaction Data */
+
+        var products = [];
+
+        {% for line_item in checkout.line_items %}
+        products.push({
+            'id'          : {{line_item.product_id | json}},
+            'sku'         : {{line_item.sku | json}},
+            'variantId'   : {{line_item.variant_id | json}},
+            'name'        : {{line_item.title | json}},
+            'productType' : {{line_item.product.type | json}},
+            'price'       : {{line_item.price | money_without_currency | remove(",") | json}},
+            'quantity'    : {{line_item.quantity | json}},
+            'description' : {{line_item.product.description | strip_newlines | strip_html  | json }},
+            'imageURL'    : "https:{{line_item.product.featured_image.src|img_url('grande')}}",
+            'productURL'  : '{{shop.secure_url}}{{line_item.product.url}}'
+        });
+        {% endfor %}
+
+        var transactionData = {
+            'transactionNumber'      : {{checkout.order_id | json}},
+            'transactionId'          : {{checkout.order_number | json}},
+            'transactionAffiliation' : {{shop.name | json}},
+            'transactionTotal'       : {{checkout.total_price | money_without_currency| remove(",") | json}},
+            'transactionTax'         : {{checkout.tax_price | money_without_currency| remove(",") | json}},
+            'transactionShipping'    : {{checkout.shipping_price | money_without_currency| remove(",") | json}},
+            'transactionSubtotal'    : {{checkout.subtotal_price | money_without_currency| remove(",") | json}},
+            {% for discount in checkout.discounts %}
+            'promoCode' : {{discount.code | json}},
+            'discount'  : {{discount.amount | money_without_currency | json}},
+            {% endfor %}
+
+            'products': products
+        };
+
+        /** DATALAYER: Transaction */
+        if(document.location.pathname.match(/.*order.*/g)){
+
+            dataLayer.push(transactionData,{
+                'pageType' :'Transaction',
+                'event'    :'Transaction'
+            });
+
+            if( __DL__.debug )
+                console.log("Transaction Data"+" :"+JSON.stringify(transactionData, null, " "));
+        }
+
+
+        /** DATALAYER: Checkout */
+        if(shop.Checkout){
+
+            if(shop.Checkout.step){
+
+                if(shop.Checkout.step.length > 0){
+
+                    if (shop.Checkout.step === 'contact_information'){
+
+                        dataLayer.push(transactionData,{
+                            'event'    :'Customer Information',
+                            'pageType' :'Customer Information'}
+                        );
+
+                        if( this.__DL__.debug )
+                            console.log("Customer Information - Transaction Data"+" :"+JSON.stringify(transactionData, null, " "));
+                    }
+                    else if (shop.Checkout.step === 'shipping_method'){
+
+                        dataLayer.push(transactionData,{
+                            'event'    :'Shipping Information',
+                            'pageType' :'Shipping Information'}
+                        );
+
+                        if( this.__DL__.debug )
+                            console.log("Shipping - Transaction Data"+" :"+JSON.stringify(transactionData, null, " "));
+                    }
+                    else if( shop.Checkout.step === "payment_method" ){
+
+                        dataLayer.push(transactionData,{
+                            'event'    :'Add Payment Info',
+                            'pageType' :'Add Payment Info'});
+
+                        if( this.__DL__.debug )
+                            console.log("Payment - Transaction Data"+" :"+JSON.stringify(transactionData, null, " "));
+                    }
+                }
+            }
+
+            /** DATALAYER: Transaction */
+            if(shop.Checkout.page === "thank_you") {
+
+                dataLayer.push(transactionData, {
+                    'pageType': 'Transaction',
+                    'event': 'Transaction'
+                });
+
+                if( __DL__.debug )
+                    console.log("Transaction Data"+" :"+JSON.stringify(transactionData, null, " "));
+            }
+        }
+        {% endif %}
+
+        /** DATALAYER: All Pages
+         * Fire all pages trigger after all additional dataLayers have loaded. */
+
+
+        dataLayer.push({
+            'event': 'DataLayer Loaded'
+        });
+
+        if( __DL__.debug )
+            console.log('DATALAYER: DataLayer Loaded.');
+
+        /** DATALAYER MAP, PARTNER, FILTER, CART */
+
+        // Listen for the dealerSelected custom event
+        document.addEventListener('dealerSelected', function(event) {
+            const dealer = event.detail;
+            console.log(dealer)
+
+            var variable_info = {
+                {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                    'event': 'event',
+                    'eventAction': 'select_dealer',
+                    'eventLabel': dealer?.marker?.title
+                {% else %}
+                    'event': 'dealer_interaction',
+                    'eventAction': 'select_dealer',
+                    'eventLabel': dealer?.marker?.title
+                {% endif %}
+            };
+
+            console.log("Pushing to dataLayer: ", variable_info);
+            dataLayer.push({...variable_info, ...track_global_info});
+        });
+            
+        document.addEventListener("click", function(e) {
+
+            // Map
+            console.log("DataLayer Click w/ event = ", event.target)
+            const map = document.querySelector(".google-map-inner")
+            if (map.contains(event.target)) {
+                var variable_info = { 
+                    {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                            'event': 'event',
+                            'eventAction': 'go_to_map',
+                            'eventLabel': '',
+                            'page': '/validez_votre_commande'
+                    {% else %}
+                            'event': 'google_map_interaction',
+                            'eventAction': 'go_to_map',
+                            'eventLabel': '',
+                            'page': '/validez_votre_commande'
+                    {% endif %}
+                };
+                console.log("Map sends data = ", variable_info)
+                dataLayer.push({...track_global_info,...variable_info})
+            }
+            // Partner
+            const dealerCards = document.querySelectorAll('.dealer-card');
+
+            // Loop through each dealer card element
+            dealerCards.forEach(dealerCard => {
+                dealerCard.addEventListener('click', function(event) {
+                    if (dealerCard.contains(event.target) || event.target === dealerCard) {
+                        var variable_info = {
+                            {% if settings.theme == 'seat' or settings.theme == 'cupra' %}
+                                'event': 'event',
+                                'eventAction': 'select_dealer',
+                                'eventLabel': dealerCard.querySelector('div.info div.title').innerText
+                            {% else %}
+                                'event': 'dealer_interaction',
+                                'eventAction': 'select_dealer',
+                                'eventLabel': dealerCard.querySelector('div.info div.title').innerText
+                            {% endif %}
+                        };
+                        
+                        console.log("Dealer card sends data =", variable_info);
+                        dataLayer.push({...variable_info, ...track_global_info});
+                    }
+                });
+            });
+
+
+            // Order Validation
+            if(document.getElementsByName("checkout") == event.target) {
+                var target = e.target || e.srcElement;
+                var variable_info = {
+                    'event': 'generate_lead',
+                    'eventAction': 'get_quote',
+                    'eventLabel': target.innerText,
+                    'items': cart.products,
+                    'page': '/recapitulatif_de_commande'
+                };
+                console.log("Cart sends data = ", variable_info)
+                dataLayer.push({...track_global_info,...variable_info})
+            }
+
+        })
+
+        /**********************
+         * DATALAYER EVENT BINDINGS
+         ***********************/
+
+        /** DATALAYER:
+         * Dynamic Cart View
+         * Fire all pages trigger after all additional dataLayers have loaded. */
+
+        /** DATALAYER: Cart */
+
+
+        document.addEventListener("cart-clear", function(e) {
+
+            var removeCart = {
+                'event'    : 'Clear Cart'
+            };
+
+            dataLayer.push(removeCart);
+
+            if (__DL__.debug)
+                console.log("Cart"+" :"+JSON.stringify(removeCart, null, " "));
+        });
+
+        document.addEventListener("suggest", function(e) {
+
+            let products = [];
+
+            e.detail.results.products.forEach(product=>{
+                products.push({
+                    'id'       : product.id,
+                    'name'     : product.title,
+                    'price'    : (product.price/100),
+                })
+            });
+
+            var search = {
+                'searchTerm' : e.detail.query,
+                'products': products,
+                'event' : 'Suggest'
+            };
+
+            dataLayer.push(search);
+
+            /**
+             * Search keywords
+             * */
+            var variable_info = {
+                'event': 'search',
+                'eventAction': 'search',
+                'eventLabel': e.detail.query
+
+            };
+            dataLayer.push({...variable_info,...track_global_info})
+
+            if (__DL__.debug)
+                console.log("Suggest"+" :"+JSON.stringify(search, null, " "));
+        });
+
+        document.addEventListener("cart-change", function(e) {
+
+            var addToCart = {
+                products:[
+                    {
+                        'id'       : e.detail.id,
+                        'sku'      : e.detail.sku,
+                        'variant'  : e.detail.variant_id,
+                        'name'     : e.detail.title,
+                        'price'    : (e.detail.price/100),
+                        'quantity' : e.detail.quantity
+                    }
+                ],
+                'event'    : e.detail.quantity ? 'Add to Cart' : 'Remove from Cart'
+            };
+
+            dataLayer.push(addToCart);
+
+            if (__DL__.debug)
+                console.log("Cart"+" :"+JSON.stringify(addToCart, null, " "));
+        });
+
+    }
+
+    new DataLayerArchitecture();
+</script>

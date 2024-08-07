@@ -1,0 +1,118 @@
+imports:
+    - { resource: "@MonsieurBizSyliusRichEditorPlugin/Resources/config/services.yaml" }
+    - { resource: "@MonsieurBizSyliusRichEditorPlugin/Resources/config/sylius/ui.yaml" }
+    - { resource: '@MonsieurBizSyliusRichEditorPlugin/Resources/config/images.yaml' }
+
+knp_gaufrette:
+    adapters:
+        monsieurbiz_rich_editor_fixture_file:
+            local:
+                directory: '%sylius_core.public_dir%/media'
+                create: true
+    filesystems:
+        monsieurbiz_rich_editor_fixture_file:
+            adapter: 'monsieurbiz_rich_editor_fixture_file'
+            
+monsieurbiz_sylius_richeditor:
+    upload_directory: '/media/rich-editor'
+    image_upload_directory: '/media/image'
+    ui_elements:
+        sections.hero:
+            alias: hero
+            title: 'Hero'
+            description: 'Hero'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\HeroType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/hero.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig' 
+        sections.cover:
+            alias: cover
+            title: 'Cover'
+            description: 'Cover'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\CoverType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/cover.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig' 
+        sections.push-products:
+            alias: push-products
+            title: 'Push products'
+            description: 'Push products'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\PushProductsType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/push-products.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'    
+        sections.section-text-image:
+            alias: section-text-image
+            title: 'Text image'
+            description: 'Text image'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\TextImageType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/text-image.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig' 
+        sections.reinsurance:
+            alias: reinsurance
+            title: 'Reinsurance'
+            description: 'Reinsurance'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\ReinsuranceType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/reinsurance.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'
+        sections.section-pushes:
+            alias: section-pushes
+            title: 'Pushes'
+            description: 'Pushes'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\PushesType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/pushes.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'
+        sections.section-push-blog:
+            alias: section-push-blog
+            title: 'Pushes blog'
+            description: 'Pushes blog'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\PushesType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/pushes.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'
+        sections.section-vehicles-list:
+            alias: section-vehicles-list
+            title: 'Vehicles List'
+            description: 'Vehicles List'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\VehiclesListType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/vehicles-list.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'
+        sections.section-wysiwyg:
+            alias: section-wysiwyg
+            title: 'Wysiwyg'
+            description: 'Rich text editor'
+            icon: html5
+            tags: [ default ]
+            classes:
+                form: App\Form\UiElement\WysiwygType
+            templates:
+                admin_render: 'bundles/SyliusAdminBundle/UiElement/wysiwyg.html.twig'
+                front_render: '@MonsieurBizSyliusRichEditorPlugin/Shop/UiElement/html.html.twig'

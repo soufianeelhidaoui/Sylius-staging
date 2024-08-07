@@ -1,0 +1,134 @@
+<script>
+    document.documentElement.className = document.documentElement.className.replace('no-js', '');
+
+    var shop = {};
+
+    shop.routes = {
+        root : "{{ shop.url }}"
+    };
+
+    {% set resize = '1920x' | append(settings.cover_height) %}
+    shop.vehicles = {
+        default_family : {{ settings.default_family|default('') | json  }},
+        default_id : {{ settings.default_id | json  }},
+        {% for vehicle in vehicles.items %}
+            {{ vehicle.slug | json }} : { model:{{ vehicle.title | json }}, id: {{ vehicle.tag('id') | json }}, image: {{ vehicle.image('banner')| img_url(resize) | json }} },
+            {%- for version in vehicle.items -%}
+                {{ version.slug | json }} : { model:{{ version.title | json }}, id: {{ version.tag('id') | json }} , parent: {{ vehicle.slug | json }} },
+            {%- endfor -%}
+        {% endfor %}
+    }
+
+    shop.template = {{ template | handle | json }};
+    shop.useCookie = true;
+    shop.translations = {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }}
+    };
+    shop.moneyFormat = {{ shop.money_format | json }};
+
+    {% if customer %}
+    shop.customer = {
+        id: {{ customer.id }}
+    };
+    {%- else -%}
+    shop.customer = false;
+    {% endif %}
+
+    {% if product %}
+    shop.product = {
+        token: {{ csrf_token(product.id) | json }},
+        id: {{ product.id }},
+        available: {{ product.available | json }},
+        variants: [{% for variant in product.variants %}{{ variant | json }}, {% endfor %}],
+        quantity: { {% for variant in product.variants %}{{ variant.id | json }} : {{ variant.inventory_quantity | json }}, {% endfor %} },
+        selected_variant: {{ product.selected_or_first_available_variant.id }},
+        options_with_values: {{ product.options_with_values | json  }},
+        media: {{ product.media | json  }},
+        collections: [{% for collection in product.collections %}'{{ collection.handle }}',{% endfor %}],
+        tags: {{ product.tags | json }}
+    }
+    {% endif %}
+
+    {% if taxon %}
+
+    {% set collection = taxon %}
+    shop.collection ={
+        handle:{{ collection.handle | json }},
+        current_tags:{{ current_tags | json }}
+    }
+
+    shop.filters = {
+        current: {
+            {% for handle, option in form.options.children %}
+                "{{ handle }}": {{ option.vars.value | json }},
+            {% endfor %}
+            {%- set min_value = form.price.vars.value.min_price|default(0)/100 -%}
+            {%- set max_value = form.price.vars.value.max_price|default(0)/100 -%}
+            "price":[{{ min_value }},{{ max_value }}]
+    },
+    default: [
+        {% for handle, option in form.options.children %}
+        {
+            "handle": "{{ handle }}",
+            "label": "{{ option.vars.label }}",
+            "type": "list",
+            "values": [
+            {% for option in option.children %}
+            {
+                "value": "{{ option.vars.value }}",
+                "label": "{{ option.vars.label }}",
+                "param_name": "{{ option.vars.full_name }}"
+            },
+            {% endfor %}
+            ]
+        },
+        {% endfor %}
+        {
+            "handle": "price",
+            "label": "Prix",
+            "type": "price_range",
+            "min_value": {
+               "param_name": "{{ form.price.children.min_price.vars.full_name }}",
+               "range_min": 1
+             },
+             "max_value": {
+               "param_name": "{{ form.price.children.max_price.vars.full_name }}",
+               "range_max": 999
+             }
+        }
+    ]
+    }
+    {% endif %}
+
+    {% if searchForm %}
+    shop.filters = {
+        current: {
+            {% for handle, option in form.children.facets.children %}
+            "{{ handle }}": {{ option.vars.value | json }},
+            {% endfor %}
+        },
+        default: [
+            {% for handle, option in form.children.facets.children %}
+            {% if handle != 'taxon' %}
+            {
+                "handle": "{{ handle }}",
+                "label": "{{ option.vars.label|trans }}",
+                "type": "list",
+                "values": [
+                    {% for option in option.children %}
+                    {
+                        "value": "{{ option.vars.value }}",
+                        "label": "{{ option.vars.label }}",
+                        "param_name": "{{ option.vars.full_name }}"
+                    },
+                    {% endfor %}
+                ]
+            },
+            {% endif %}
+            {% endfor %}
+        ]
+    }
+    {% endif %}
+</script>

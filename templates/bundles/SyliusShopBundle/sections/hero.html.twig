@@ -1,0 +1,66 @@
+<div class="s-hero">
+	{% if data.blocks|length > 0 %}
+		{% if data.blocks|length > 1 %}
+			<swiper :options="{pagination: { el: '.swiper-pagination', clickable : true } }">
+				{% for block in data.blocks %}
+					<swiper-slide>
+						<div class="s-hero__image">
+							{% if block.image %}
+								{% include '@SyliusShop/snippets/picture.html.twig' with{ src: block.image, sources: 'max-width:420px=420x368, max-width:1024px=1024x434', resize: '1920x717', alt:block.alt, eager: true } %}
+							{% endif %}
+						</div>
+						<div class="s-hero__wrapper">
+							<div class="site-wrap">
+								<div class="s-hero__content">
+									<h2 class="s-hero__title">
+										{{ block.title }}
+									</h2>
+									<div class="s-hero__text">
+										{{ block.text }}
+									</div>
+									{% if block.cta_link and block.cta_label %}
+										<a class="s-hero__cta button" href="{{ block.cta_link }}">{{ block.cta_label }}</a>
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</swiper-slide>
+				{% endfor %}
+				<div class="swiper-pagination" slot="pagination"></div>
+			</swiper>
+			<div class="site-wrap s-hero__official">
+				<div class="s-hero__image">
+					{% include '@SyliusShop/snippets/picture.html.twig' with{ src: data.blocks[0].settings.image, sources: 'max-width:420px=420x368, max-width:1024px=1024x434', resize: '1920x717', alt:block.alt, eager: true } %}
+				</div>
+				{% include '@SyliusShop/snippets/official.html.twig' %}
+			</div>
+		{% else %}
+			{% for block in data.blocks %}
+				<div class="s-hero__image">
+					<on-scroll animation="parallax" strength="350px" :active="{% if 'vw' in settings.theme %}true{% else %}false{% endif %}">
+						{% include '@SyliusShop/snippets/picture.html.twig' with{ src: block.image, sources: 'max-width:420px=420x368', resize: '1920x717', alt:block.alt } %}
+					</on-scroll>
+				</div>
+				<div class="s-hero__wrapper">
+					<div class="site-wrap">
+						<div class="s-hero__content">
+							<h2 class="s-hero__title">
+								{{ block.title }}
+							</h2>
+							<div class="s-hero__text">
+								{{ block.text }}
+							</div>
+
+							{% if block.cta_link and block.cta_label %}
+								<a class="s-hero__cta button" href="{{ block.cta_link }}">{{ block.cta_label }}</a>
+							{% endif %}
+						</div>
+					</div>
+					<div class="site-wrap s-hero__official">
+						{% include '@SyliusShop/snippets/official.html.twig' %}
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endif %}
+</div>

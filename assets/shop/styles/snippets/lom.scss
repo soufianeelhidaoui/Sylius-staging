@@ -1,0 +1,16 @@
+.sn-lom {
+    padding: 1rem;
+    background-color: $color-primary;
+    text-align: center;
+    z-index: 0;
+    @media #{$to-phone} {padding: 8px;}
+
+    &__lom-text {
+        font: $font-body;
+        font-weight: bold;
+        font-size: $font-size-xs;
+        padding: 8px;
+        color: white;
+        @media #{$to-phone} {font-size: $font-size-xxs; padding: $space}
+    }
+}

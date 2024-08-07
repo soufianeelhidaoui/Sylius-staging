@@ -1,0 +1,10 @@
+<div class="site-wrap">
+    {% if data.title and position|default(2) > 1 %}
+        <h3 class="t-page__title">
+            {{ data.title }}
+        </h3>
+    {% endif %}
+    <div class="t-page__description rte">
+        {{ data.wysiwyg|raw }}
+    </div>
+</div>

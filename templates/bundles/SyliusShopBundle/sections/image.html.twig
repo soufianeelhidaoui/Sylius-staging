@@ -1,0 +1,14 @@
+{% render 'picture', src: section.settings.image, sources: 'max-width:420px=420x307, max-width:1024px=1024x500', resize: '1920x660' %}
+
+{% schema %}
+{
+	"name": "Image",
+	"settings": [
+		{
+			"type": "image_picker",
+			"id": "image",
+			"label": "Image"
+		}
+	]
+}
+{% endschema %}

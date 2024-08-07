@@ -1,0 +1,5 @@
+.pac-container{
+    .pac-item{
+        &:hover{ background: $color-primary; color: $color-grey-dark; }
+    }
+}

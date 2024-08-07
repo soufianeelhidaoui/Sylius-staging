@@ -1,0 +1,18 @@
+.c-popin{
+	$c: &;
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: $z-popin;
+	display: flex; align-items: center; justify-content: center; padding: 2rem;
+
+	&:before{ content: ''; position: overlay(); background: rgba(46,56,70,0.5); display: block }
+
+	&__content{
+		position: relative; z-index: 1; background: #fff; padding: 2rem; overflow-x: hidden; overflow-y: auto;
+		max-width: calc(#{$grid-max-width} - 4rem); max-height: calc(100vh - 4rem);
+	}
+
+	&__element{
+		flex: 1; overflow: hidden; overflow-y: auto; padding: 0 5px;
+	}
+
+	&__close{ position: absolute; top: 2rem; right: 2rem; cursor: pointer }
+}

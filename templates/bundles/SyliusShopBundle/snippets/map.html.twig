@@ -1,0 +1,51 @@
+<ra-map inline-template>
+	<div class="t-cart__map t-cart__map--popin" v-if="display">
+		<div class="t-cart__map-wrapper">
+			<a class="t-cart__map-close icon-close" @click="$close('map')" v-if="closable"></a>
+			<gmap api-key="{{ settings.gmap_api }}" brand="{{ settings.theme }}" pin="{{ 'img/pin-default.svg' | asset_url }}" skra="{{ 'img/skra.svg' | asset_url }}" skdi="{{ 'img/skdi.svg' | asset_url }}" color="{{ settings.main_color }}" inline-template>
+				<div class="google-map">
+					<h3 class="t-cart__subtitle">{{ 'cart.checkout.first_step' | t({brand: settings.brand | lower | title }) }}</h3>
+					<div class="t-cart__label">{{ 'cart.checkout.first_step_description' | t }}</div>
+					<div class="t-cart__partners">
+                        <input type="text" placeholder="{{ 'cart.checkout.search_placeholder' |  t({brand: settings.brand | lower | title}) }}" aria-label="{{ 'cart.checkout.search_placeholder' |  t({brand: settings.brand | lower | title}) }}" ref="autocomplete">
+					</div>
+					<div class="google-map-wrapper" :style="{ gridTemplateColumns: closestDealers.length ? '1fr 3fr' : '1fr' }">
+						<div v-if="closestDealers.length" class="dealer-cards">
+							<div v-for="dealer in closestDealers" :key="dealer.marker.title" class="dealer-card" @click="select(dealer)" :style="getDealerCardStyle(dealer)">
+								<div class="logo">
+									{% if settings.theme == 'cupra' %}
+                                        <img src="{{ ('img/' ~ settings.theme ~ '.png') | asset_url }}" class="logo-main" alt="{{ settings.theme }} logo"/>
+									{% else %}
+                                        <img src="{{ ('img/favicon-' ~ settings.theme ~ '.png') | asset_url }}" class="logo-main" alt="{{ settings.theme }} logo"/>
+                                    {% endif %}
+								</div>
+								<div class="info">
+									<div class="title" :style="getDealerCardStyle(dealer)">[[ dealer.marker.title ]]</div>
+									<div class="address" :style="getDealerCardStyle(dealer)">
+									    <div>[[ dealer.marker.address ]]</div>
+									    <div>[[ dealer.marker.postal_code ]] [[ dealer.marker.city ]]</div>
+										<div style="white-space: nowrap;"> 
+										      <img class="address__phone" :style="getPhoneStyle(dealer)">
+										      [[ dealer.marker.tel ]]
+										</div>
+									</div>
+									<div v-if="dealer.distance" class="distance" :style="getDealerCardStyle(dealer)">[[ dealer.distance ]] km</div>
+								</div>
+
+							</div>
+						</div>
+						<div class="google-map-inner" ref="googleMap" :style="!closestDealers.length ? { height: 'calc(100vh - 35rem) !important' } : { height: 'auto' }"></div>
+					</div>
+				</div>
+			</gmap>
+			<div class="t-cart__map-buttons">
+				<div>
+					<a class="button--secondary" @click="$close('map')">
+                        <span> Annuler </span>
+					</a>
+				</div>
+				{% include '@SyliusShop/snippets/partner.html.twig' with {select:true} %}
+			</div>
+		</div>
+	</div>
+</ra-map>

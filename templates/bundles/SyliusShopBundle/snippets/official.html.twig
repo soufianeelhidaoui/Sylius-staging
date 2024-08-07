@@ -1,0 +1,11 @@
+<div class="sn-official">
+  {% if settings.official_logo %}
+    <img class="sn-official__brand" src="{{ ('img/' ~ settings.theme ~ '-official.svg') | asset_url }}"/>
+  {% else %}
+    <span class="sn-official__brand">{{ settings.short_brand | capitalize }}</span>
+  {% endif %}
+  <span class="sn-official__text">
+    {% set items = 'general.layout.official_website' |  t |  split(" ") %}
+    <span>{{ items[0] }}</span> <span>{{ items[1] }}</span>
+  </span>
+</div>

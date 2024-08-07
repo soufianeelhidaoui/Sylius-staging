@@ -1,0 +1,97 @@
+{% if type is defined %}
+    {% set type = type ~ '-' %}
+{% else %}
+    {% set type = null %}
+{% endif %}
+
+<div class="o-fieldset__row bron" >
+    <div class="o-layout">
+        <div class="o-layout__item  u-1/2">
+            <label for="firstName">Prénom</label>
+            <div class="c-input" v-model="firstName">
+                {{ form_widget(form.firstName, {'attr': {'class' : 'c-input__input',"v-model" : "firstName"}}) }}
+            </div>
+        </div>
+        <div class="o-layout__item  u-1/2">
+            <label for="lastName">Nom</label>
+            <div class="c-input">
+                {{ form_widget(form.lastName, {'attr': {'class' : 'c-input__input', "v-model" : "lastName"}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="o-fieldset__row">
+    <div class="o-layout">
+        <div class="o-layout__item ">
+            <label for="street">Adresse postale</label>
+            <div class="c-input">
+                {{ form_widget(form.street, {'attr': {'class' : 'c-input__input', "v-model" : "street"}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="o-fieldset__row">
+    <div class="o-layout">
+        <div class="o-layout__item u-3/2">
+            <label for="postcode">Code Postal</label>
+            <div class="c-input">
+                {{ form_widget(form.postcode, {'attr' : {'class' : 'c-input__input',"v-model" : "postcode"}}) }}
+            </div>
+        </div>
+        <div class="o-layout__item u-1/2">
+            <label for="city">Ville</label>
+            <div class="c-input">
+                {{ form_widget(form.city, {'attr' : {'class' : 'c-input__input', "v-model" : "city"}}) }}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="o-fieldset__row">
+    <div class="o-layout">
+        <div class="o-layout__item u-1/2">
+            <label for="countryCode">Pays</label>
+            <div class="c-input">
+                <input
+                    value="France"
+                    type="text"
+                    disabled="disabled"
+                    class="c-input__input"
+                >
+                <input
+                    name="{{ field_name(form.countryCode) }}"
+                    value="FR"
+                    type="hidden"
+                    readonly
+                >
+                {#                {{ form_widget(form.countryCode, {'attr': {'class' : 'c-input__input', 'placeholder' : "France"}}) }}#}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="o-fieldset__row">
+    <div class="o-layout">
+        <div class="o-layout__item u-1/2" style="margin-bottom: 2.4rem;">
+            <label for="phoneNumber">Téléphone</label>
+            <div class="c-input">
+                <input 
+                    name="{{ field_name(form.phoneNumber) }}"
+                    class="c-input__input" 
+                    v-model="phoneNumber" 
+                    v-match
+                    pattern="[0-9+]+"
+                    type="tel"
+                    minlength="10"
+                    maxlength="13"
+                    required="required"
+                >
+            <span v-if="errors.phoneNumber" style="color: red;">[[errors.phoneNumber]]</span>
+        </div>
+    </div>
+</div>
+

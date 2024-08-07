@@ -1,0 +1,100 @@
+.sn-breadcrumb{
+  a, :before {color: #777}
+  &__current{
+    color: black;
+  }
+}
+
+.sn-official{
+  box-shadow: 0 14px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  flex-flow: column-reverse;
+  text-transform: uppercase;
+  @media #{$to-phone}{ border-radius: 6px; }
+  &__text{
+    display: flex; flex-flow: column; line-height: 1.2; text-align: center; margin-top: 0
+  }
+  img{
+    width: 102px; height: auto;
+    .template-collection &, .template-collection-lifestyle &{ width: 72px }
+  }
+  &__brand{ margin-top: 2px }
+}
+
+.sn-filter-bar{
+  &__cta {
+    &.button {
+      &:before{ content: url(../../../img/setting-skoda.svg) !important; }
+    }
+  }
+  &__cta span{
+    background-color: $color-grey-dark;
+    color: var(--color-primary);
+  }
+}
+.sn-filters__list-action .button--light{
+  border: 1px solid $color-grey-light; background: none !important; color: $color-grey-dark; box-shadow: none;
+  &:hover{ color: $color-grey-light }
+}
+.sn-filters__title span{
+  background-color: $color-grey-dark;
+  color: var(--color-primary);
+}
+
+.sn-push-products{
+  .swiper-slide{
+    opacity: 0.3;
+    &-visible{ opacity: 1 }
+  }
+}
+.sn-push-product{
+  &__cta{
+    .link{ color: $color-grey-dark !important;}
+    .icon_after-external-link{
+      &:after{ color: $color-grey-dark !important; content: url(../../img/arrow-right-skoda.svg) !important; }
+    }
+  }
+}
+
+.sn-collection-nav{
+    &__link{
+      color: black !important;
+    }
+    &__link--level1{
+      margin:0 2rem;
+    }
+    &__item--level1:first-child &__link{
+      margin-left: 0;
+      span{ left: 0 }
+  }
+  &__item > a:hover{
+    color: $color-grey-dark;
+	  font-weight: 700;
+  }
+
+  &__item--level1 > a:hover{
+    border-bottom: 1px solid black !important;
+  }
+}
+
+.sn-collection-nav__item:hover .sn-collection-nav__link--level1, .sn-collection-nav__item--active .sn-collection-nav__link--level1{
+  border-bottom: 1px solid black !important;
+}
+
+sn-partner__description-cta{
+  button{
+    border: 1px solid black;
+  }
+}
+
+.sn-search{
+    &__list{
+        a:hover{ color:$color-grey-dark }
+    }
+}
+
+.sn-lom {
+  &__lom-text {
+    color: $color-grey-dark !important;
+  }
+}

@@ -1,0 +1,49 @@
+@font-face {
+	font-family: 'SKODANext';
+	src: url('../../../fonts/SKODANext-Bold.woff2') format('woff2'),
+	url('../../../fonts/SKODANext-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'SKODANext';
+	src: url('../../../fonts/SKODANext-Light.woff2') format('woff2'),
+	url('../../../fonts/SKODANext-Light.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+	font-family: 'SKODANext';
+	src: url('../../../fonts/SKODANext-Regular.woff2') format('woff2'),
+	url('../../../fonts/SKODANext-Regular.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: block;
+}
+
+body{ background: $color-background }
+
+.button, #app button{
+	border-radius: 50px; font-size: $font-size-xxs; padding: 1em 2.4em; font-weight: bold; border-color: $color-primary; border-width: 1px;
+	text-transform: uppercase; background: $color-primary; color: $color-grey-dark; box-shadow: 0 2px 4px rgba(75, 168, 46, 0.27), 0 6px 12px rgba(75, 168, 46, 0.27);
+	&:hover { box-shadow: none; color: $color-body-text!important; ; border-color: $color-body-text!important; background: transparent }
+	&--light { border-color: #F3F3F3; background-color: #F3F3F3; color: $color-grey-dark; box-shadow: none }
+	&--thin{ padding-left: $space-xs; padding-right: $space-xs }
+}
+
+.swiper-scrollbar-drag{ background: /*#b2b2b2*/ black; }
+.swiper-scrollbar{ background: #FFF; }
+
+.c-sort{
+&__options{
+	width: 165%;
+}
+&__options a:hover{
+	color: $color-grey-dark;
+	font-weight: 700;
+}
+}

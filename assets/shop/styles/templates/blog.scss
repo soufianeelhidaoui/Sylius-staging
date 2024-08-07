@@ -1,0 +1,9 @@
+.t-blog{
+
+  &__title{ @extend %title; text-align: center }
+
+  &__tags{
+    display: flex; flex-wrap: wrap; list-style: none; padding: 0; justify-content: center; margin-bottom: $space-l;
+    a{ padding: 0.5rem 1rem; display: inline-block }
+  }
+}

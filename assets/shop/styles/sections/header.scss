@@ -1,0 +1,115 @@
+.s-header{
+
+	$c:&;
+
+	position: relative; font-size: $font-size-s; transition: allow(border color background);
+	&.sticky{
+		position: fixed; left: 0; top: 0; width: 100%; z-index: 99; border-bottom: 1px solid $color-secondary; background: #fff;
+		.has-search &{
+			border-bottom: 1px solid;
+			@media #{$to-phone}{ border-color: $color-secondary }
+		}
+	}
+
+	.site-wrap{ max-width: none }
+	.c-burger{ display: block; position: relative }
+
+	&__main{
+		background: #fff; padding-top: $space-xs; padding-bottom: $space-xs; transition: allow(padding);
+
+		@media #{$to-phone}{
+			padding-bottom: $space-m;
+
+			.has-scrolled &{ padding-bottom: $space-xs; }
+		}
+	}
+
+	&__shadow{
+		background: linear-gradient(rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0));
+		height: 90px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		display: block;
+		width: 100%;
+	}
+
+	&__link.non-clickable  {
+		pointer-events: none !important;
+		cursor: default !important;
+    } 
+	&__logo{
+		text-decoration: none; margin-right: $space-s; position: relative; padding-right: $space-s; transition: allow(opacity);
+
+		&:after{
+			position: absolute; top: -$space-xs; bottom: -$space-xs; right: 0; width: 1px; background: $color-secondary; content: '';
+		}
+
+
+		a{ position: relative }
+
+		img{
+			height: 34px; width: auto; background: none
+		}
+		&-alt{ display: none }
+
+		@media #{$to-phone}{
+			position: absolute; left: 50%;   bottom: 1rem;transform: translate(-50%); margin: 0; padding: 0;
+
+			&:before,&:after{  content: ''; position: absolute; top: 50%; background:$color-grey-dark; height: 2px; margin-top: -1px; width: 50vw;  }
+			&:before{ left: -$space-s;transform: translateX(-100%)  }
+			&:after{ right: -$space-s; transform: translateX(100%) }
+
+			img{ height: 2.5rem }
+
+			a{ position: relative; z-index: 1 }
+
+			.has-scrolled &{ opacity: 0 }
+
+		}
+	}
+
+	&__top{
+		display: flex; justify-content: space-between; @extend %xsmall; padding: 1rem 2rem;
+		&-links{
+			font-weight: bold;
+			a:before{ margin-right: 0.5rem }
+			a+a{ margin-left: 1rem }
+		}
+	}
+
+	&__link{
+		text-decoration: none; display: inline-flex; align-items: center; position: relative;
+		&+&{ margin-left: $space-s }
+		&:before{
+			margin-right: 8px; color: $color-primary; font-size: 150%; transition: allow(color);
+			@media #{$to-phone}{ margin-right: 0}
+		}
+		&-count{
+			background: $color-primary; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 10px;
+			text-align: center; line-height: 16px; position: absolute; left: -5px; top: 0;
+		}
+		&-text {
+			@media #{$to-phone}{ display: none }
+		}
+        &-title{
+            position: absolute; right: 0; top: 100%; font-size: 10px; margin-top: -4px; white-space: nowrap;
+			width: 80%; overflow: hidden; text-overflow: ellipsis;
+            @media #{$to-phone}{
+                background: $color-primary; color: #fff; border-radius: 50%; width: 16px; height: 16px; font-size: 10px;
+                text-align: center; line-height: 16px; position: absolute; left: -5px; top: 0; margin-top: 0;
+                &:after{ content: '1' }
+                span{ display: none }
+            }
+        }
+	}
+
+	&__actions{
+		display: flex; justify-content: space-between; transition: allow(opacity);
+		.has-search &{ opacity: 0; pointer-events: none }
+	}
+
+	&__left, &__right{ display: flex; align-items: center }
+
+	@media print { display:none;}
+}

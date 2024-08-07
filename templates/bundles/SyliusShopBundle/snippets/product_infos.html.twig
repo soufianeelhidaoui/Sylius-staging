@@ -1,0 +1,55 @@
+<div class="i-product">
+	<h2 class="site-wrap i-product__title">{{'products.product.info_title' | t }}</h2>
+	<div class="i-product__info">
+		<div class="site-wrap i-product__product">
+			<h3 class="i-product__description_title">{{ 'products.product.description_title' | t }}</h3>
+			<div class="i-product__description_text">
+				{{ product.description|nl2br|raw }}
+			</div>
+		</div>
+		{% if product.has_compatibility %}
+			<h3 class="site-wrap i-product__modele">{{ 'products.product.models_title' | t }}</h3>
+		    <div class="s-vehicles-list">
+				<div class="site-wrap">
+					<div class="s-vehicles-list__items">
+						<div class="swiper-global">
+							<swiper :options="{ slidesPerView: 2, watchSlidesVisibility: true, spaceBetween: 20, navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }, scrollbar: {el: '.swiper-scrollbar', draggable: true }, breakpoints: { 1025: { slidesPerView: 4, spaceBetween: 24 }, 1024: { slidesPerView: 4, spaceBetween: 24 }, 756: { slidesPerView: 2, spaceBetween: 24 }} }">
+								{% set displayed_versions = [] %}
+								{% for vehicle in vehicles.items %}
+									{% for vehiclep in product.vehicles %}
+										{% if vehiclep.title == vehicle.title %}
+											<swiper-slide class="s-vehicles-list__item">
+												<div class="s-vehicles-list__item-inner">
+													<div class="s-vehicles-list__image">
+														<img src="{{ vehicle.image.path | img_url('276x125') }}" alt="{{ vehicle.title }}" width="276" loading="lazy"/>
+													</div>
+													<h4 class="s-vehicles-list__model">{{ vehicle.title | lower | title | custom_replace }}</h4>
+												</div>
+												<div class="s-vehicles-list__versions">
+
+													{% for version in vehicle.items %}
+														{% for vehicle_product in product.vehicles %}
+															{% set combined_title = vehicle.title ~ " " ~ version.title %}
+															{% if  combined_title == vehiclep.title ~ " " ~ vehicle_product.title %}
+																{% if combined_title not in displayed_versions %}
+																	{% set displayed_versions = displayed_versions|merge([combined_title]) %}
+																	<a class="s-vehicles-list__version" data-title="{{ vehicle.title }} {{ version.title }}" href="{{ version|url }}">
+																		<b>{{ version.title|replace({'(': '', ')': ''}) }}</b>
+																	</a>
+																{% endif %}
+															{% endif %}
+														{% endfor %}
+													{% endfor %}
+												</div>
+											</swiper-slide>
+										{% endif %}
+									{% endfor %}
+								{% endfor %}
+							</swiper>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>

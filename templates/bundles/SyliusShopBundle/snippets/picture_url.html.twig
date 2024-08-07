@@ -1,0 +1,2 @@
+{%- if src.id != blank -%}{%- set src_url = src.path -%}{%- else -%}{%- set src_url = src -%}{%- endif -%}
+{{ src_url | img_url(resize) }}

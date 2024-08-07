@@ -1,0 +1,137 @@
+.s-vehicles-list {
+    $c:&;
+
+    &__title {
+        text-align: center;
+        margin-bottom: 8px;
+        @extend %title;
+        @media #{$to-phone}{ font-size: 2.2rem; max-width: 100%; }
+    }
+    &__subtitle {
+        color: #666666;
+        text-align: center;
+        margin-bottom: 64px;
+        @media #{$to-phone}{ font-size: 1.6rem; max-width: 100%; margin-bottom:12px }
+    }
+    &__search {
+        margin-bottom: 5.2rem; position: relative; display: flex;
+        justify-content: center;
+        @media #{$to-phone}{ margin-bottom: $space-xs }
+        input{ padding-left: $space-m; width: 100% }
+        &:before{ position: absolute; top: 50%; transform: translateY(-50%) }
+        &-results{
+            position: absolute; width: 70%; top: 100%; background: #fff; z-index: 99; margin-top: 1px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); max-height: 200px; overflow: auto; padding: math.div($space-s,2) 0;
+            @media #{$to-phone}{ width: 80%;}
+        }
+        &-result{
+            padding: $space $space-s; display: block; cursor: pointer;
+            &:hover{ background: $color-primary; color: #fff; font-weight: bold }
+            &+&--none{ display: none }
+            &--none{ pointer-events: none }
+        }
+    }
+    .icon-magnifier:before {
+        font-size: 2.1rem;
+        margin-left: 1rem;
+        content: url('../../img/search-normal.svg');
+    }
+    input {
+        border: none;
+        background: #F5F5F5;
+        border-radius: 4px;
+        padding: 17px 24px 17px 57px;
+        width: 70%;
+        color: #999999;
+        &::placeholder {
+            color: #999 !important;
+        }
+        background: #f5f5f5 url(../img/search-normal.svg) no-repeat 20px center;
+        background-size: 26px;
+        @media #{$to-phone}{ font-size: 14px; width: 80%;}
+    }
+    &__item {
+        text-align:center; border-radius: 8px; border: #fff 1px solid; background: #fff;
+        opacity: 0.2; pointer-events: none;
+        &.swiper-slide-visible{ opacity: 1; pointer-events: all }
+        &-inner{ position: relative; z-index: 2; padding: 24px 0;}
+        &:hover {
+            #{$c}__versions{ opacity: 1; pointer-events: all }
+            #{$c}__item-inner{ background: #fff }
+        }
+        .swiper-scrollbar {
+			margin-top: $space-m !important;
+		}
+    }
+    &__engines{
+        display: inline;
+        @media #{$to-phone}{ display: none }
+    }
+    &__tags{
+        position: absolute;
+        top: 0;
+        right: 1rem;
+        cursor: pointer;
+        font-size: $font-size-xs;
+        transform: translateY(-50%);
+    }
+    &__tag{
+        padding: 0.4rem 1rem; border-radius: 0.4rem; color: $color-white; display: inline-block; font-weight: 500;
+        &--new{ background: $color-grey-dark }
+        &--electrique {background: $color-signal; }
+        &--e-hybrid {background: $color-bright; color: $color-black;}
+        &:after{ margin-left:0.5rem; font-size: inherit; vertical-align: text-bottom }
+    }
+
+    &__model {
+        font-weight: 700; font-size: $font-size-s; line-height: 1; margin-top: $space-m;
+        @media #{$to-phone}{ font-size: $font-size-xs }
+    }
+    &__image {
+        display: inline-block;
+    }
+    .swiper-button-prev {
+        right: 35px;
+        top: 107px;
+        &:after{
+            content: url('../../img/arrow-right.svg');
+            transform: rotate(180deg);
+        }
+    }
+    .swiper-button-next {
+        right: 35px;
+        top: 107px;
+        &:after{
+            content: url('../../img/arrow-right.svg');
+        }
+    }
+    .swiper-button-prev, .swiper-button-next {
+        @media #{$to-phone}{ display: none }
+    }
+
+    .swiper-button-prev, .swiper-button-next {
+        color: #666666 !important;
+        background-color: white !important;
+    }
+
+    &__versions{
+        position: absolute; left: -2px; right: -2px; top: 100%; opacity: 0; transition: allow(opacity); z-index: 2;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); pointer-events: none; padding-top: 2px; background-color: #fff;
+        border-radius: 4px;
+        @media #{$to-phone}{ min-width: max-content }
+    }
+    &__version{
+        display: block; padding: 1.6rem 1.5rem; text-align: left; cursor: pointer; transition: allow(background color);
+        border-bottom: 1px #F5F5F5 solid;
+        &:hover{ background: $color-primary; color: #fff }
+        @media #{$to-phone}{
+            white-space: nowrap;
+            padding: 1rem 1.5rem;
+        }
+    }
+    .swiper-container{
+        padding-top: 1rem; overflow: visible; padding-bottom: 4rem;
+        @media #{$to-phone}{ padding-bottom: 2rem; }
+    }
+    .swiper-button-disabled{ opacity: 0 }
+}

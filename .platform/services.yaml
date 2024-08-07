@@ -1,0 +1,7 @@
+db:
+    type: mysql:10.2
+    disk: 1024
+    
+searchelastic:
+    type: elasticsearch:7.10
+    disk: 512    

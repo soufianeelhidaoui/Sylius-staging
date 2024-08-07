@@ -1,0 +1,77 @@
+<popin type="quick-buy">
+	<product inline-template>
+		<div class="s-product" v-if="product">
+
+			<div class="s-product__images">
+				<swiper ref="swiper">
+					<swiper-slide v-for="media in product.media">
+						<img :src="resize(media.src,'613x817')"/>
+					</swiper-slide>
+				</swiper>
+				<div class="s-product__thumbnails" v-if="!$root.isMobile">
+					<a class="s-product__thumbnail" @click="slideTo(media.position)" :class="{'s-product__thumbnail--active': slideIndex === media.position }" v-for="media in product.media">
+						<img :src="resize(media.src,'86x114')"/>
+					</a>
+				</div>
+			</div>
+
+			<div class="s-product__content">
+				<div class="s-product__content--info">
+
+					{% render 'wishlist', data:product %}
+
+					<h1 class="s-product__title">
+						[[ product.title ]]
+					</h1>
+
+					<div class="s-product__description">
+						<div class="s-product__description-excerpt">
+							[[ product.description ]]
+						</div>
+					</div>
+
+					<form @submit.prevent="addToCart">
+						<template v-if="!product.has_only_default_variant">
+							<div class="s-product__choose">
+								<div class="s-product__options">
+										<div class="s-product__option" v-for="option in product.options_with_values">
+											<div class="s-product__option-title">[[ option.name ]]</div>
+											<div class="s-product__values">
+												<template v-for="value in option.values">
+													<label class="color" v-if="handleize(option.name) === 'color'">
+														<input type="radio" :disabled="!isAvailable(option.position, value)" v-model="options[option.position]" @change="updateSelected(option.position)" :name="'options['+option.name+']'" :value="value">
+														<a class="color__item color__double" v-if="value.split('/').length === 2">
+															<span :class="'bg-color--'+handleize(_color)" v-for="_color in value.split('/')"></span>
+														</a>
+														<a class="color__item" :class="'bg-color--'+handleize(value)"></a>
+													</label>
+													<label class="checkbox-button" v-else>
+														<input type="radio" :disabled="!isAvailable(option.position, value)" v-model="options[option.position]" @change="updateSelected(option.position)" :name="'options['+option.name+']'" :value="value">
+														<a>[[ value ]]</a>
+													</label>
+												</template>
+											</div>
+										</div>
+								</div>
+							</div>
+						</template>
+
+						<div class="s-product__price">
+							{{ 'products.product.price' | t }}
+							<span v-if="current_variant">[[ current_variant.price | money ]]</span>
+							<span v-else>[[ product.price |  money ]]</span>
+						</div>
+
+						<div class="s-product__submit">
+							<input type="hidden" id="Quantity" name="quantity" value="1" min="1">
+							<button type="submit" name="add" :disabled="!current_variant">
+								{{ 'products.product.add_to_cart' | t }}
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</product>
+</popin>

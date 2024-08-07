@@ -1,0 +1,7 @@
+<wishlist product_handle="{{ data.handle }}" :product_id="{{ data.id | default: 'false' }}" inline-template>
+    {% if customer %}
+        <a class="sn-wishlist icon-heart-empty" :class="{'added':'icon-heart', 'loading':loading}" @click="toggle"></a>
+    {% else %}
+        <a  class="sn-wishlist icon-heart-empty" href="{{ routes.account_login_url }}?url={{ data.url }}"></a>
+    {% endif %}
+</wishlist>

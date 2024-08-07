@@ -1,0 +1,37 @@
+<navigation type="main" inline-template>
+	<transition name="slide-from-right">
+		<nav class="sn-nav sn-nav--alt" v-if="visible">
+            <div class="site-wrap">
+                <a class="sn-nav__close icon-close" @click="close"><span>{{ 'layout.nav.close' |  t }}</span></a>
+                <div class="sn-nav__inner">
+                    {% set accessories = collections('accessories') %}
+                    {% if accessories.items|length > 0 %}
+                        <div class="sn-nav__items">
+                            <div class="sn-nav__items-container sn-nav__items-container--level0">
+                                <h5 class="sn-nav__title sn-nav__title--main">{{ 'layout.nav.categories' |  t }}</h5>
+                                {% for link in accessories.items %}
+                                    {% include '@SyliusShop/snippets/subnav.html.twig' with { link:link, level:1 } %}
+                                {% endfor %}
+                                {% set lifestyle = collections('lifestyle') %}
+                                {% if lifestyle.items|length > 0 %}
+                                    {% include '@SyliusShop/snippets/subnav.html.twig' with { link:lifestyle, level:1, is_lifestyle:true } %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+					{% if menu.sidebar|length > 0 %}
+						<div class="sn-nav__sidebar">
+							<h5 class="sn-nav__title sn-nav__title--side">Liens</h5>
+							{% for link in menu.sidebar %}
+								<div class="sn-nav__item">
+									<a href="{{ link|url }}" class="sn-nav__link" {% if link.type == 'http_link' %}target="_blank"{% elseif link.type == 'collection_link' %}v-collection-reset{% endif %}>{{ link.label }}</a>
+								</div>
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</nav>
+	</transition>
+</navigation>

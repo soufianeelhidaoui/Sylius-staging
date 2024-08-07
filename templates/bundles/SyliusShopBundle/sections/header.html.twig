@@ -1,0 +1,60 @@
+<section data-section-id="{{ section.id }}" data-section-type="header">
+
+    <header class="s-header" role="banner" v-sticky="'header'">
+
+        <div class="s-header__main site-wrap">
+            {% if settings.theme == 'vw' or settings.theme == 'vwu' %}
+                <div class="s-header__shadow"></div>
+            {% endif %}
+
+            <div class="s-header__actions">
+
+                <div class="s-header__left">
+
+                    <h1 class="s-header__logo">
+                        <a href="{{ routes.root_url }}" itemprop="url">
+                            {% if settings.theme != blank %}
+                                <img src="{{ ('img/logo-' ~ settings.theme ~ '.png') | asset_url }}" class="s-header__logo-main" alt="{{ shop.name }} logo"/>
+                                {% if settings.theme == 'vw' or settings.theme == 'vwu' %}
+                                    <img src="{{ ('img/logo-' ~ settings.theme ~ '-alt.png') | asset_url }}" class="s-header__logo-alt" alt="{{ shop.name }} logo alt"/>
+                                {% endif %}
+                            {% endif %}
+                        </a>
+                    </h1>
+                    <burger>{{ 'layout.header.menu' |  t }}</burger>
+                </div>
+
+                <div class="s-header__right">
+
+                    <a href="{{ routes.search_url }}" class="s-header__link s-header__link--search icon-magnifier" @click.prevent="$open('search')">
+                        <span class="s-header__link-text">{{ 'layout.header.search' | t }}</span>
+                    </a>
+
+                    <cart inline-template>
+                        <a href="{{ routes.cart_url }}" class="s-header__link s-header__link--cart icon-shopping-cart">
+                            <span class="s-header__link-text">{{ 'layout.header.purchases_list' | t }}</span>
+                            <span class="s-header__link-count" v-if="cart.item_count">[[ cart.item_count ]]</span>
+                        </a>
+                    </cart>
+                   
+                    {% set currentPath = app.request.pathInfo %}
+                    {% set nonClickableRoutes = ['/cart/validate/','/checkout/address','/checkout/select-payment','/checkout/complete','/order/thank-you','/payment/capture/'] %}
+                    {% if currentPath starts with '/payment/capture/' %}
+                        <a href="#" class="s-header__link s-header__link--search icon-contact-dealer non-clickable" @click.prevent="$open('map')">
+                            <span class="s-header__link-text">{{ 'layout.header.partners' | t }}</span>
+                            <span class="s-header__link-title" v-if="partner"><span>[[ partner.title ]]</span></span>
+                        </a>
+                    {% else %}
+                    <a href="#" class="s-header__link s-header__link--search icon-contact-dealer {% if  currentPath in nonClickableRoutes %}non-clickable{% endif %}" @click.prevent="$open('map')">
+                        <span class="s-header__link-text">{{ 'layout.header.partners' | t }}</span>
+                        <span class="s-header__link-title" v-if="partner"><span>[[ partner.title ]]</span></span>
+                    </a> 
+                    {% endif %}  
+                </div>
+            </div>
+
+            {% include '@SyliusShop/snippets/search.html.twig' %}
+            {% include '@SyliusShop/snippets/nav.html.twig' %}
+        </div>
+    </header>
+</section>

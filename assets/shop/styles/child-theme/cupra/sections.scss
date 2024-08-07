@@ -1,0 +1,61 @@
+.s-header{
+  &__logo img{height: 30px;}
+  &__main,&__logo a{ background: $color-background }
+}
+
+.s-collection {
+  &__title-content h1{
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 36px;
+    padding: 0.5rem 1rem;
+  }
+  &__image{ margin-bottom: 0 }
+  &__title{ position: absolute; bottom: 0 }
+  &__header{ top: 0; bottom:  0; height: auto }
+  &__pagination > button{
+      border-radius: 0 !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+  }
+}
+
+.s-hero{
+  &__title{
+    font-weight: 300;
+    line-height: 64px;
+  }
+  &__official {
+    @media #{$from-medium}{ top: 100px !important;}
+  }
+  &__cta.button{
+    display: none;
+    }
+  }
+  .sn-official{
+    @media #{$to-phone}{
+      box-shadow: 0 14px 10px rgba(0, 0, 0, 0.35);
+      &__text{ margin-top: $space }
+    }
+  }
+
+.s-push-blog{
+  display:none;
+}
+.s-pushes__cta.button, .s-hero__cta.button, .s-push-blog__cta{
+  background: #242221; border-color: #242221; color: #fff;
+}
+
+.s-pushes__cta.button, .s-push-blog__cta{
+  &:hover{ background: transparent }
+}
+.s-pushes{
+  &__title{
+    font-weight:400;
+    font-size:22px;
+  }
+  &__cta{
+      font-size:16px;
+      font-weight:400;
+  } 
+}

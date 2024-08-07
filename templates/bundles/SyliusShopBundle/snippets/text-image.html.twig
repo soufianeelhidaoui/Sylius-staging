@@ -1,0 +1,54 @@
+{% if data.text == blank and data.images|length > 1 %}
+	<div class="sn-text-image sn-text-image--image-bottom site-wrap">
+		<div class="sn-text-image__image">
+			<p>
+				{% for image in data.images %}
+					{% include '@SyliusShop/snippets/picture.html.twig' with{ src: image.image, sources: 'max-width:420px=420x620', resize: '384x259', alt:image.alt } %}
+				{% endfor %}
+			</p>
+		</div>
+		<div class="sn-text-image__content">
+			<div class="sn-text-image__title">{{ data.title|raw }}</div>
+		</div>
+	</div>
+{% else %}
+    {% if data.black_background == true %}
+        {% set backgroundColor = 'sn-text-image--bg-black' %}
+    {% else %}
+        {% set backgroundColor = '' %}
+    {% endif %}
+
+	<div class="sn-text-image sn-text-image--{{ data.mod }} site-wrap {{ backgroundColor }}">
+		<div class="sn-text-image__image">
+			{% if data.images|length > 1 %}
+				<swiper :options="{slidesPerView: 1, breakpoints: { 991: { slidesPerView: 3, spaceBetween: 20 }, 768: { slidesPerView: 2, spaceBetween: 10 }}}">
+					{% for image in data.images %}
+						<swiper-slide>
+							{% include '@SyliusShop/snippets/picture.html.twig' with{ src: image.image, sources: 'max-width:420px=420x368, max-width:1024px=1024x434', resize: '1920x717', alt:image.alt } %}
+						</swiper-slide>
+					{% endfor %}
+					<div class="swiper-pagination" slot="pagination"></div>
+					<div class="swiper-button-prev" slot="button-prev"></div>
+					<div class="swiper-button-next" slot="button-next"></div>
+				</swiper>
+			{% elseif data.images %}
+				{% include '@SyliusShop/snippets/picture.html.twig' with{ src: data.images[0].image, sources: 'max-width:420px=420x620', resize: '720x500', alt:data.images[0].alt } %}
+			{% endif %}
+		</div>
+
+		<div class="sn-text-image__content">
+			{% if data.title != blank %}
+				<div class="sn-text-image__title">{{ data.title|raw }}</div>
+			{% endif %}
+
+			{% if data.text != blank %}
+				<div class="sn-text-image__text">{{ data.text|raw|nl2br }}</div>
+			{% endif %}
+
+			{% if data.cta_link != blank %}
+				<a class="sn-text-image__cta button" href="{{ data.cta_link }}">{{ data.cta_label |  default('En savoir plus') }}</a>
+			{% endif %}
+		</div>
+	</div>
+{% endif %}
+

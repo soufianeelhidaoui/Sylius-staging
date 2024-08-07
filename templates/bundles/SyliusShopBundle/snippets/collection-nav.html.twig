@@ -1,0 +1,70 @@
+{% if collection.childOf('vehicles')  %}
+	{% set vehicle = collection %}
+{% endif %}
+
+{%- set lifestyle = collections('lifestyle') -%}
+{%- set accessories = collections('accessories') -%}
+
+<nav class="sn-collection-nav" v-collection-nav>
+	<div class="site-wrap">
+		<div class="sn-collection-nav__items">
+			<div class="sn-collection-nav__items-wrapper">
+				{% if collection.childOf('lifestyle') %}
+					{%- set link_list = lifestyle -%}
+				{% else %}
+					{% set link_list = accessories %}
+				{% endif %}
+				{% for link in link_list.items %}
+					{%  if link|hasProducts(vehicle) %}
+						{% set color = link.color %}
+						{% if link.items != blank %}
+							<div class="sn-collection-nav__item sn-collection-nav__item--level1 {% if link.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+								<a href="{{ link|url }}" class="sn-collection-nav__link sn-collection-nav__link--level1 has-child" {% if color %}style="color:{{ color }}"{% endif %} v-collection>
+									<span>{{ link.title }}</span><b>{{ link.title }}</b>
+								</a>
+								<div class="sn-collection-nav__submenu-overlay"></div>
+								<div class="sn-collection-nav__submenu">
+									<div class="sn-collection-nav__item sn-collection-nav__item--level2 sn-collection-nav__item--category {% if link.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+										<a href="{{ link|url }}" class="sn-collection-nav__link sn-collection-nav__link--level2" v-collection>{{ link.title }}</a>
+									</div>
+									{% for childlink in link.items %}
+										{% if childlink|hasProducts(vehicle) %}
+											<div class="sn-collection-nav__item sn-collection-nav__item--level2 {% if childlink.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+												<a href="{{ childlink|url }}" class="sn-collection-nav__link sn-collection-nav__link--level2" v-collection>{{ childlink.title }}</a>
+											</div>
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
+						{% else %}
+							<div class="sn-collection-nav__item sn-collection-nav__item--level1 {% if link.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+								<a href="{{ link|url }}" class="sn-collection-nav__link sn-collection-nav__link--level1" {% if color %}style="color:{{ color }}"{% endif %} v-collection>
+									<span>{{ link.title }}</span><b>{{ link.title }}</b>
+								</a>
+							</div>
+
+						{% endif %}
+					{%  endif %}
+				{% endfor %}
+                {% if not collection.childOf('lifestyle') %}
+					<div class="sn-collection-nav__item sn-collection-nav__item--level1">
+						<a href="{{ lifestyle|url }}" class="sn-collection-nav__link sn-collection-nav__link--level1" {% if color %}style="color:{{ color }}"{% endif %}>
+							<span>{{ lifestyle.title }}</span><b>{{ lifestyle.title }}</b>
+						</a>
+                        <div class="sn-collection-nav__submenu-overlay"></div>
+                        <div class="sn-collection-nav__submenu">
+                            <div class="sn-collection-nav__item sn-collection-nav__item--level2 sn-collection-nav__item--category {% if link.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+                                <a href="{{ lifestyle|url }}" class="sn-collection-nav__link sn-collection-nav__link--level2">{{ lifestyle.title }}</a>
+                            </div>
+                            {% for childlink in lifestyle.items %}
+                                <div class="sn-collection-nav__item sn-collection-nav__item--level2 {% if childlink.isActive(collection.handle) %}sn-collection-nav__item--active{% endif %}">
+                                    <a href="{{ childlink|url }}" class="sn-collection-nav__link sn-collection-nav__link--level2">{{ childlink.title }}</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</nav>

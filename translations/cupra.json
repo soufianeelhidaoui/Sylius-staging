@@ -1,0 +1,345 @@
+{
+  "email": {
+    "title": "Votre liste d'achats Cupra",
+    "from": "no-reply@cupra.fr",
+    "brand": "Cupra"
+  },
+  "general": {
+    "meta": {
+      "tags": "Mots clés \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    },
+    "404": {
+      "title": "404",
+      "title_vw": "La page recherchée ne peut être affichée actuellement.",
+      "subtext_html": "Oups. Cette page n’existe pas.",
+      "subtext_vw_html": "Nous vous proposons de visiter l'un des liens suivants :",
+      "cta": "Retour à la page d'accueil",
+      "homepage": "Page d'accueil"
+    },
+    "500": {
+      "title": "500",
+      "title_vw": "La page recherchée ne peut être affichée actuellement.",
+      "subtext_html": "Oups. Cette page a généré une erreur.",
+      "subtext_vw_html": "Nous vous proposons de visiter l'un des liens suivants :",
+      "cta": "Retour à la page d'accueil",
+      "homepage": "Page d'accueil"
+    },
+    "layout": {
+      "official_website": "Site officiel",
+      "cupra": "Cupra"
+    },
+    "password_page": {
+      "login_form_password_placeholder": "Votre mot de passe",
+      "login_form_submit": "Entrer",
+      "password_link": "Entrer avec un mot de passe"
+    },
+    "social": {
+      "share_on_facebook": "Partager",
+      "share_on_twitter": "Tweeter",
+      "share_on_pinterest": "Épingler",
+      "alt_text": {
+        "share_on_facebook": "Partager sur Facebook",
+        "share_on_twitter": "Tweeter sur Twitter",
+        "share_on_pinterest": "Épingler sur Pinterest"
+      }
+    },
+    "search": {
+      "placeholder": "Rechercher dans la boutique",
+      "results_with_count": {
+        "one": "{{ count }} résultat pour \"{{ terms }}\"",
+        "other": "{{ count }} résultats pour \"{{ terms }}\""
+      },
+      "no_results": "0 résultat",
+      "no_results_html": "Veuillez essayer un terme de recherche différent ou revenir à la <a href=\"\/\">page d'accueil<\/a>."
+    }
+  },
+  "blogs": {
+    "article": {
+      "author_on_date_html": "Publié par {{ author }} le {{ date }}",
+      "comment_meta_html": "{{ author }} le {{ date }}",
+      "read_more": "Plus"
+    },
+    "comments": {
+      "title": "Laissez un commentaire",
+      "name": "Nom",
+      "email": "Courriel",
+      "message": "Message",
+      "post": "Publier le commentaire",
+      "moderated": "Veuillez noter que les commentaires doivent être approuvés avant d'être affichés",
+      "success_moderated": "Votre commentaire a été soumis avec succès. Nous le publierons sous peu, suite à notre processus de modération.",
+      "success": "Votre commentaire a été publié avec succès!",
+      "with_count": {
+        "one": "{{ count }} commentaire",
+        "other": "{{ count }} commentaires"
+      }
+    }
+  },
+  "cart": {
+    "general": {
+      "title": "Ma sélection",
+      "remove": "Supprimer",
+      "subtotal": "Total de ma sélection",
+      "receive": "Recevoir ma liste d’achats",
+      "checkout": "Procéder au paiement",
+      "empty": "Aucun article dans votre sélection.",
+      "continue_browsing": "Continuer mes achats",
+      "sent_error": "Votre demande n'a pas pu être envoyée",
+      "available": "Disponible : Si ce produit n'est pas en stock chez le réparateur agréé, il peut lui être livré en 48 heures ouvrées.",
+      "unavailable": "Sur commande : Ce produit est disponible sous 8 jours ouvrés, après avoir passé la commande auprès de votre réparateur agréé.",
+      "count": "Total de produits :"
+    },
+    "checkout": {
+      "payment": "Paiement",
+      "first_step": "Sélectionnez votre partenaire {{ brand }} pour le retrait de votre commande.",
+      "first_step_description": "Mon adresse",
+      "second_step": "Renseignez vos coordonnées pour recevoir votre liste d’achats",
+      "cgu": "J'accepte les",
+      "cgu_partner": "CGV du partenaire",
+      "shipping": "Vos produits seront disponibles entre 2 et 8 jours. Le Partenaire vous contactera dans les plus brefs délais afin de confirmer la date de retrait de votre sélection.",
+      "legals_title": "Le responsable du traitement des données personnelles est Volkswagen Group France.",
+      "legals_text": "Votre adresse email fait l’objet d’un traitement automatisé et est indispensable pour vous faire parvenir votre sélection accessoires.  En savoir plus\nConformément au règlement n° 2016\/679, dit règlement général sur la protection des données (RGPD), vous disposez d'un droit d’accès, de rectification, d’opposition, de limitation, de suppression et de portabilité des informations vous concernant. Vous pouvez exercer ces droits en écrivant au Délégué à la protection des données de Volkswagen Group France à l’adresse email suivante : relations.clients@volkswagengroup.fr, ou à l’adresse postale suivante : Volkswagen Group France Relation Client, 11 Avenue de Boursonne, 02600 Villers-Cotterêts, accompagné d’une copie d’un titre d’identité. Vous disposez également du droit d’introduire une réclamation auprès d’une autorité de contrôle",
+      "search_placeholder": "Code postal, ville ou nom de partenaire {{ brand }}",
+      "partner_title": "Votre partenaire sélectionné :",
+      "select": "Sélectionner",
+      "selected": "Changer",
+      "civility": "Civilité",
+      "mrs": "Mme",
+      "mr": "M.",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "telephone": "Téléphone",
+      "email": "Adresse email",
+      "email_placeholder": "exemple@exemple.com",
+      "sent_success": "Votre demande a été envoyée",
+      "sent_error": "Votre demande n'a pas été envoyée",
+      "contact_later": "Recevoir ma liste d'achats",
+      "back_to_cart": "Revoir ma liste d’achats",
+      "contact_later_title": "S’il ne répond pas ou que vous souhaitez le contacter plus tard",
+      "contact_later_text": "Cliquez sur le bouton \"Recevoir ma liste d'achats par email\" sur la fiche du réparateur agréé et renseignez votre adresse e-mail. \nVotre liste d’achat et ses coordonnées vous seront envoyés par e-mail",
+      "contact_later_submit": "Recevoir mon récapitulatif par e-mail",
+      "error_tel": "Numéro de téléphone invalide",
+      "error_email": "Email invalide",
+      "error_generic": "Erreur"
+    },
+    "confirm":{
+      "title": "L'email a bien été envoyé. Si celui-ci ne se trouve pas dans votre boite de réception, merci de bien vouloir vérifier vos emails indésirables.",
+      "partner_title": "Votre partenaire sélectionné :",
+      "summary_1": " Un récapitulatif vous a été envoyé à l’adresse :",
+      "summary_2": " Vous y retrouverez votre sélection et les coordonnées du partenaire {{ brand }} sélectionné.",
+      "summary_3":"Pensez à vérifier dans vos courriers indésirables si le mail n’apparaît pas dans votre boîte de réception."
+    },
+    "label": {
+      "product": "Produit",
+      "price": "Prix unitaire",
+      "quantity": "Quantité",
+      "total": "Total",
+      "tva": "TVA incluse",
+      "remove": "Action"
+    }
+  },
+  "collections": {
+    "general": {
+      "link_title": "Consultez la collection {{ title }}",
+      "filters": "Tous les filtres",
+      "filters_reset": "Réinitialiser tous les filtres",
+      "filter_by": "Trier par",
+      "do_filter": "Filtrer",
+      "load_more": "Plus de résultats",
+      "no_result": "Aucun résultat ne correspond à votre demande"
+    },
+    "filters": {
+      "relevance": "Pertinence",
+      "manual": "Pertinence",
+      "sold_units-desc": "Meilleur vente",
+      "title-asc": "Alphabétique, de A à Z",
+      "title-desc": "Alphabétique, de Z à A",
+      "price-asc": "Prix croissants",
+      "price-desc": "Prix décroissants",
+      "created-asc": "",
+      "created-desc": "",
+      "year_vehicle": "Année du véhicule",
+      "cancel": "Annuler",
+      "apply": "Appliquer"
+    }
+  },
+  "customer": {
+    "account": {
+      "title": "Mon compte",
+      "details": "Détails du compte",
+      "view_addresses": "Voir les adresses",
+      "return": "Retour aux détails du compte"
+    },
+    "activate_account": {
+      "title": "Activer le compte",
+      "subtext": "Créez votre mot de passe pour activer le compte.",
+      "submit": "Activer le compte",
+      "cancel": "Refuser l'invitation",
+      "password": "Mot de passe",
+      "password_confirm": "Confirmer le mot de passe"
+    },
+    "addresses": {
+      "title": "Votre adresse",
+      "add_new": "Ajouter une nouvelle adresse",
+      "edit_address": "Éditer l'adresse",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "company": "Compagnie",
+      "address1": "Adresse 1",
+      "address2": "Adresse 2",
+      "city": "Ville",
+      "country": "Pays",
+      "province": "Province",
+      "zip": "Code postal",
+      "phone": "Téléphone",
+      "set_default": "Définir comme adresse par défaut",
+      "add": "Ajouter l'adresse",
+      "update": "Mettre à jour l'adresse",
+      "cancel": "Annuler",
+      "edit": "Éditer",
+      "delete": "Supprimer",
+      "delete_confirm": "Êtes-vous certain(e) de vouloir supprimer cette adresse?"
+    },
+    "login": {
+      "title": "Connexion",
+      "email": "Courriel",
+      "password": "Mot de passe",
+      "forgot_password": "Mot de passe oublié?",
+      "sign_in": "Se connecter",
+      "cancel": "Retourner à la boutique",
+      "guest_title": "Continuer en tant qu'invité",
+      "guest_continue": "Continuer"
+    },
+    "orders": {
+      "title": "Historique des commandes",
+      "order_number": "Commande",
+      "date": "Date",
+      "payment_status": "Statut du paiement",
+      "fulfillment_status": "Statut du traitement de la commande",
+      "total": "Total",
+      "none": "Vous n'avez pas placé de commande à ce jour."
+    },
+    "order": {
+      "title": "Commande {{ name }}",
+      "date": "Placée le {{ date }}",
+      "cancelled": "Commande annulée le {{ date }}",
+      "cancelled_reason": "Motif: {{ reason }}",
+      "billing_address": "Adresse de facturation",
+      "payment_status": "Statut du paiement",
+      "shipping_address": "Adresse de livraison",
+      "fulfillment_status": "Statut du traitement de la commande",
+      "discount": "Rabais appliqué",
+      "shipping": "Livraison",
+      "tax": "Taxes",
+      "product": "Produit",
+      "sku": "SKU",
+      "price": "Prix",
+      "quantity": "Quantité",
+      "total": "Total",
+      "fulfilled_at": "Date traitée",
+      "track_shipment": "Retracer l'envoi",
+      "tracking_url": "Lien de suivi",
+      "tracking_company": "Compagnie",
+      "tracking_number": "Numéro de suivi",
+      "subtotal": "Sous-total"
+    },
+    "recover_password": {
+      "title": "Réinitialiser votre mot de passe",
+      "email": "Courriel",
+      "submit": "Soumettre",
+      "cancel": "Annuler",
+      "subtext": "Nous vous ferons parvenir un courriel pour réinitialiser votre mot de passe.",
+      "success": "Nous vous avons fait parvenir un courriel pour réinitialiser votre mot de passe."
+    },
+    "reset_password": {
+      "title": "Réinitialiser le mot de passe du compte",
+      "subtext": "Entrez un nouveau mot de passe pour {{ email }}",
+      "submit": "Réinitialiser le mot de passe",
+      "password": "Mot de passe",
+      "password_confirm": "Confirmer le mot de passe"
+    },
+    "register": {
+      "title": "Créer un compte",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Courriel",
+      "submit": "Créer",
+      "cancel": "Retour à la boutique",
+      "password": "Mot de passe"
+    }
+  },
+  "homepage": {
+    "layout": {
+      "recommandations_html": "Nous vous recommandons",
+      "no_content": "Cette section ne contient actuellement aucun contenu. Ajoutez-en en utilisant la barre latérale."
+    }
+  },
+  "layout": {
+    "breadcrumb": {
+      "home": "Accueil",
+      "cart": "Ma sélection",
+      "cart_checkout": "Recevez votre liste d’achats",
+      "checkout_summary": "Confirmation"
+    },
+    "customer": {
+      "log_out": "Se déconnecter",
+      "create_account": "Créer un compte"
+    },
+    "nav": {
+      "categories": "Catégories",
+      "close": "Fermer",
+      "back": "Retour",
+      "menu": "Menu"
+    },
+    "header": {
+      "purchases_list": "Ma sélection",
+      "search": "Recherche",
+      "partners": "Mon partenaire",
+      "menu": "Menu"
+    },
+    "footer": {
+      "socials_title": "Réseaux sociaux"
+    },
+    "vehicles": {
+      "no_vehicles": "Aucun véhicule ne correspond à votre recherche",
+      "modify_vehicle": "Modifier votre véhicule",
+      "select_vehicle": "Sélectionnez  votre  véhicule",
+      "model_vehicles": "Modèles de véhicule",
+      "subtitle": "Les modèles de véhicules {{ brand }} disponibles."
+    }
+  },
+  "products": {
+    "product": {
+      "color": "Couleur",
+      "size": "Taille",
+      "sold_out": "Épuisé",
+      "unavailable": "Sur commande",
+      "from_text_html": "À partir de {{ price }}",
+      "add_to_cart": "Ajouter à ma sélection",
+      "price": "Prix",
+      "quick_buy": "Achat rapide",
+      "available": "Disponible",
+      "available_detail": "Si ce produit n'est pas en stock chez le réparateur agréé, il peut lui être livré en 48 heures ouvrées.",
+      "unavailable_detail": "Ce produit est disponible sous 8 jours ouvrés, après avoir passé la commande auprès de votre réparateur agréé.",
+      "description_title": "Le produit",
+      "info_title":"Informations",
+      "new":"Nouveauté",
+      "models_title": "Modèles compatibles",
+      "manual_cta": "Lire le mode d'emploi",
+      "documents_cta": "Documents associés",
+      "print_cta": "Imprimer le descriptif",
+      "discover": "Découvrir",
+      "back_to_list": "Retour à la liste"
+    }
+  },
+  "date_formats": {
+    "month_day_year": "%d %B, %Y"
+  },
+  "forms": {
+    "errors": {
+      "required": "Ce champ est obligatoire",
+      "numeric": "Ce champ doit comporter uniquement des chiffres",
+      "invalid_format": "Le format est invalide"
+    }
+  }
+}

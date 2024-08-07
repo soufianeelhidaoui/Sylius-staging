@@ -1,0 +1,23 @@
+imports:
+    - { resource: "@MonsieurBizSyliusSettingsPlugin/Resources/config/config.yaml" }
+
+monsieurbiz_sylius_settings:
+    plugins:
+        app.theme:
+            vendor_name: Alaska
+            vendor_url:
+            plugin_name: Theme
+            description: Theme settings
+            icon: bullseye
+            use_locales: false
+            classes:
+                form: App\Form\SettingsThemeType
+        app.tools:
+            vendor_name: Alaska
+            vendor_url:
+            plugin_name: Tools
+            description: Tools settings
+            icon: bullseye
+            use_locales: false
+            classes:
+                form: App\Form\SettingsToolsType

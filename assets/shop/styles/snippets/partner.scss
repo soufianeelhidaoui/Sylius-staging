@@ -1,0 +1,53 @@
+.sn-partner{
+	position: absolute; right: 1rem; background: #fff; padding: $space-s; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+	top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: $font-size-xs; z-index: 2;
+
+	@media #{$to-small} { width: 85% }
+
+	&--light{
+		box-shadow: none; border: solid 1px $color-border;
+		.sn-partner{
+			&__title{ margin-top: 0 }
+			&__description-content{
+				flex-flow: column;
+				p+p{ margin-top: 2rem; margin-left: 0 }
+			}
+		}
+	}
+
+	&__close{ position: absolute; top: 2rem; right: 2rem; cursor: pointer }
+
+	&__title{ font-size: 1.8rem; margin-bottom: $space-s; font-weight: bold; margin-top: $space-s }
+
+	&__description {
+		margin-top: $space-xs; line-height: $space-s;
+		&-content {
+			display: flex; max-width: 100%; margin-bottom: 0;
+			@media #{$to-phone}{ display: block; max-width: 100%; margin-bottom: $space-s }
+			:before{ margin-right: 0.8rem }
+			a {
+				display: flex; align-items: center;
+				&+a{ margin-top: 1rem }
+			}
+			p+p{ margin-left: 2rem }
+
+			@media #{$to-phone}{
+				p+p{ margin-top: 0.5rem; margin-left: 0 }
+			}
+		}
+		&-cta{
+			display: flex; justify-content: flex-end; margin-top: $space-l;
+			& > * + *{ margin-left: auto }
+
+			@media #{$to-phone}{
+				margin-top: $space-s; flex-direction: column;
+				a{ width: 100% }
+				& > * + *{ margin-left: 0; margin-top: $space-xs }
+			}
+				span{
+				display: inline-flex; align-items: center;
+				&:before{ margin-right: 1rem }
+			}
+		}
+	}
+}

@@ -1,0 +1,3 @@
+monsieurbiz_sylius_homepage_admin:
+    resource: "@MonsieurBizSyliusHomepagePlugin/Resources/config/routes/admin.yaml"
+    prefix: /%sylius_admin.path_name%

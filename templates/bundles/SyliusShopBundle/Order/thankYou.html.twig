@@ -1,0 +1,37 @@
+{% extends '@SyliusShop/layout.html.twig' %}
+
+{% block title %}{{ 'sylius.ui.thank_you'|trans }}{% endblock %}
+
+{% block content %}
+    <div class="thankyou site-wrap" >
+        <div class="ui three steps">
+          <a href="/" class="step">Accueil</a>
+          <a href="/cart/" class="step icon-chevron-right">Ma sélection</a> 
+          <a href="#" class="step icon-chevron-right disabled">Paiement</a>
+          <a href="/checkout/address" class="active step icon-chevron-right">Confirmation</a>
+        </div>
+
+        <div class="t-checkout__thanks">
+            {% set lastPayment = order.payments.last() %}
+            <div class="header">
+                <img src="{{ ('img/icons/bag-tick-' ~ settings.theme ~ '.svg') | asset_url }}">
+                <b>{{ 'sylius.ui.thank_you'|trans }}</b>
+            </div>
+            <div class="sub header">
+                Votre commande a bien été prise en compte. Vous avez choisi de retirer votre commande chez votre partenaire.
+                <br>
+                Lorsque votre commande sera disponible, vous recevrez un e-mail avec les informations nécessaires pour retirer votre colis à l'adresse suivante :
+
+            </div>
+            <div class="center"><b>{{order.customer.email}}</b></div>
+            <div class="sub header">
+                {{ 'cart.checkout.shipping' |  t }}
+            </div>
+            <div class="center">
+                <a href="{{ routes.root_url }}" class="button">Retourner à l'accueil</a>
+            </div>
+        </div>
+
+        {{ sylius_template_event('sylius.shop.order.thank_you.after_message', {'order': order}) }}
+    </div>
+{% endblock %}

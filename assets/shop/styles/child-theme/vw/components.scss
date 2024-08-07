@@ -1,0 +1,7 @@
+.template-index, .template-page-parse{
+	.c-burger{
+		&__icon i{
+			&, &:before, &:after{ background: #fff }
+		}
+	}
+}

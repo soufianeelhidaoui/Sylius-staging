@@ -1,0 +1,595 @@
+.t-cart {
+    $c: &;
+
+    main & .site-wrap{ max-width: 164rem;}
+
+    @media #{$to-phone}{
+        main & .shopify-section{ margin-top: 0 }
+    }
+
+    &__flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 4.6rem;
+        @media #{$to-phone}{ display: block }
+        @media #{$to-tablet}{ gap: 0; }
+    }
+
+    &__title {
+        @extend %title; margin-top: 3rem; font-size: 4.6rem !important;
+        @media #{$to-phone}{ font-size: $font-size-l }
+    }
+
+    &__price{
+        white-space: nowrap;
+        sup{ font-size: $font-size-xs; margin-left: 0.5rem; position: relative; top: -0.7rem; display: none; vertical-align: initial }
+        s{ opacity: 0.5 }
+        @media #{$to-phone}{ font-size: $font-size-body }
+        &.tva{
+            font-weight: 500 !important;
+            font-size: large;
+        }
+    }
+
+    &__subtitle {
+        @extend %title; margin-top: 4rem; font-size: 2.3rem; margin-bottom: 8px;
+        @media #{$to-phone}{ font-size: 2.0rem }
+        &-description{ margin-top: -2rem; margin-bottom: 2rem }
+    }
+    &__label {
+        font-size: 17px;
+        color: #666666;
+        font-weight: 500;
+        margin-bottom: 14.4px;
+    }
+    &__partners {
+        position: relative;
+        input{
+            padding-left: $space-m; width: 100%; border: none; border-radius: 4px; background-color: #F5F5F5; font-size: 17px;
+        }
+        & + *{ margin-top: $space-m }
+    }
+
+    &__lead {
+        margin-top: $space-s*2;
+        .field-group {
+            &--email{
+                margin-bottom: $space-m;
+                @media #{$to-phone}{ padding-bottom: $space-m }
+            }
+            &--text {
+                display: flex; flex-direction: column; position: relative; margin-bottom: $space-m;
+                @media #{$from-tablet}{ max-width: max-content }
+
+                input {
+                    padding-left: 0; padding-bottom: 0.5rem; width: 48rem; border: none;
+                    border-bottom: 1px solid $color-grey-dark; border-radius: 0; background: none; padding-top: 1rem; margin-bottom: 0;
+                }
+                label{
+                    color: black; transition: allow(transform color); pointer-events: none; font-size: 80%;
+                    a{ pointer-events: all; text-decoration: underline }
+                }
+            }
+
+            &--radio{
+                margin-bottom: $space-m;
+                label { position: relative; padding-left: $space-m; margin-bottom: $space; cursor: pointer; font-size: $font-size-s; user-select: none; margin-right: 2.4rem }
+                a+label{ margin-left: 1rem }
+                label input { position: absolute; opacity: 0; cursor: pointer }
+                .checkmark { position: absolute; top: -0.3rem; left: 0; height: 2.2rem; width: 2.2rem; background-color: transparent; border-radius: 50%; border: 1px solid $color-grey-light }
+                label:hover input ~ .checkmark,  label input:checked ~ .checkmark { border: 1px solid $color-primary }
+                .checkmark:after { content: ""; position: absolute; display: none }
+                label input:checked ~ .checkmark:after { display: block }
+                label .checkmark:after { top: 0.4rem; left: 0.4rem; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: $color-primary }
+            }
+
+            &--checkbox{
+                margin-bottom: $space-m;
+                label { position: relative; padding-left: $space-m; margin-bottom: $space; cursor: pointer; font-size: $font-size-s; user-select: none; margin-right: 2.4rem; pointer-events: all }
+                label input { position: absolute; opacity: 0; cursor: pointer }
+                .checkmark { position: absolute; top: -0.3rem; left: 0; height: 2.2rem; width: 2.2rem; background-color: transparent; border-radius: 4px; border: 1px solid $color-grey-light }
+                label:hover input ~ .checkmark,  label input:checked ~ .checkmark { border: 1px solid $color-primary }
+                .checkmark:after { content: ""; position: absolute; display: none }
+                label input:checked ~ .checkmark:after { display: block }
+                label .checkmark:after { top: 0.2rem; left: 0.2rem; right: 0.2rem; bottom: 0.2rem; border-radius: 4px; background: $color-primary }
+            }
+
+            & > div{ position: relative; margin-right: auto }
+
+            .input-error{
+                display: block; position: absolute; right: 0; top: 6.5rem; font-size: $font-size-xs; color: $color-error; opacity: 0;
+                @media #{$to-phone}{ top: 5.5rem }
+            }
+            input:not(:placeholder-shown):invalid{
+                border-color: $color-error;
+                &  ~ .input-error{ opacity: 1 }
+            }
+        }
+
+        input[type="submit"],button[type="submit"]{
+            @media #{$to-phone}{ white-space: normal }
+        }
+
+    }
+
+    &__message{ padding: $space $space-xs; color: #FFF; border-radius: 0.4rem; margin-top: $space-s;
+        &--success{ background: $color-primary }
+        &--error{ background: #E62336 }
+        &:before{ margin-right: $space }
+    }
+
+    &__legal{
+        margin-top: $space-l; color: $color-grey-light !important; font-size: $font-size-s; line-height: $font-size-m; position: relative;
+        .toggle-title{
+            &:after{ position: absolute; top: 0; right: $space-s; z-index: -1; color: $color-grey-dark;
+                @media #{$to-phone}{ right: 0 }
+            }
+        }
+        .is-active:after { transform: rotate(180deg) }
+        p { width: 95% }
+    }
+
+    &__wrapper{ background:  #fff; text-align: center; padding-top: #{$space-xl*2}; padding-bottom: #{$space-xl*2} }
+
+    &__empty{
+        font-size: $font-size-l; font-weight: bold; margin-bottom: $space-m;
+        small{ display: block; font-size: $font-size-body; font-weight: normal }
+        a{ text-decoration: underline; color: $color-primary }
+    }
+
+    &__map{
+        margin-bottom: 5rem;
+        &--popin{
+            position: overlay('fixed'); z-index: 999; background: rgba(0,0,0,0.5); padding: 5rem; margin-bottom: 0; overflow-y: auto;
+            &::-webkit-scrollbar { display: none }
+            @media #{$to-phone}{ padding: 0; background: white; }
+            .t-cart__map-wrapper{
+                background: #fff; padding: 5rem; padding-top: 1px; border-radius: 8px;
+                @media #{$to-phone}{ height: 100%; padding: 2rem }
+            }
+            .t-cart__subtitle{
+                @media #{$to-phone}{ margin-top: 0 }
+            }
+            .google-map-inner{
+                @media #{$to-phone}{ height: calc(100vh - 28rem)!important }
+            }
+        }
+        &-wrapper{  position: relative }
+        &-close{
+            position: absolute; right: 2rem; top: 2rem; cursor: pointer;
+            @media #{$to-phone}{ right: 1rem; top: 0.4rem; }
+            &:before{
+                content: url('../../../img/close-circle.svg') !important;
+            }
+        }
+        &-buttons{
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2.3rem;
+            gap: 8px;
+            align-items: baseline;
+            .button--secondary{
+                cursor: pointer;
+                border-radius: 4px;
+                background-color: #F5F5F5;
+                color: black;
+                padding: 12px 24px 12px 24px;
+                font-size: 14px;
+                font-weight: 500;
+            }
+            .button--primary{
+                cursor: pointer;
+                border-radius: 4px;
+                background-color: $background-mainColor;
+                color: white;
+                padding: 12px 24px 12px 24px;
+                font-size: 14px;
+                font-weight: 500;
+                &:hover, &:focus{ background-color: $background-mainColor !important; color: white !important;}
+            }
+        }
+        .google-map-wrapper{ 
+            position: relative;
+            @media #{$from-tablet}{
+                position: relative;
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+                gap: 24px;
+            }
+        }
+        .google-map-inner{
+            border-radius: 8px;
+            height: 50rem !important;
+            @media #{$from-4k}{ height: 60rem !important; }
+            >div{ position: overlay() }
+        }
+        .dealer-card{
+            background-color: #F5F5F5; border-radius: 8px; padding: 1rem; color: #FFF; display: flex;
+            gap: 20px; align-items: center; cursor: pointer;
+            .logo{
+                background-color: #FAFAFA; border-radius: 8px; padding: 1rem; min-width: 56px;
+                height: 53px; padding-top: 1rem; text-align: -webkit-center;
+                img{ width: 32px !important}
+            }
+            .info{
+                font-size: 14px;
+                .title{
+                    font-weight: 500;
+                    line-height: 21px;
+                    color: #161718;
+                    margin-bottom: 0.5rem;
+                }
+                .address{
+                    font-weight: 400;
+                    line-height: 21px;
+                    color: #666666;
+                    padding-top: 0.4rem;
+                    &__phone{
+                        display: inline;
+                        width: 14px;
+                        padding-bottom: 0.4rem;
+                        vertical-align: bottom;
+                        content: url(../img/phone.svg);
+                        filter: invert(43%) sepia(0%) saturate(0%) hue-rotate(206deg) brightness(95%) contrast(9%);
+                    }
+                } 
+                .distance{
+                    font-weight: 600;
+                    line-height: 21px;
+                    margin-top: 1rem;
+                    color: $background-mainColor;
+                }
+            }
+        }
+        .dealer-cards{
+            @include scrollbar(8px, $color-primary, $color-border, 8px);
+            display: grid;
+            height: 50rem !important;
+            overflow-y: auto;
+            padding-right: 1rem;
+            > *:not(:last-child) {
+                margin-bottom: 1rem; 
+            }
+            @media #{$to-phone}{
+                white-space: nowrap;
+                display: flex;
+                overflow-x: auto;
+                gap: 8px;
+                height: auto !important;
+                margin-bottom: 2.3rem;
+                > *:not(:last-child) {
+                    margin-bottom: 0;
+                }
+            }
+        }
+        &-later{
+            background: rgba(0,0,0,0.7); color: white; padding: $space-s 30% $space-s $space-s;  font-size: $font-size-s; display: flex;
+
+            @media #{$to-phone}{
+                padding: $space-s;
+                &.fade-enter-active{ position: static }
+            }
+
+            @media #{$from-tablet}{ position: absolute; bottom: 0; left: 0; right: 0; top: auto; }
+
+            & > * + *{ margin-left: $space-s }
+
+            p + p{ margin-top: 0.5rem }
+        }
+    }
+
+    &__count{
+        margin-bottom: $space-m; font-size: $font-size-body; padding-top: $space-xs; padding-bottom: $space-xs; border-bottom: solid 1px $color-border;
+
+        b{ margin-left: $space-xs }
+        @media #{$from-small}{ display: none }
+    }
+
+    @media #{$from-tablet}{
+        .swiper-global{ display: none }
+    }
+
+    &__table {
+        flex-grow: 1;
+        width: 70%;
+        @media #{$to-tablet}{ width :100%; padding: 0;}
+
+        .s-product__quantity{
+            margin-top: -0.5rem; margin-right: 0;
+            @media #{$to-phone}{ margin-bottom: 0; display: inline-block; }
+        }
+
+        .label-mobile{
+            font-size: $font-size-body; font-weight: $font-weight-normal; display: inline-block; width: 40%;
+            @media #{$from-small}{ display: none }
+        }
+        table {
+            border-collapse:separate; 
+            border-spacing: 0 1em;
+            thead{
+                @media #{$to-phone}{ display: none }
+            }
+            th,td{ border: 0 }
+            th {
+                font-weight: normal;
+                padding: $space-xs $space-m $space-xs 0;
+                &:last-of-type{ padding-right: 0 }
+            }
+
+            tbody {
+                @media #{$to-phone}{ padding-top: $space-m }
+            }
+            tbody tr:last-child{ border-radius: 8px}
+            tbody tr.responsive-table-row{
+                background-color: #FFF !important;
+                margin-bottom: $space-s !important;
+                overflow: hidden;
+            }
+
+            tbody tr {
+                img{ max-width: 15rem; margin-left: 1em;
+                    @media #{$to-phone}{ max-width: 100% ; text-align: center; margin-left: 0; display: inline-block;}
+                }
+                @media #{$to-phone}{ display: flex; flex-direction: column; flex-wrap: nowrap; align-items: flex-start; width: 100% }
+            }
+
+            td{
+                border: 0px !important;
+                vertical-align: middle;
+                font-weight: bold;
+                padding: $space-m $space-m $space-m 0;
+                &:last-of-type{ border-top-right-radius: 8px; border-bottom-right-radius: 8px; padding-right: 0}
+                &:first-of-type{ padding-right: $space-m; border-top-left-radius: 8px; border-bottom-left-radius: 8px;}
+                @media #{$to-phone}{ padding: $space-s; width: 100%; text-align: center; }
+                &:nth-child(4){
+                    padding-right: 0;
+                }
+            }
+
+            td.t-cart__column {
+                vertical-align: middle;
+                font-weight: bold;
+                &--order-2{
+                    button {
+                        &.remove{
+                            border: none !important;
+                            background-color: transparent !important;
+                            box-shadow: none !important;
+                            >img{
+                                max-width: 24px !important;
+                            }
+                        }
+                    }
+                 }
+
+                @media #{$to-phone}{
+                    &--order-1{ order: 1 }
+                    &--order-2{ order: 2 }
+                }
+            }
+        }
+    }
+
+    .responsive-table{ @media #{$to-phone}{ } }
+
+    &__item-block {
+        font-weight: bold;
+        color: #666;
+        padding: 0 0 $space-s 0;
+        margin-left: 2rem;
+        .t-cart__price {
+            justify-content: space-between;
+            display: flex;
+            font-weight: 700;
+            margin-top: 12px;
+        }
+        .label-mobile{
+          font-weight: 400 !important;
+        }
+    }
+
+    &__remove {
+        text-decoration: underline;
+        font-size: $font-size-s;
+        font-weight: 500;
+        border: 0;
+        padding: 0;
+        margin-top: -1rem;
+    }
+
+    &__description {
+        display: flex;
+        flex-direction: column;
+
+        &-ref, &-option {
+            font-weight: 400;
+            font-size: $font-size-s;
+            margin-top: $space
+        }
+
+        &-ref {
+            color: #666;
+            white-space: nowrap;
+        }
+
+        &-title{
+            font-weight: 600 !important;
+            @include line-clamp(3);
+        }
+
+        &-avaibility {
+            font-weight: 700;
+            font-size: $font-size-s;
+            margin-top: $space-s
+        }
+    }
+
+    &__info{
+        font-size: $font-size-s;
+        div+div{ margin-top: $space }
+    }
+
+    &__total {
+        width: 30%;
+        background-color: white !important;
+        color: black !important;
+        margin-top: 1em;
+        border-radius: 8px;
+        padding: 24px;
+        height: fit-content;
+        overflow: hidden;
+
+        @media #{$to-tablet}{ padding: 0px; width: 0%; } 
+
+        &-content {
+            color: black !important;
+
+            &_title{
+                font-size: 20px;
+                font-weight: 700;
+                margin-bottom: $space-xs;
+                @media #{$to-phone}{ display: none; } 
+            }
+
+            &_subtotal {
+
+                @media #{$to-phone}{ font-size: 1.8rem; display: none; }
+
+                &-details {
+                    font-size: 20px;
+                    font-weight: 700;
+                    margin-bottom: 1.3rem;
+                    white-space: nowrap;
+                    img{
+                        display: inline-block !important;
+                        margin-right: 0.2rem;
+                    }
+                }
+
+                &-price {
+                    font-weight: 700; margin-left: 0.5rem;
+                    sup{ margin-left: 0.5rem; position: relative; top: -0.7rem; vertical-align: initial; font-size: $font-size-xs; display: none }
+                }
+                &-cta {
+                    margin-bottom: $space-s;
+                }
+                &-buttons{
+                    background-color: white !important;
+                    @media #{$to-tablet}{ padding: 2rem !important; border-radius: 0px !important; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; font-size: 14px !important;}
+                    a.button {
+                        box-shadow: none !important;
+                        display: block !important;
+                        border-radius: 4px !important;
+                        text-transform: none !important;
+                        width: 100% !important;
+                        max-width: none !important;
+                        font-size: 12px !important;
+                        padding: 1.2rem 2.4rem !important;
+                        @media #{$to-phone}{ }
+                        img {
+                            display: inline !important;
+                            margin-right: .8rem;
+                            vertical-align: middle;
+                            width: 24px;
+                        }
+                        &.full-button{
+                            color: $color-text-primary !important;
+                            border-color: $color-primary !important;
+                            background-color: $color-primary!important;
+                            white-space: pre-line;
+                        }
+                        &.continue_browsing{
+                            color: $color-primary !important;
+                            border-color: $color-primary !important;
+                            background-color: transparent !important;
+                        }
+                    }
+                }
+            
+            }
+        }
+    }
+
+    &--confirm {
+        h1 { margin-bottom: $space-xs;
+            @media #{$to-small} { max-width: 70% }
+            @media #{$to-phone}{ font-size: $font-size-m; max-width: 100% }
+        }
+        h2 { font-size: $font-size-l;
+            @media #{$to-phone}{ font-size: 1.8rem }
+        }
+        &_result {
+            display: flex; flex-direction: row; flex-wrap: nowrap; justify-content: flex-start; margin-top: 5.4rem;
+            @media #{$to-phone}{ flex-direction: column; margin-top: $space-s }
+            .t-cart__map {
+                width: 50%; position: relative;
+                @media #{$to-small} { width: 53% }
+                @media #{$to-phone}{ width: 100%; margin-top: 0 }
+            }
+            .t-cart__summary {
+                width: 50%; padding-left: 2.6rem; line-height: 1.2em;
+                @media #{$to-small} { width: 32% }
+                @media #{$to-phone}{ width: 100%; padding-left: 0; font-size: 1.8rem; margin-top: $space-s }
+            }
+        }
+    }
+
+    &--checkout{
+        .s-reinsurance__title{ font-size: $font-size-l }
+        #shopify-section-reinsurance{ margin-top: 8rem }
+
+        #{$c}__subtitle{
+            @media #{$to-phone}{
+                display: flex; font-size: $font-size-m
+            }
+        }
+
+        @media #{$to-phone}{
+            .sn-breadcrumb{
+
+                li:first-of-type{
+                    display: none;
+
+                    & + li:before{ display: none }
+                }
+            }
+        }
+    }
+
+    .s-reinsurance{
+        &__title{ font-size: $font-size-l }
+        &__entry{
+            &-title{ line-height: 1.2 }
+            &-icon{
+                width: 9.2rem; height: 9.2rem;
+                &:before{ font-size: 5rem }
+            }
+        }
+    }
+
+    .s-product__quantity-action{
+        padding: 0 !important;
+        justify-content: center;
+        max-width: none !important;
+        color: $background-mainColor !important;
+        background-color: transparent !important;
+        border-color: $background-mainColor !important;
+        box-shadow: none !important;
+        border-radius: 10px !important;
+        border-width: 2.3px !important;
+        &:before{ margin: 0!important; font-weight: 600 !important;  }
+    }
+
+    .s-product__quantity b {
+        display: inline-block ;
+        margin: 0 2rem;
+        width: 25%;
+        text-align: center;
+        background-color: #F5F5F5 !important;
+        padding: 9px 13px !important;
+        border-radius: 4px;
+        @media #{$to-phone}{width: auto;}
+    }
+    td .is-available{ color: $btn-available-color !important; background-color: $btn-available-bg !important; padding: 8px 16px 8px 16px !important; border-radius: 4px !important;}
+    td .is-unavailable{ color: $btn-unavailable-color !important; background-color: $btn-unavailable-bg !important; padding: 8px 16px 8px 16px !important; border-radius: 4px !important;} 
+}

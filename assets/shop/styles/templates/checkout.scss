@@ -1,0 +1,574 @@
+.pass-step {
+    visibility: hidden;
+}
+
+.t-checkout {
+    @media #{$to-phone}{ padding-left: 0; padding-right: 0; }
+    .sylius-flash-message.positive {
+        display: none
+    }
+
+    .field {
+        display: flex;
+        flex-flow: column;
+        color: $color-primary;
+        max-width: 46rem;
+
+        label {
+            font-size: $font-size-s
+        }
+
+        input[type=text],
+        input[type=email],
+        input[type=password],
+        select,
+        textarea {
+            border: 0;
+            border-bottom: 1px solid;
+            border-radius: 0;
+            padding: 8px 0;
+            margin-top: 2px;
+        }
+
+        .template-checkout-complete & {
+            display: none
+        }
+    }
+    
+    .sylius-validation-error {
+        color: darkred;
+        font-size: $font-size-s;
+        margin-top: 5px;
+    }
+
+    .field-inline {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        input {
+            margin-right: 1rem
+        }
+
+        a {
+            text-decoration: underline
+        }
+    }
+
+    *+.field,
+    *+.fields,
+    .field+.action {
+        margin-top: $space-m
+    }
+
+    address {
+        font-style: normal;
+        font-size: 90%;
+        line-height: 1.2
+    }
+
+    .field:empty {
+        display: none
+    }
+
+    .grid {
+        display: flex;
+        margin-top: $space-m;
+        align-items: center;
+        justify-content: space-between;
+
+        .right {
+            margin-top: 0
+        }
+    }
+
+    .header {
+        margin-bottom: $space-s
+    }
+
+    .item {
+        display: flex;
+        align-items: center;
+
+        .content {
+            margin-left: 1rem
+        }
+    }
+
+    &__thanks {
+        padding: 0 6rem;
+        text-align: center;        
+        max-width: 60rem;
+        margin: auto;
+        margin-top: 12rem;
+        .header {
+            font-size: 38px;
+            margin: $space-m 0;
+            img {
+                margin-bottom: $space-s !important;
+                margin: auto !important;
+            }
+        }
+        .center{
+            text-align: center;
+            margin: auto;
+            justify-content: center;
+            display: flex;
+        }
+        .sub.header {
+            font-size: $font-size-s;
+            margin: $space-m 0
+        }
+        .button {
+            box-shadow: none !important;
+            display: block !important;
+            border-radius: 4px !important;
+            text-transform: none !important;
+            width: 50% !important;
+            max-width: none !important;
+            font-size: 12px !important;
+            padding: 1.2rem 2.4rem !important;
+            text-wrap: wrap;
+        }
+    }
+    &__partner{
+        display: flex;
+        margin-top: 2.4rem;
+        &-logo{
+            width: fit-content;
+            margin-block-end: auto;
+            background-color: #F5F5F5;
+            padding: 1rem;
+            border-radius: 10px;
+            img{
+                width: 35px;
+            }
+        }
+        &-content{
+            margin-left: $space-s;
+            .title{
+                font-weight: 600;
+                color: black;
+            }
+            .adr,.city{
+                color: #666666;
+            }
+
+        }
+    }
+    .t-partner{
+        .modify{
+            text-decoration: underline;
+            color: $color-grey-dark;
+            font-weight: 600;
+        }
+    }
+    .t-client-info{
+        .modifyBtn{
+            text-decoration: underline;
+            color: $color-grey-dark;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    }
+
+    .disabled {
+        opacity: 0.5;
+        pointer-events: none
+    }
+
+    .right {
+        text-align: right;
+        margin-top: $space-m;
+    }
+
+    .left {
+        text-align: left;
+        margin-top: $space-m;
+    }
+
+    .steps {
+        display: flex;
+        color: $color-body-text;
+        font-size: $font-size-s;
+        @media #{$from-tablet}{margin-top: -5.5rem;}
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            color: #777;
+        }
+
+        .active {
+            font-weight: bold;
+            pointer-events: none;
+            color: #161718;
+        }
+
+        a:before {
+            margin-left: 0.8rem;
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: $color-grey-dark
+        }
+    }
+
+    .ui.action {
+        display: flex;
+
+        input {
+            width: 100%
+        }
+
+        .button {
+            margin-left: $space
+        }
+    }
+
+    &__informations {
+        margin-top: 12rem;
+        border-top: 1px solid var(--color-border);
+        padding-top: $space-s;
+        font-size: $font-size-s;
+        margin-bottom: $space-l;
+    }
+
+    #sylius-shipping-address,
+    #sylius-api-login-form {
+        display: none
+    }
+
+    #sylius-order {
+        margin-top: $space-m;
+
+        .sylius-table-column-subtotal {
+            text-align: right
+        }
+
+        td,
+        th {
+            padding: 1.6rem 0;
+            border: 0;
+            vertical-align: middle
+        }
+
+        thead th {
+            border-bottom: 1px solid var(--color-border);
+            padding-top: 0;
+            font-weight: normal
+        }
+
+        tfoot th {
+            border-top: 1px solid var(--color-border);
+            font-weight: normal;
+            padding-top: 2rem;
+            padding-bottom: 1rem;
+
+            &#subtotal {
+                display: none
+            }
+        }
+
+        tfoot td {
+            padding: 1rem 0;
+
+            &#tax-total,
+            &#promotion-total {
+                display: none
+            }
+        }
+
+        .ui.header {
+            display: flex;
+            margin-bottom: 0;
+            align-items: center;
+
+            img {
+                margin-right: 1rem
+            }
+        }
+
+        .sylius-product-variant-code {
+            font-size: $font-size-s
+        }
+    }
+
+    #field-cgu {
+        margin-top: 6rem
+    }
+
+    #sylius-payments {
+        display: none;
+    }
+
+    &__flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        &-left{
+            width: 65% !important;
+            @media #{$to-tablet} {
+                width: 100% !important;
+            }
+            .t-form,.t-partner{
+                background-color: $color-white;
+                border-radius: 10px;
+                padding: $space-s;
+            }
+            .t-partner{
+                margin-top: 3rem;
+            }
+        }
+        
+        @media #{$to-phone} {
+            display: block
+        }
+    }
+
+    .t-cart__table {
+        width: 100% !important;
+        padding: 0 !important;
+        .recap{
+            background-color: white;
+            border-radius: 10px;
+            margin-top: 3rem;
+            padding: 2.4rem;
+            min-width: -webkit-fill-available;
+            @media #{$to-phone} {
+                display: none
+            }
+            hr{
+                background-color: #E0E0E0;
+                border: 0;
+                height: 0.4px;
+            }
+        }
+        table {
+            background-color: #fff;
+            margin-top: 3rem;
+            border-radius: 10px;
+            border-collapse: collapse;
+            border-spacing: 0;
+            @media #{$to-phone} {
+                display: none !important;
+            }
+            tbody tr img {
+                max-width: 15rem;
+                margin-left: 0 !important;
+            }
+        }
+        
+    }
+    .t-cart__total {
+        margin-top: 0 !important;
+        .t-cart__item-block{
+            font-size: 18px !important;
+            line-height: 21px;
+            .partner_title{
+                color: $color-grey-dark;
+                text-decoration: underline;
+                font-weight: 500 !important;
+            }
+        }
+    }
+    .t-cart__description-avaibility .is-available {
+        background-color: #F6FEFB;
+        padding: 1rem;
+        border-radius: 4px;
+    }
+    .t-cart__table .s-product__quantity {
+        margin-top: 0rem !important;
+    }
+
+    .t-cart__table table {
+        tr:not(:last-child) {
+            border-bottom: 1px solid #E0E0E0; /* Adjust the color and width as needed */
+        }
+    }
+
+    .t-cart__total-content_subtotal-buttons{
+        background-color: white !important;
+        @media #{$to-tablet}{ padding: 2rem !important; border-radius: 0px !important; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; font-size: 14px !important;}
+        button.button {
+            box-shadow: none !important;
+            display: block !important;
+            border-radius: 4px !important;
+            text-transform: none !important;
+            width: 100% !important;
+            max-width: none !important;
+            font-size: 12px !important;
+            padding: 1.2rem 2.4rem !important;
+            @media #{$to-phone}{ }
+            img {
+                display: inline !important;
+                margin-right: 0.8rem;
+                vertical-align: bottom;
+            }
+            &.full-button{
+                color: $color-text-primary !important;
+                border-color: $color-primary !important;
+                background-color: $color-primary!important;
+            }
+            &.continue_browsing{
+                color: $color-primary !important;
+                border-color: $color-primary !important;
+                background-color: transparent !important;
+            }
+        }
+    }
+
+    #sylius-billing-address {
+        // Form Bron
+        .bron {
+            display: inline-block;
+            width: -webkit-fill-available;
+            label, .c-input__input, input, button, span,.c-checkbox__label
+            a {
+                font-family: $font-body;
+            }
+            @media #{$to-phone} { 
+                .u-1\/2 {
+                    width: 100% !important;
+                } 
+                .u-3\/2 {
+                    width: 100% !important;
+                } 
+                span {
+                    display: block;
+                }
+            }
+            .u-3\/2 {
+                width: 30% !important;
+            }
+            .o-fieldset {
+                background-color: #fff;
+                border-radius: 10px;
+                &__row {
+                    display: block;
+                }
+            }
+            fieldset {
+                min-width: 65%;
+            }
+
+            .c-input__input {
+                border: none !important;
+                border-radius: 4px !important;
+                background: #F5F5F5 !important;
+                color: #999999 !important;
+            }
+            hr {
+                background-color: #e0e0e0;
+                border: 0;
+                height: .4px;
+            }
+        }
+
+    }
+
+}
+
+/*.template-payum-capture-do {
+    #app {
+        height: auto;
+        .shopify-section {
+            margin: $space-xl 0;
+
+            #guest-payment {
+                .payment-table{
+                    width: auto;
+                }
+
+                h5 {
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+
+                .c-table-wrapper{
+                    padding: $space-s 0;
+                    td {
+                        border: inherit;
+                        vertical-align: middle;
+                    }
+
+                    .checkmark {
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        border: grey solid 1px;
+                        opacity: 1 !important;
+
+                        &.selected {
+                            background-color: var(--color-primary);
+                        }
+                    }
+                }
+            }
+            .o-layout{
+                margin-top: 15px;
+            }
+        }
+
+        .s-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+    }
+}*/
+
+.template-order-show {
+    main {
+        .segment {
+            visibility: hidden;
+        }
+    }
+
+    .s-footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+.bron *::before,
+.bron *::after {
+    box-sizing: border-box;
+}
+
+.thankyou{
+
+    margin-top:9rem;
+    
+    .steps {
+        display: flex;
+        color: $color-body-text;
+        font-size: $font-size-s;
+        @media #{$from-tablet}{margin-top: -5.5rem;}
+
+        a {
+            display: inline-flex;
+            align-items: center;
+            color: #777;
+        }
+
+        .active {
+            font-weight: bold;
+            pointer-events: none;
+            color: #161718;
+        }
+        .disabled{
+            pointer-events: none;
+            cursor: default;
+        }
+
+        a:before {
+            margin-left: 0.8rem;
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: $color-grey-dark
+        }
+    }
+}

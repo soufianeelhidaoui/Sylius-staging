@@ -1,0 +1,40 @@
+.t-404 {
+  h1 { font-weight: bold }
+  .shopify-section{ display: block }
+  &__image{ display: none }
+}
+
+.t-search{
+  &__form{
+    input { background: $color-grey-dark; color: #fff}
+    label{ position: relative }
+    button{ color: #fff; }
+  }
+}
+
+.t-collection{
+  .sn-official{ display: none }
+}
+
+.t-cart {
+  &__total {
+    background: $color-grey-dark;
+    @media #{$from-small}{ padding: 3.8rem }
+  }
+
+  &__total-content_subtotal-buttons a.button img {
+    margin-top: -4px;
+  }
+  
+  &__lead .field-group--text label{ font-size: $font-size-xs }
+
+  &__empty + .button, &__lead > .button--primary{  background: $color-primary; border-color: $color-primary; color: #fff; }
+}
+.t-404{
+   h1 {
+    @media #{$to-phone}{ font-size: $font-size-xxl }
+  }
+  p {
+    @media #{$to-phone}{ font-size: 1.8rem }
+  }
+}

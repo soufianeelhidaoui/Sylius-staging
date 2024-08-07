@@ -1,0 +1,60 @@
+@font-face {
+	font-family: 'Cupra';
+	src: url('../../../fonts/Cupra-Bold.woff2') format('woff2'),
+	url('../../../fonts/Cupra-Bold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+    font-family: 'Cupra';
+    src: url('../../../fonts/Cupra-Regular.woff2') format('woff2'),
+    url('../../../fonts/Cupra-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Cupra-Light';
+    src: url('../../../fonts/Cupra-Light.woff2') format('woff2'),
+    url('../../../fonts/Cupra-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+	font-family: 'Cupra';
+	src: url('../../../fonts/Cupra-Regular.woff2') format('woff2'),
+	url('../../../fonts/Cupra-Regular.woff') format('woff');
+	font-weight: 500;
+	font-style: normal;
+	font-display: block;
+}
+
+@font-face {
+    font-family: 'Cupra';
+    src: url('../../../fonts/Cupra-Regular.woff2') format('woff2'),
+    url('../../../fonts/Cupra-Regular.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: block;
+}
+
+body{ background: $color-background }
+
+.swiper-scrollbar-drag{ background: $color-primary; }
+.swiper-scrollbar{ background: $color-secondary; }
+
+.button{
+	&--alt{
+		background: $color-body-text; border-color: $color-body-text; color: #fff;
+		&:hover{ color: $color-body-text!important; border-color: $color-body-text!important; background: transparent }
+	}
+	&--light+.button, #app &--full{
+		background: $color-primary; color: white; border-color: $color-primary;
+		&:hover{ background: white !important }
+	}
+}

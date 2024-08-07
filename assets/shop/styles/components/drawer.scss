@@ -1,0 +1,39 @@
+.c-drawer{
+	$c: &;
+	position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: $z-popin; display: flex;
+
+	&:before{ content: ''; position: overlay(); background: rgba(46,56,70,0.5); display: block }
+
+	&__content{
+		width: 48rem; padding: $space-ml; background: white; display: flex; flex-direction: column; height: 100%; position: relative;
+		@media #{$to-phone}{ padding: 2.4rem }
+	}
+
+	&__outside{
+		flex: 1; position: relative;
+	}
+
+	&--left {
+		#{$c}{
+			&__close{ left: 2rem }
+		}
+	}
+
+	&--right {
+		flex-direction: row-reverse;
+		#{$c}{
+			&__close{ right: 2rem; }
+		}
+	}
+
+	&__title{ @extend %title; margin-bottom: 4rem; font-size: $font-size-l }
+
+	&__element{
+		flex: 1; overflow: hidden; overflow-y: auto; padding: 0 5px;
+	}
+
+	&__close{
+		position: absolute; top: 2rem; cursor: pointer; font-size: $font-size-s; line-height: 1; display: inline-flex; align-items: center;
+		&:after{ margin-left: 1rem }
+	}
+}

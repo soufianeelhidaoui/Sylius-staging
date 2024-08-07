@@ -1,0 +1,27 @@
+.sn-breadcrumb{
+	margin-top: $space-m; font-size: $font-size-s;
+	ul {
+		display: flex; flex-wrap: wrap;
+		@media #{$to-phone}{ flex-wrap: nowrap; white-space: nowrap; overflow: hidden }
+	}
+	a, :before {color: $color-body-text}
+	li+li:before{ margin-left: 0.8rem; margin-right: 0.8rem; font-size: 1.2rem; font-weight: bold; color: $dark-grey }
+	&__current {
+		font-weight:700;
+		color: black !important;
+		@media #{$to-phone}{ white-space: nowrap }
+	}
+
+	@media #{$to-phone}{
+		li:last-of-type{ flex: 1; overflow: hidden; text-overflow: ellipsis }
+	}
+	@media print { display:none;}
+}
+.sn-color{
+    font-weight: 700;
+    color: black !important;
+}
+.non-clickable  {
+	pointer-events: none !important;
+	cursor: default !important;
+} 

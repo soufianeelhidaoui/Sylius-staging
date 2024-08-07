@@ -1,0 +1,83 @@
+$animation-duration     : 0.3s !default;
+$animation-offset       : 60% !default;
+$animation-offset-rem   : 6rem !default;
+$animation-delay        : math.div($animation-duration,10) !default;
+
+@keyframes slide { 0%{ transform: translateX(100%) } 100%{ transform: none }}
+
+@keyframes fade-in { 0%{ opacity: 0 } 100%{ opacity: 1 } }
+@keyframes fade-out { 0%{ opacity: 1 } 100%{ opacity: 0 } }
+@keyframes slide-down { 0%{ opacity: 0; transform: translateY(-$animation-offset-rem) } 100%{ opacity: 1; transform: none }}
+@keyframes slide-up { 0%{ opacity: 0; transform: translateY($animation-offset-rem) } 100%{ opacity: 1; transform: none }}
+@keyframes slide-right { 0%{ opacity: 0; transform: translateX(-$animation-offset) } 100%{ opacity: 1; transform: none }}
+@keyframes slide-left { 0%{ opacity: 0; transform: translateX($animation-offset) } 100%{ opacity: 1; transform: none }}
+
+@keyframes slide-from-top { 0%{ transform: translateY(-$animation-offset) } 100%{ transform: none }}
+@keyframes slide-from-bottom { 0%{ transform: translateY($animation-offset) } 100%{ transform: none }}
+@keyframes slide-from-left { 0%{ transform: translateX(-$animation-offset) } 100%{transform: none }}
+@keyframes slide-from-right { 0%{ transform: translateX($animation-offset) } 100%{ transform: none }}
+
+@keyframes slide-to-top { 0%{ transform: none } 100%{ transform: translateY(-$animation-offset) }}
+@keyframes slide-to-bottom { 0%{ transform: none } 100%{ transform: translateY($animation-offset) }}
+@keyframes slide-to-left { 0%{ transform: none } 100%{ transform: translateX(-$animation-offset) }}
+@keyframes slide-to-right { 0%{ transform: none } 100%{ transform: translateX($animation-offset) }}
+
+@keyframes fade-from-top { 0%{ opacity:0; transform: translateY(-$animation-offset) } 100%{ transform: none }}
+@keyframes fade-from-bottom { 0%{ opacity:0; transform: translateY($animation-offset) } 100%{ transform: none }}
+@keyframes fade-from-left { 0%{ opacity:0; transform: translateX(-$animation-offset) } 100%{transform: none }}
+@keyframes fade-from-right { 0%{ opacity:0; transform: translateX($animation-offset) } 100%{ transform: none }}
+
+@keyframes fade-to-top { 0%{ transform: none } 100%{ opacity:0; transform: translateY(-$animation-offset) }}
+@keyframes fade-to-bottom { 0%{ transform: none } 100%{ opacity:0; transform: translateY($animation-offset) }}
+@keyframes fade-to-left { 0%{ transform: none } 100%{ opacity:0; transform: translateX(-$animation-offset) }}
+@keyframes fade-to-right { 0%{ transform: none } 100%{ opacity:0; transform: translateX($animation-offset) }}
+
+@keyframes zoom-in { 0%{ opacity: 0; transform: scale(0.8) } 100%{ opacity: 1; transform: none }}
+@keyframes scale { 0%{ transform: scale(0) } 100%{ transform: none }}
+@keyframes zoom-out { 0%{ opacity: 1; transform: none } 100%{ opacity: 0; transform: scale(0.8) }}
+@keyframes unzoom-in { 0%{ opacity: 0; transform: scale(1.2) } 100%{ opacity: 1; transform: none }}
+@keyframes unzoom-out { 0%{ opacity: 1; transform: none } 100%{ opacity: 0; transform: scale(1.2) }}
+@keyframes rotate-x { 0%{ opacity: 0; transform: perspective(400px) rotateX(-90deg) } 100%{ opacity: 1; transform: perspective(400px) }}
+@keyframes rotate-y { 0%{ opacity: 0; transform: perspective(400px) rotateY(90deg) } 100%{ opacity: 1; transform: perspective(400px) }}
+@keyframes pop { 0%{ opacity: 0; transform: scale(0,0) } 40%{ opacity: 1 } 60%{ transform: scale(0.9, 1.02) } 80%{ transform: scale(1.02, 0.98) } 100%{ transform: none }}
+@keyframes enlarge { 0%{ width: 0 } 100%{ width: 100% } }
+
+@keyframes pulse {
+	0% { opacity: 0.6 }
+	50% { opacity: 1 }
+	100% { opacity: 0.6 }
+}
+
+@keyframes appear {
+	0%{ transform:scaleX(0); transform-origin: left } 50%{ transform: scaleX(1); transform-origin: left }
+	50.1%{ transform: scaleX(1); transform-origin: right } 100%{ transform: scaleX(0); transform-origin: right }
+}
+
+@keyframes disappear {
+	100%{ transform:scaleX(0); transform-origin: left } 50.1%{ transform: scaleX(1); transform-origin: left }
+	50%{ transform: scaleX(1); transform-origin: right } 0%{ transform: scaleX(0); transform-origin: right }
+}
+
+
+.slide-from-right-enter-active{ animation: slide-left $animation-duration $ease-in-out-cubic }
+.slide-from-right-leave-active{ animation: slide-left $animation-duration reverse $ease-in-out-cubic }
+
+.menu-enter-active{ animation: slide $animation-duration $ease-in-out-cubic }
+.menu-leave-active{ animation: slide $animation-duration reverse $ease-in-out-cubic }
+
+.drawer-enter-active{
+	animation-duration: $animation-duration;
+	&:before{ animation: fade-in $animation-duration both $ease-in-out-cubic }
+	.c-drawer__content{ animation: slide-left $animation-duration both $ease-in-out-cubic  }
+	&.c-drawer--left .c-drawer__content{ animation-name: slide-right }
+}
+
+.drawer-leave-active{
+	animation-duration: $animation-duration;
+	&:before{ animation: fade-in $animation-duration reverse $ease-in-out-cubic }
+	.c-drawer__content{ animation: slide-left $animation-duration reverse $ease-in-out-cubic  }
+	&.c-drawer--left .c-drawer__content{ animation-name: slide-right }
+}
+
+.fade-leave-active{ animation: fade-out $animation-duration; animation-timing-function: $ease-in-out-cubic }
+.fade-enter-active{ animation: fade-in $animation-duration; animation-fill-mode: both; animation-timing-function: $ease-in-out-cubic; position: absolute;top: 0 }

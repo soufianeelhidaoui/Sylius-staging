@@ -1,0 +1,141 @@
+<!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="wrapper-outlook" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+
+<div style="font-family:mainFont, Arial;font-size:14px;font-weight:300;line-height:24px;text-align:left;color:#000;margin:0px auto;max-width:600px;">
+    <p style="padding: 0 50px">Nous vous invitons à contacter votre partenaire pour finaliser votre commande.</p>
+    <h3 style="font-size: 24px; font-weight: 700;padding: 0 50px">Votre concessionnaire</h3>
+</div>
+
+
+<div class="wrapper" style="margin:0px auto;max-width:600px;">
+
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody>
+        <tr>
+            <td style="direction:ltr;font-size:0px;padding:10px 40px;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:260px;" ><![endif]-->
+
+                <div class="mj-column-per-50 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                        <tbody>
+
+                        <tr>
+                            <td align="left" class="title" style="font-size:0px;padding:0 5px 0 0;word-break:break-word;">
+
+                                <div style="font-family:mainFont, Arial;font-size:16px;font-weight:300;line-height:24px;text-align:left;color:#000;">
+                                    <p><b>{{ partner.title }}</b></p>
+                                    <p style="margin-bottom: 0; margin-top: 5px">
+                                        <img src="{{ app.request.schemeAndHttpHost }}{{ 'img/icon-pin.png' | asset_url }}" style="border:0;display:inline-block;outline:none;text-decoration:none;margin-right:5px;" width="16" height="16">
+                                        {{ partner.address|raw }}</p>
+                                    <p style="margin-bottom: 0; margin-top: 5px">
+                                        <img src="{{ app.request.schemeAndHttpHost }}{{ 'img/icon-phone.png' | asset_url }}" style="border:0;display:inline-block;outline:none;text-decoration:none;margin-right:5px;" width="16" height="16">
+                                        {{ partner.tel }}
+                                    </p>
+                                    <p style="margin-bottom: 0; margin-top:25px">
+                                        <a href="https://www.google.com/maps/dir//{{ partner.address | url_encode }}+{{ partner.postal_code | url_encode }}+{{ partner.city | url_encode }}" style="padding: 5px 20px; border: 1px solid; border-radius: 25px; color: #000; text-decoration: none">
+                                            <img src="{{ app.request.schemeAndHttpHost }}{{ 'img/icon-navigate.png' | asset_url }}" style="border:0;display:inline-block;outline:none;text-decoration:none;margin-right:5px" width="16" height="16">
+                                            Voir l’itinéraire
+                                        </a>
+                                    </p>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:223.6px;" ><![endif]-->
+
+                <div class="mj-column-per-43 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                        <tbody>
+                        <tr>
+                            <td style="vertical-align:top;padding:0;">
+
+                                <table border="0" cellpadding="0" cellspacing="0" role="presentation" style width="100%">
+                                    <tbody>
+
+                                    <tr>
+                                        <td align="center" style="font-size:0px;padding:0;word-break:break-word;">
+
+                                            <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;border-spacing:0px;">
+                                                <tbody>
+                                                <tr>
+                                                    <td style="width:214px;">
+
+                                                        <img src="{{ app.request.schemeAndHttpHost }}{{ ('https://maps.googleapis.com/maps/api/staticmap?center=' ~ (partner.address | url_encode) ~ '+' ~ (partner.postal_code | url_encode) ~ '+' ~ (partner.city | url_encode) ~ '&zoom=14&size=214x214&maptype=roadmap&key='~ settings.gmap_api ~'&markers=icon:' ~ (app.request.schemeAndHttpHost ~ ('img/pin-vw.svg' | asset_url))|url_encode ~ '|' ~ (partner.address | url_encode) ~ '+' ~  (partner.postal_code | url_encode)~ '+' ~  (partner.city | url_encode))|cache }}" width="214" height="214"/>
+
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<!--[if mso | IE]></td></tr></table><table align="center" border="0" cellpadding="0" cellspacing="0" class="" style="width:600px;" width="600" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+
+<div style="margin:0px auto;max-width:600px;">
+
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="width:100%;">
+        <tbody>
+        <tr>
+            <td style="direction:ltr;font-size:0px;padding:0 40px;text-align:center;">
+                <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:520px;" ><![endif]-->
+
+                <div class="mj-column-per-100 mj-outlook-group-fix" style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="vertical-align:top;" width="100%">
+                        <tbody>
+
+                        <tr>
+                            <td align="center" style="font-size:0px;padding:10px;padding-bottom:5px;word-break:break-word;">
+
+                                <p style="border-top:solid 1px #CECECE;font-size:1px;margin:0px auto;width:100%;">
+                                </p>
+
+                                <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 1px #CECECE;font-size:1px;margin:0px auto;width:470px;" role="presentation" width="470px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+                                </td></tr></table><![endif]-->
+
+
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<!--[if mso | IE]></td></tr></table><![endif]-->

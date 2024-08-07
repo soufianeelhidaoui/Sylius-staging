@@ -1,0 +1,13 @@
+.sn-official{
+  position: absolute; right: $space-s; top: 100%; align-items: center; color: #fff; transform: translateY(-130%);
+  @media #{$to-phone}{
+    transform: translateY(-50%);
+  }
+  display: flex; justify-content: flex-end; flex-flow: column; padding: $space-s; z-index:1; background: $color-grey-dark;
+  .template-collection &, .template-collection-lifestyle &{ padding: $space-xs; }
+  &__text{
+    margin-top: 1rem; display: inline-block; font-size: $font-size-m;
+    .template-collection &, .template-collection-lifestyle &{ font-size: $font-size-s; font-weight: 500 }
+  }
+  &__brand{ font-weight: bold }
+}

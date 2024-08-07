@@ -1,0 +1,55 @@
+<article class="sn-push-article">
+
+    {% if data.image %}
+        <div class="sn-push-article__image">
+            <a href="{{ data.url }}">
+                {% include 'picture', src: data.image, resize: '380x380', alt:'lorem ipsum' %}
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="sn-push-article__content">
+
+        <h1 class="sn-push-article__title">
+            <a href="{{ data.url }}">{{ data.title }}</a>
+        </h1>
+
+        <div class="sn-push-article__published">
+            {% set date %}{{ data.published_at | time_tag: format: 'month_day_year' }}{% endset %}
+            {{ 'blogs.article.author_on_date_html' | t: author: data.author, date: date }}
+        </div>
+
+        <div class="sn-push-article__description rte">
+            {% if data.excerpt.size > 0 %}
+                {{ data.excerpt }}
+            {% else %}
+                {{ data.content | strip_html | truncatewords: 50 }}
+            {% endif %}
+        </div>
+
+        {% if blog.comments_enabled? or data.tags.size > 0 %}
+            <ul>
+                {% if blog.comments_enabled? %}
+                    <li>
+                        <a href="{{ data.url }}#comments">
+                            {{ 'blogs.comments.with_count' | t: count: data.comments_count }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% if data.tags.size > 0 %}
+                    {% for tag in data.tags %}
+                        <li>
+                            <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+                            {% unless loop.last %}, {% endunless %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        {% endif %}
+
+        <div class="sn-push-article__cta">
+            <a href="{{ data.url }}">{{ 'blogs.article.read_more' | t }}</a>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,19 @@
+{% for option in data.options_with_values %}
+    {% set option_handle = option.name|handleize %}
+    {% if option_handle == "couleur" or option_handle == "color" %}
+        <ul class="sn-colors">
+            {% for color in option.values %}
+                {% set colors = color | split:'/' %}
+                {% if colors.size == 2 %}
+                    <li class="sn-colors__item sn-colors__double">
+                        {% for _color in colors %}
+                            <span class="bg-color--{{ _color | handle }}"></span>
+                        {% endfor %}
+                    </li>
+                {% else %}
+                    <li class="sn-colors__item bg-color--{{ color | handle }}"></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endfor %}

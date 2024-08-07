@@ -1,0 +1,84 @@
+.s-collection{
+
+  margin-top: 0;
+
+  &__image{
+    position: relative; width: 100%; margin-bottom: $space-m;
+    img{ max-width: none; width: 100% }
+  }
+
+  .sn-official{ bottom: 0; top: auto; transform: none;
+    @media #{$to-phone} { display: none }
+  }
+
+  &__title{
+    text-align: left;
+    display: none !important;
+    &-content {
+      position: relative;
+      display: inline-block;
+      max-width: 55rem;
+      color: #fff;
+      font-size: $font-size-m;
+      background: $color-primary;
+      padding: 1.1rem 2rem;
+      h1{ font-weight: bold }
+      span{ font-weight: normal }
+      small{ display: block; font-size: $font-size-s; margin-top: 0.5rem }
+
+      @media #{$to-phone}{
+        line-height: $space-m; padding-top: $space-xs; padding-bottom: $space-xs;
+        h1{ line-height: 3.8rem }
+      }
+    }
+  }
+
+  &__description{ @extend %text; text-align: center }
+
+  &__header{
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    bottom: 0;
+    .site-wrap{ height: 100%; position: relative }
+
+    @media #{$to-phone}{ top: 1px }
+  }
+
+  &__grid {
+    display: grid; grid-column-gap: 2rem; grid-row-gap: 4rem; margin-top: 2rem; grid-template-columns: repeat(4, 1fr);
+    @media #{$to-tablet} {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media #{$to-phone} {
+      grid-template-columns: repeat(1, 1fr);
+    }
+    .shopify-section + &{ margin-top: $space-xl }
+  }
+
+  &__filters{
+    .sn-filter-bar{
+      margin-top: 2.2rem;
+    }
+  }
+  &__title{
+    font-size: 38px;
+    line-height: 45.6px;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    @media #{$to-phone} {
+      font-size: 24px;
+    }
+  }
+
+  &__paged{
+    margin-top: 4rem;
+  }
+
+  &__pagination{
+    text-align: center; margin-top: $space-xl;
+    .button{ border-radius: 4px !important; margin-left: 1rem }
+  }
+}
